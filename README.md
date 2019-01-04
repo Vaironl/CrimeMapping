@@ -1,1 +1,1 @@
-Readme placeholder
+Testing the tutorial on getting Google maps app to work.
