@@ -1,3 +1,4 @@
+Testing the tutorial on getting Google maps app to work.
 This a part of the Team Silver Group Project for ODU CS411W Spring 2019 under Prof. T. Kennedy.
 Team Members:
 	Thom Loftin
