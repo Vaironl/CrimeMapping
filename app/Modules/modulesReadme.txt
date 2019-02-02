@@ -1,0 +1,1 @@
+This folder will contain the angular modules of type .js.

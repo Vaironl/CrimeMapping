@@ -1,0 +1,1 @@
+This folder will hold style sheets of type .css.

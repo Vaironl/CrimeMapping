@@ -1,0 +1,1 @@
+This folder will hold any ancillary .js files.
