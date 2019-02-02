@@ -1,1 +1,1 @@
-This folder will hold style sheets of type .css.
+This folder will hold style sheets of type .css. Every page should have its own style sheet.
