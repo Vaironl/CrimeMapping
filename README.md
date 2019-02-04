@@ -9,7 +9,7 @@
 	
 ## About
 
-This a part of the Team Silver Group Project for ODU CS411W Spring 2019 under Prof. T. Kennedy.
+	This a part of the Team Silver Group Project for ODU CS411W Spring 2019 under Prof. T. Kennedy.
 
 
 
