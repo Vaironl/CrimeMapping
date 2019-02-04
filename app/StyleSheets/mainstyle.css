@@ -1,15 +1,19 @@
 @import url('https://fonts.googleapis.com/css?family=Cabin:400,500,700|Montserrat:400,500,700');
-@import 'css/bootstrap.min.css';
-@import 'css/animate.css';
-@import 'css/magnific-popup.css';
-@import 'css/owl.carousel.min.css';
-@import 'css/slick.css';
-@import 'css/font-awesome.min.css';
-@import 'css/themify-icons.css';
-@import 'css/ionicons.min.css';
+@import './cssThirdParty/bootstrap.min.css';
+@import './cssThirdParty/animate.css';
+@import './cssThirdParty/magnific-popup.css';
+@import './cssThirdParty/owl.carousel.min.css';
+@import './cssThirdParty/slick.css';
+@import './cssThirdParty/font-awesome.min.css';
+@import './cssThirdParty/themify-icons.css';
+@import './cssThirdParty/ionicons.min.css';
 @import url('https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css');
 
+ 
+
 .banner{
+	 width: 100%;
+	 hieght: 20px;
 	 background-color:#000080;	
 	 color: #BCC6CC;
 	 text-align: center;
