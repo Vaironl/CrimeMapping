@@ -1,5 +1,5 @@
 {
-	"name": "NodePlusAngularJS",
+    "name": "NodePlusAngularJS",
     "version": "0.1.0",
     "description": "NodePlusAngularJS",
     "main": "hello-from-nodejs-server.js",
