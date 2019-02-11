@@ -7,15 +7,18 @@ test('should output name and age', ()=> {
 
 });
 
-test('should click around', async () => {
+
+
+test('should open browser to Google', async (done) => {
     const browser = await puppeteer.launch({
         headless: false,
         slowMo: 80,
         agrs: ['--window-size=1920, 1080']
     });
-
     const page = await browser.newPage();
-    page.goto(
+    await page.goto(
         'https://www.google.com'
     );
+    //setTimeout()
+    done();
 });
