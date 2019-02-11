@@ -1,61 +1,53 @@
 <!doctype html>
 <html ng-app>
-  <head>
-      
+<head>
+
     <!-- style sheet -->
-   	<link href="../app/StyleSheets/index.css" rel="stylesheet" type="text/css" >
+    <link href="../app/StyleSheets/index.css" rel="stylesheet" type="text/css">
 
-      <!-- Google Maps API -->
-      <script src=./../app/JavaScripts/indexMap.js type="text/javascript"></script>
-      <script async defer
-              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6-F96eJ-bI82UmRtHtsfZFHxjodcCjR0&libraries=visualization&callback=initMap">
-      </script>
+    <!-- Google Maps API -->
+    <script src=./../app/JavaScripts/indexMap.js type="text/javascript"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6-F96eJ-bI82UmRtHtsfZFHxjodcCjR0&libraries=visualization&callback=initMap">
+    </script>
+</head>
+<body>
+<!--<div>-->
+<!--<div class="jumbotron-fluid banner" >  -->
+<!--<h1>Crime HotSpot by ODU Spring 2019 CS411W( Kennedy ) Team Silver</h1>     	 -->
+<!--</div>-->
+<!--<div class = "container-fluid">-->
+<!--<label>Name:</label>-->
+<!--<input type="text" ng-model="yourName" placeholder="Enter a name here">-->
+<!--<hr>-->
+<!--<h5>Hello Team Silver you are {{yourName}}! Let's start programming.</h5>-->
+<!--</div>   		-->
+<!--</div>-->
+<div id="map"></div>
 
-    
+<!--<div class= "banner" title="footer">-->
+<!--<a href = "https://www.cs.odu.edu/~411silver"> About </a>-->
+<!--</div>-->
+</body>
 
-	
-  </head>
-  <body>
-    <div>
-    	<div class="jumbotron-fluid banner" >  
-    		<h1>Crime HotSpot by ODU Spring 2019 CS411W( Kennedy ) Team Silver</h1>     	 
-    	</div>
-    	<div class = "container-fluid">
-      		<label>Name:</label>
-      		<input type="text" ng-model="yourName" placeholder="Enter a name here">
-      		<hr>
-      		<h5>Hello Team Silver you are {{yourName}}! Let's start programming.</h5>
-   		</div>   		
-    </div>
-    <div id="map"></div>
-    <div class= "banner" title="footer">
-   		<a href = "https://www.cs.odu.edu/~411silver"> About </a>
-    </div>
-  </body>
-  
-  
-  
 
-  
-  
-       	
-	<!-- Angular -->
-    <script src="./../app/JavaScripts/ThirdParty/Angular/angular.min.js"></script>
-     <script src="./../app/JavaScripts/ThirdParty/Angular/angular.js"></script>
-      <script src="./../app/JavaScripts/ThirdParty/Angular/angular-mocks.js"></script>
-    
-    
-    <!-- BELOW FOR USE WITH MAINSTYLE IMPORTES MAXCDN -->
-    
-    <!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Angular -->
+<script src="./../app/JavaScripts/ThirdParty/Angular/angular.min.js"></script>
+<script src="./../app/JavaScripts/ThirdParty/Angular/angular.js"></script>
+<script src="./../app/JavaScripts/ThirdParty/Angular/angular-mocks.js"></script>
 
-	<!-- Popper JS -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
 
-	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-	
-    <!-- ABOVE FOR USE WITH MAINSTYLE IMPORTES MAXCDN -->
-    
+<!-- BELOW FOR USE WITH MAINSTYLE IMPORTES MAXCDN -->
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+<!-- ABOVE FOR USE WITH MAINSTYLE IMPORTES MAXCDN -->
+
 </html>
