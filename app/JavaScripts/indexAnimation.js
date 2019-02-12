@@ -1,14 +1,17 @@
 // A $( document ).ready() block.
 $(document).ready(function () {
-    var sidenavHidden = false;
-
-    $(".sidenav").delay(200).fadeIn(0);
-    $(".sidenav").click(function () {
+    var sidenavHidden = true;
+    $(".sidenav-arrow").click(function () {
         if (sidenavHidden) {
-            // $(".sidenav").slideDown(800);
+            $(".sidenav").animate({width: '20px'}, 350);
+            $(".sidenav-arrow").css({'left':'20px'});
+            $(".sidenav-arrow").html('<h1> < </h1>');
             sidenavHidden = !sidenavHidden;
         } else {
-            $(".sidenav").slideToggle("slow");
+            $(".sidenav").animate({width: '160px'}, 350);
+            $(".sidenav-arrow").css({'left':'155px'},350);
+            $(".sidenav-arrow").css({'opacity':'1'});
+            $(".sidenav-arrow").html('<h1> > </h1>');
             sidenavHidden = !sidenavHidden;
         }
     });
