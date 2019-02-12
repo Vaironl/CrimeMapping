@@ -6,7 +6,7 @@
 
 
 nav {
-    width: 60%;
+    width: 80%;
     height: auto;
     position: absolute;
     top: 0;
@@ -38,6 +38,11 @@ nav .navbar-center {
     text-align: center;
     overflow: visible;
 }
+nav form{
+    width: 400px;
+    display:inline-block;
+}
+
 
 .navbar-center * {
     display: inline-block;
@@ -46,12 +51,28 @@ nav .navbar-center {
 
 /*Color Scale Begins*/
 
-#color-scale{
+#color-scale {
     height: 3vh;
     width: 20vw;
 }
 
 /*Color Scale Ends*/
+
+/*Sidenav*/
+
+.sidenav {
+    width: 120px;
+    height: 80%;
+    position: absolute;
+    top: 10%;
+    left: 0;
+    margin: auto;
+    background-color: white;
+    border:1px solid gray;
+    display:none;
+    opacity:1;
+}
+
 
 
 #map {
