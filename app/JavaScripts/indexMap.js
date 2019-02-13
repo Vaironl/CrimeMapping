@@ -12,6 +12,26 @@ function initMap() {
     data: getPoints(),
     map: map
   });
+
+  
+  map.addListener('mousemove', function(e){
+     //console.log('Hello Google Maps!');
+     var contentString = e.latLng.toString();
+
+     
+     var infoWindow = new google.maps.InfoWindow({
+          content: contentString,
+          position: e.latLng
+     });
+
+     infoWindow.open(map);
+
+     //window.setTimeout(infoWindow.close(), 9000);
+     
+  });
+
+  
+
 }
 
 
