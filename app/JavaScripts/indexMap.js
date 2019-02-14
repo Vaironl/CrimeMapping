@@ -1,9 +1,15 @@
 /**
  * http://usejsdoc.org/
  */
-var map, heatmap; //Google Map API variables
 
-var app = angular.module('CrimeHotSpot',[]);
+// Angular Code
+var crimeHotSpotApp = angular.module('CrimeHotSpot',[]);
+
+crimeHotSpotApp.controller('MapController', function MapController($scope){
+});
+
+//Google Map API
+var map, heatmap;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {

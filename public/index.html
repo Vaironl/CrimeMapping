@@ -7,12 +7,6 @@
     <!-- style sheet -->
     <link href="../app/StyleSheets/index.css" rel="stylesheet" type="text/css">
 
-    <!-- Google Maps API -->
-    <script src=./../app/JavaScripts/indexMap.js type="text/javascript"></script>
-    <!--AIzaSyD6-F96eJ-bI82UmRtHtsfZFHxjodcCjR0&libraries-->
-    <script async defer
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6-F96eJ-bI82UmRtHtsfZFHxjodcCjR0&libraries=visualization&callback=initMap">
-    </script>
 
 
     <!-- Angular -->
@@ -23,6 +17,13 @@
     <!--<script src="./../app/JavaScripts/ThirdParty/Angular/angular.min.js"></script>-->
     <!--<script src="./../app/JavaScrip ts/ThirdParty/Angular/angular.js"></script>-->
     <!--<script src="./../app/JavaScripts/ThirdParty/Angular/angular-mocks.js"></script>-->
+
+    <!-- Angular Controller (This script must be placed after angular to avoid issues)-->
+    <script src=./../app/JavaScripts/indexMap.js type="text/javascript"></script>
+    <!--AIzaSyD6-F96eJ-bI82UmRtHtsfZFHxjodcCjR0&libraries=visualization&callback=initMap-->
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=KEY">
+    </script>
 
     <!-- BELOW FOR USE WITH MAINSTYLE IMPORTES MAXCDN -->
 
@@ -43,7 +44,7 @@
 </head>
 
 
-<body>
+<body ng-controller="MapController">
 
 <div id="map"></div>
 
@@ -73,8 +74,6 @@
                 <img class="" id="color-scale" src="../app/Content/Images/colorscale.png" height="200" width="640"/>
             </div>
 
-            <input id="username" class="form-inline" type="text" placeholder="Enter username" ng-model="username">
-            <h1>test {{1+2}}</h1>
             <!--
             SEARCH PREDICTION LOCATION FEATURE, Still needed to get js portion working
             <form class="form-inline my-2 my-lg-0">
