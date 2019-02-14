@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app>
+<html ng-app="CrimeHotSpot">
 <head>
 
     <title>Crime HotSpot</title>
@@ -16,7 +16,7 @@
 </head>
 
 
-<body ng-app="CrimeHotSpot">
+<body>
 
 <div id="map"></div>
 
@@ -40,12 +40,19 @@
                 </li>
             </ul>
 
-            <img class="" id="color-scale" src="../app/Content/Images/colorscale.png" height="200" width="640"/>
+            <div class="color-scale-holder">
+                <h6 class="float-left">Dangerous</h6>
+                <h6 class="float-right">Safer</h6>
+                <img class="" id="color-scale" src="../app/Content/Images/colorscale.png" height="200" width="640"/>
+            </div>
+
+            <!--
+            SEARCH PREDICTION LOCATION FEATURE, Still needed to get js portion working
             <form class="form-inline my-2 my-lg-0">
-                <!--<input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-                <input class="form-control mr-sm-2" placeholder="Enter Location">
-                <button class="btn btn-outline-success my-2 my-sm-0" style="padding:6px"  type="submit">Enter</button>
+                <input id="searchTextField" class="form-control mr-sm-2" type="text" placeholder="Enter Location">
+                <button class="btn btn-outline-success my-2 my-sm-0" style="padding:6px" type="submit">Enter</button>
             </form>
+            -->
         </div>
     </div>
 
