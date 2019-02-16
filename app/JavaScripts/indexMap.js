@@ -22,20 +22,24 @@ function initMap() {
         map: map
     });
 
-
-     map.addListener('mousemove', function(e){
-     //console.log('Hello Google Maps!');
-     var contentString = e.latLng.toString();
-
-     
-     var infoWindow = new google.maps.InfoWindow({
-          content: contentString,
-          position: e.latLng
+   var contentString;
+   var infoWindow = new google.maps.InfoWindow({
+          content: 'empty',
+          position: map.getCenter()
      });
+   var timeHandle;
 
-     infoWindow.open(map);
+   map.addListener('mousemove', function(e){
+     infoWindow.close();
+     clearTimeout(timeHandle);
 
-     //window.setTimeout(infoWindow.close(), 9000);
+     contentString = e.latLng.toString();
+    
+     
+     infoWindow.setContent(contentString);
+     infoWindow.setPosition(e.latLng);
+
+     timeHandle = window.setTimeout(function() {infoWindow.open(map)}, 2000);
      
   });
 }
