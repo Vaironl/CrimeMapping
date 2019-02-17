@@ -2,7 +2,7 @@
  * http://usejsdoc.org/
 */
 
-module.exports = function(app) {
+
     var map, heatmap;
 
     function initMap() {
@@ -41,5 +41,4 @@ module.exports = function(app) {
         }
 
         return googlePoints;
-    }
 }
