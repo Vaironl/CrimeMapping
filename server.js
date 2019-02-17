@@ -1,11 +1,7 @@
 
-
 // -----------------------------------------------------
 var express         = require('express');
-//var mongoose        = require('mongoose');
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-var readline = require ('readline');
+const MongoClient   = require("mongodb").MongoClient;
 var port            = process.env.PORT || 3000;
 var morgan          = require('morgan');
 var bodyParser      = require('body-parser');
@@ -19,6 +15,7 @@ var app             = express();
 
 // Logging and Parsing
 app.use(express.static(__dirname + '/public'));                 // sets the static files location to public
+app.use('/app',express.static(__dirname + '/app'));
 app.use('/bower_components',  express.static(__dirname + '/bower_components')); // Use BowerComponents
 app.use(morgan('dev'));                                         // log with Morgan
 app.use(bodyParser.json());                                     // parse application/json
@@ -29,72 +26,29 @@ app.use(methodOverride());
 
 // Routes
 // ------------------------------------------------------
-//require('./app/routes.js')(app);
+//require('./app/indexMap.js')(app);
 
 // Listen
 // -------------------------------------------------------
 app.listen(port);
 console.log('App listening on port ' + port);
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+const url = "mongodb+srv://Admin:mynameismypassport@cluster0-7xnng.mongodb.net/test?retryWrites=true";
+const dbName = "Cluster0";
+const collectionName = "Crimes";
+var collection;
+
+MongoClient.connect(url, function (err, client) {
+    if (err) {
+        console.log('Error connecting to MongoDB Atlas\n', err);
+    }
+    console.log('Connected...');
+    collection = client.db(dbName).collection(collectionName);
+    crimes = collection.find({}).toArray((error, result) => {
+        if (error) {
+            return result.status(500).send(error);
+        }
+        console.log(result);
+    });
 });
 
-(async function() {
-    // Connection URL
-    let username = new Promise((resolve, reject) => {
-        rl.question('What is your username? ', (user_name) => {
-            username = user_name;
-            if (username != null)
-            {
-
-                setTimeout(() => resolve(username), 0);
-            }
-
-        });
-    });
-    // I don't know of another way to continue follow
-    await username;
-
-    let password = new Promise((resolve, reject) => {
-        rl.question('What is your password? ', (answer) => {
-            password = answer;
-            if (password != null)
-            {
-
-                setTimeout(() => resolve(password), 0);
-            }
-        });
-    });
-
-    let url = await password;
-
-    console.log(url);
-
-    url =  `mongodb+srv://${username}:${password}@cluster0-7xnng.mongodb.net/test?retryWrites=true`;
-    // Database Name
-    const dbName = 'Cluster0';
-    const client = new MongoClient(url);
-
-    try {
-        // Use connect method to connect to the Server
-        await client.connect();
-
-        const db = client.db(dbName);
-
-        console.log("MongoDB queries here");
-        let query = db.collection('Crimes').count();
-        query.then(function () {
-            console.log(query);
-
-        })
-
-
-    } catch (err) {
-        console.log(err.stack);
-    }
-
-
-    client.close();
-})();
