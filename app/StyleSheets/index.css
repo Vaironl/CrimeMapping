@@ -6,7 +6,7 @@
 
 
 nav {
-    width: 65%;
+    width: 50vw;
     height: auto;
     position: absolute;
     top: 0;
@@ -15,6 +15,7 @@ nav {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     opacity: 0.5;
+    border:1px solid gray;
 }
 
 nav:hover {
