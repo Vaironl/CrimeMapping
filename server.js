@@ -24,7 +24,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json'}));  // parse applica
 app.use(methodOverride());
 
 //Start the database
-require('./public/js/DataAccessAdapter').InitDB();
+require('./app/JavaScripts/DataAccessAdapter').InitDB();
 
 
 // Routes
