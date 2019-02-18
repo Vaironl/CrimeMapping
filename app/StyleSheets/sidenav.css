@@ -1,27 +1,33 @@
 .sidenav {
-    height: 100%;
+    height: 80%;
     width: 10px;
     position: fixed;
     z-index: 2;
     top: 0;
     left: 0;
-    background-color: #111;
     overflow-x: hidden;
+    background-color: #dde0df;
     transition: 0.5s;
     padding-top: 60px;
+    opacity: 0.2;
+    margin-top: 5%;
+    border:1px solid gray;
+}
+.sidenav:hover{
+    opacity: 1;
 }
 
 .sidenav a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
     font-size: 25px;
-    color: #818181;
+    color: black;
     display: block;
     transition: 0.3s;
 }
 
 .sidenav a:hover {
-    color: #f1f1f1;
+    color: #f14858;
 }
 
 .sidenav .closebtn {
@@ -33,12 +39,12 @@
 }
 
 
-.closebtn{
+.openbtn{
     font-size:30px;
     cursor:pointer;
     position: absolute;
     z-index: 1;
-    top:0px;
+    top:50px;
     left:0px;
 }
 
