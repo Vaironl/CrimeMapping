@@ -5,7 +5,9 @@
     <title>Crime HotSpot</title>
 
     <!-- style sheet -->
+    <link href="../app/StyleSheets/mainstyle.css" rel="stylesheet" type="text/css">
     <link href="../app/StyleSheets/index.css" rel="stylesheet" type="text/css">
+    <link href="../app/StyleSheets/sidenav.css" rel="stylesheet" type="text/css">
 
 
     <!-- Angular -->
@@ -82,28 +84,19 @@
             -->
         </div>
     </div>
-
 </nav>
 
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Clients</a>
+    <a href="#">Contact</a>
+</div>
+<a href="javascript:void(0)" class="closebtn" onclick="openNav()">&#9776; open</a>
 
-<div class="sidenav-arrow">
-    <h1> > </h1>
-</div>
-<div class="sidenav">
-    <h2>Option here</h2>
-    <br>
-    <br>
-    <br>
-    <h2>Option here</h2>
-    <br>
-    <br>
-    <br>
-    <h2>Option here</h2>
-    <br>
-    <br>
-    <br>
-    <h2>Option here</h2>
-</div>
+
+<!--<span id="openButton" onclick="openNav()">&#9776; open</span>-->
 
 
 </body>
