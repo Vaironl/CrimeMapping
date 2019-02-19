@@ -51,12 +51,6 @@ nav form{
 
 /*Color Scale Begins*/
 
-.color-scale-holder{
-    /*border:1px solid black;*/
-    width: 20vw;
-    margin-left:10px;
-}
-
 #color-scale {
     height: 3vh;
     width: 20vw;
