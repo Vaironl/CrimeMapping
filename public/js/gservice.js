@@ -26,14 +26,31 @@ angular.module('gservice', [])
 
                     map = new google.maps.Map(document.getElementById('map'), {
                         center: {lat: 36.8853, lng: -76.3059},
-                        zoom: 15
+                        zoom: 15,
+                        mapTypeControl: false,
+                        streetViewControl: false,
+                        fullscreenControl: false,
+                        styles: [
+                            //Hide distracting features
+                            {
+                                featureType: 'poi',
+                                stylers: [{visibility: 'off'}]
+                            },
+                            {
+                                featureType: 'transit',
+                                stylers: [{visibility: 'off'}]
+                            }
+                            ]
                     });
 
                     heatmap = new google.maps.visualization.HeatmapLayer({
                         data: getPoints(crimes),
                         map: map,
-                        //radius: 10,
-                        dissipating: false
+                        radius: 30,
+                        maxIntensity: 50,
+                        //opacity:0.6,
+                        dissipating: true
+
                     });
                 },function (error) {
                     console.log("This is an error: ",error);
@@ -50,14 +67,19 @@ angular.module('gservice', [])
                 //console.log(crimes.length);
                 for (var i = 0; i < crimes.length; i++) {
                     var loc = new google.maps.LatLng(crimes[i].lat,crimes[i].lng);
-                    googlePoints.push(loc);
+                    //googlePoints.push(loc);
+
+                    var weightedLoc = new google.maps.MVCObject;
+                    var weight = crimes[i].severity;                            // Change to calculated weight later
+                    weightedLoc.setValues({'location':loc, 'weight':weight});
+                    googlePoints.push(weightedLoc);
                 }
                 //console.log(googlePoints);
                 console.log(googlePoints.length);
                 return googlePoints;
             }
 
-// Refresh the page upon window load. Use the initial latitude and longitude
+            // Refresh the page upon window load. Use the initial latitude and longitude
             google.maps.event.addDomListener(window, 'load',
                 googleMapService.refresh());
     });
