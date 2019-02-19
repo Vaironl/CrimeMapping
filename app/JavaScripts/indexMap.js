@@ -13,25 +13,52 @@ function initMap() {
     map: map
   });
 
-  
-  map.addListener('mousemove', function(e){
-     //console.log('Hello Google Maps!');
-     var contentString = e.latLng.toString();
-
-     
-     var infoWindow = new google.maps.InfoWindow({
-          content: contentString,
-          position: e.latLng
+  var contentString;
+  var infoWindow = new google.maps.InfoWindow({
+          content: 'empty',
+          position: map.getCenter()
      });
+  var timeHandle;
 
-     infoWindow.open(map);
+  map.addListener('mousemove', function(e){
+     infoWindow.close();
+     clearTimeout(timeHandle);
 
-     //window.setTimeout(infoWindow.close(), 9000);
+     //contentString = e.latLng.toString();
+    
+     var hoverInfo = getPopUpInfo(e.latLng);
+     contentString = '<h3>Localized Safety Score: ' + hoverInfo.popupScore.toString() + '</h3>';
+
+     for (var i = 0; i <= hoverInfo.catInfo.length - 1; i++) {
+         contentString = contentString + '<p>' + hoverInfo.catInfo[i].catName + ': ' + hoverInfo.catInfo[i].numInCat.toString() + ' incidents' + '</p>';
+     }
+     
+     infoWindow.setContent(contentString);
+     infoWindow.setPosition(e.latLng);
+
+     timeHandle = window.setTimeout(function() {infoWindow.open(map)}, 1500);
      
   });
-
   
 
+}
+
+function getPopUpInfo(mouseLatLng) {
+    var info = {};
+
+    /** 
+     * For use after we have successfuly tested querying data or when
+     * other stub functions have been implemented:
+     *
+     * var criticalCrimes = getCriticalCrimes(mouseLatLng);
+     * criticalCrimes.sortBySafetyScore();
+     * var popupScore = calculateAggregateScore(criticalCrimes)
+     */
+
+    info.popupScore = 8
+    info.catInfo = [{catName: 'Severe crimes against the person', numInCat: 3}, {catName: 'Crimes against the person', numInCat: 4}, {catName: 'Crimes against property', numInCat: 8}, {catName: 'Crimes against the public', numInCat: 8}];
+
+    return info;
 }
 
 
