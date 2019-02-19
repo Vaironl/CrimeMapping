@@ -24,7 +24,7 @@ function initMap() {
      infoWindow.close();
      clearTimeout(timeHandle);
 
-     //contentString = e.latLng.toString();
+     
     
      var hoverInfo = getPopUpInfo(e.latLng);
      contentString = '<h3>Localized Safety Score: ' + hoverInfo.popupScore.toString() + '</h3>';
@@ -33,8 +33,11 @@ function initMap() {
          contentString = contentString + '<p>' + hoverInfo.catInfo[i].catName + ': ' + hoverInfo.catInfo[i].numInCat.toString() + ' incidents' + '</p>';
      }
      
+     contentString += e.latLng.toString();
+     
      infoWindow.setContent(contentString);
      infoWindow.setPosition(e.latLng);
+
 
      timeHandle = window.setTimeout(function() {infoWindow.open(map)}, 1500);
      
