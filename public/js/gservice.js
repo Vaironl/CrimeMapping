@@ -27,6 +27,7 @@ angular.module('gservice', [])
                     map = new google.maps.Map(document.getElementById('map'), {
                         center: {lat: 36.8853, lng: -76.3059},
                         zoom: 15,
+                        minZoom:12,
                         mapTypeControl: false,
                         streetViewControl: false,
                         fullscreenControl: false,
@@ -46,12 +47,18 @@ angular.module('gservice', [])
                     heatmap = new google.maps.visualization.HeatmapLayer({
                         data: getPoints(crimes),
                         map: map,
-                        radius: 30,
-                        maxIntensity: 50,
+                        radius: getNewRadius(map),
+                        maxIntensity: 100,
                         //opacity:0.6,
                         dissipating: true
 
                     });
+
+                    google.maps.event.addListener(map, 'zoom_changed', function () {
+                        //console.log("Zoom is " + map.getZoom());
+                        heatmap.setOptions({radius: getNewRadius(map)});
+                    });
+
                 },function (error) {
                     console.log("This is an error: ",error);
                 });
@@ -77,6 +84,19 @@ angular.module('gservice', [])
                 //console.log(googlePoints);
                 console.log(googlePoints.length);
                 return googlePoints;
+            }
+
+            function getNewRadius(map){
+                // Convert desired crime radius in meters into radius in pixels based on zoom level
+                var newRadius;
+                var crimeRadiusInMeters = 150;
+                //var meters_per_pixel = 156543.03392 * Math.cos(map.getCenter().lat() * Math.PI / 180) / Math.pow(2, map.getZoom());       // Generic ratio calculation; accounts for different scaling at different latitiudes
+                var meters_per_pixel = 125209.17/ Math.pow(2, map.getZoom());                                                               // Hardcoded and approximated for prototype map center
+
+                newRadius = crimeRadiusInMeters/meters_per_pixel;
+                //console.log("There are " + meters_per_pixel + " meters per pixel at this zoom");
+                //console.log("New radius is " + newRadius);
+                return newRadius;
             }
 
             // Refresh the page upon window load. Use the initial latitude and longitude
