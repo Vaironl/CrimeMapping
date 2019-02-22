@@ -1,4 +1,6 @@
-export class Crime
+export var storedCrimes = [];
+
+export default class Crime
 {
     get id() {
         return this._id;
