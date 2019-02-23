@@ -1,4 +1,3 @@
-export var storedCrimes = [];
 
 export default class Crime
 {
