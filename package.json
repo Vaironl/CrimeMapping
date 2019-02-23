@@ -9,8 +9,11 @@
     "postinstall": "bower install"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.2.5",
     "angular-route": "^1.7.5",
+    "babel": "^6.23.0",
     "body-parser": "^1.18.3",
+    "ecma": "^1.0.2",
     "express": "^4.16.4",
     "gulp": "^4.0.0",
     "jsonwebtoken": "^5.0.2",
@@ -18,10 +21,16 @@
     "mongodb": "^3.1.13",
     "mongoose": "~4.1.0",
     "morgan": "^1.9.1",
+    "node.js": "0.0.0",
     "readline": "^1.3.0",
     "serve-static": "~1.7.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
+    "@babel/preset-env": "^7.3.1",
+    "babel-preset-es2015": "^6.24.1",
     "jest": "^24.1.0",
     "puppeteer": "^1.12.2"
   },

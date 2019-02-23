@@ -17,7 +17,7 @@ export function getAgeMultiple(crimeDate, startDate, endDate){
         }
         else
         {
-            return (1 - ((e-d)/(e-s)));
+            return (1 - Math.round((e-d)/(e-s)));
         }
     }
 }
@@ -32,6 +32,6 @@ export function getSafetyScore(arrayOfCrimes, startDate, endDate)
     var i;
     var SafetyScore = 0;
     for (i = 0 ; i < arrayOfCrimes.size(); i++){
-     SafetyScore += arrayOfCrimes[i].severity * getAgeMultiple(arrayOfCrimes[i].date, startDate, endDate);
- }
+     SafetyScore += ageCrime(arrayOfCrimes[i].severity, startDate, endDate);
+     }
 }
