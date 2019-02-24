@@ -1,5 +1,4 @@
-
-export default class Crime
+export class Crime
 {
     get id() {
         return this._id;

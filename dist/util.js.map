@@ -1,1 +1,0 @@
-{"version":3,"sources":["../util.js"],"names":["exports","generateText","name","age"],"mappings":";;AAAAA,OAAO,CAACC,YAAR,GAAuB,UAACC,IAAD,EAAOC,GAAP,EAAe;AAClC;AACA,mBAAUD,IAAV,eAAmBC,GAAnB;AACH,CAHD","sourcesContent":["exports.generateText = (name, age) => {\r\n    // Returns output text\r\n    return `${name} (${age} years old)`;\r\n}"],"file":"util.js"}
