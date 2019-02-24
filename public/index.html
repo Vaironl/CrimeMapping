@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app = 'crimeHotSpot'>
   <head>
-      
+
     <!-- style sheet -->
    	<link href="../app/StyleSheets/index.css" rel="stylesheet" type="text/css" >
 
@@ -19,36 +19,20 @@
       <script src="js/gservice.js"></script>
       <script src="js/mapLoad.js"></script>
 
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.22/angular-ui-router.js"></script>
+
   </head>
-  <body ng-controller="mapLoad">
-    <div>
-    	<div class="jumbotron-fluid banner" >  
-    		<h1>Crime HotSpot by ODU Spring 2019 CS411W( Kennedy ) Team Silver</h1>     	 
-    	</div>
-    	<div class = "container-fluid">
-      		<label>Name:</label>
-      		<input type="text" ng-model="yourName" placeholder="Enter a name here">
-      		<hr>
-      		<h5>Hello Team Silver you are {{yourName}}! Let's start programming.</h5>
-   		</div>   		
-    </div>
-    <div id="map"></div>
-    <div class= "banner" title="footer">
-   		<a href = "https://www.cs.odu.edu/~411silver"> About </a>
-    </div>
+  <body >
+
+  <div ui-view>
+
+  </div>
+
   </body>
-  
-  
-  
 
-  
-  
-       	
 
-    
-    
     <!-- BELOW FOR USE WITH MAINSTYLE IMPORTES MAXCDN -->
-    
+
     <!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
@@ -57,7 +41,7 @@
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-	
+
     <!-- ABOVE FOR USE WITH MAINSTYLE IMPORTES MAXCDN -->
-    
+
 </html>
