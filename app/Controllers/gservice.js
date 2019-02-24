@@ -26,13 +26,18 @@ angular.module('gservice', [])
 
                     map = new google.maps.Map(document.getElementById('map'), {
                         center: {lat: 36.8853, lng: -76.3059},
-                        zoom: 15
+                        zoom: 15,
+                        maxZoom: 16,
+                        minZoom: 14,
+                        mapTypeControlOptions: {
+                            position: google.maps.ControlPosition.BOTTOM_LEFT
+                        }
                     });
 
                     heatmap = new google.maps.visualization.HeatmapLayer({
                         data: getPoints(crimes),
                         map: map,
-                        //radius: 10,
+                        radius: 1,
                         dissipating: false
                     });
                 },function (error) {
