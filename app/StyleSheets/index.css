@@ -6,55 +6,37 @@
 
 
 nav {
-    width: 50vw;
-    height: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: auto;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    opacity: 0.5;
+    width: 8vw;
+    height: 5vw;
+    border-radius:0 0 10px 10px;
+    margin-left:10vw;
     border:1px solid gray;
+    opacity: 0.5;
 }
 
 nav:hover {
     opacity: 1;
 }
-
-
-#nav-logo {
-    width: 120px;
-    height: auto;
-    margin-right: 10px;
-}
-
-
-nav .navbar-center {
-    position: relative;
+.navbar-center{
+    /*border:1px solid red;*/
     width: 100%;
-    height: auto;
-    margin-left: 10%;
-    margin-right: 10%;
-    text-align: center;
-    overflow: hidden;
+    height: 100%;
 }
 
-.navbar-center * {
-    /*display: inline-block;*/
-    /*padding: 0;*/
-}
+/*Logo image */
+#nav-logo {
 
-.navbar-nav{
 }
 
 /*Color Scale Begins*/
 
 .color-scale-holder{
-    /*border:1px solid black;*/
-    width: 100%;
-    margin-left:0px;
-    /*border: 1px solid red;*/
+    border:1px solid black;
+    border-radius: 10px 10px 20px 20px;
+    margin-bottom: 20px;
+    /*padding: top right bottom left*/
+    padding: 10px 8px 10px 8px;
+    background-color: rgba(49, 134, 142, 0.04);
 }
 .color-scale-holder .title{
 /*border:1px solid red;*/
