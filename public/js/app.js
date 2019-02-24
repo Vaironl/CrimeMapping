@@ -10,8 +10,8 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,  $
     var mainState = {
         name: 'main',
         url: '/main',
-        templateUrl: '../app/view/main.html',
-        controller: 'mapLoad'
+        templateUrl: '../app/view/main.html'
+
     }
 
     var analyticState = {
