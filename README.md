@@ -15,6 +15,7 @@
 
 ## Team Members:
 	Thom Loftin
+	Vairon Mendoza
 
 
 
