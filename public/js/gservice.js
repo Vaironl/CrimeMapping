@@ -64,6 +64,6 @@ angular.module('gservice', [])
                 googleMapService.refresh());
 
 
-            return map;
+            return googleMapService;
 
     });

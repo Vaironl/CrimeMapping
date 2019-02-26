@@ -4,5 +4,5 @@ mapLoad.controller('mapLoad', function($scope, $http, gservice){
 
     console.log('mapLoad');
     console.log(document.getElementById('map').valueOf());
-    googleMapService.refresh;
+    gservice.refresh();
 });
