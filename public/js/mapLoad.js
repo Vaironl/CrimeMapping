@@ -2,5 +2,7 @@
 var mapLoad = angular.module('mapLoad', [ 'gservice']);
 mapLoad.controller('mapLoad', function($scope, $http, gservice){
 
-    google.maps.event.addDomListener(window, 'load', gservice.refresh());
+    console.log('mapLoad');
+    console.log(document.getElementById('map').valueOf());
+    googleMapService.refresh;
 });
