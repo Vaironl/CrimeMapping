@@ -1,38 +1,17 @@
 /**
  * @description
  *
- * @param {Crime} crime
- * @param {Point} point
- * @returns {Number}
+ * @param {Crime} crime     - crime we are calculating the weight of
+ * @param {Point} point     - point that we want to calculate the SafetyScore of
+ * @returns {Number}        - range [0, 1]
  *
  * See link for a graphical representation of the distance factor
  * @see https://www.desmos.com/calculator/qosbo4ty35
  */
 function calcDistanceFactor(crime, point) {
-    //let distanceFromCrime = Math.sqrt(crime.)
-}
+    let distanceFromCrime = calcDistanceBetween(crime.lat, crime.lng, point.x, point.y);
 
-/**
- * @description Calculates the distance factor of a crime based on the linear distance.
- * Crimes with a distance of 0 have a factor of 1
- * Crimes with a distance of distanceFromCrime or greater have a factor of 0
- * Crimes in between have a factor of -distanceFromCrime / cutoffDistance + 1
- *
- * @param {Number} distanceFromCrime -  Distance that a point is from a crime. (Make sure this is >= 0)
- *                                      Unit can be in angle or distance.
- * @param {Number} cutoffDistance -     Max distance that is relevance. Distances greater than
- *                                      cutoffDistance have a factor of 0
- *                                      Unit must be same as @param distanceFromCrime
- * @returns {Number}                    distance factor : range is [0, 1]
- * @see https://www.desmos.com/calculator/qosbo4ty35
- */
-function calcLinearDistanceFactor(distanceFromCrime, cutoffDistance) {
-    if (distanceFromCrime < cutoffDistance) {
-        return - distanceFromCrime / cutoffDistance + 1
-    }
-    else {
-        return 0;
-    }
+    calcBellCurveDistanceFactor(distanceFromCrime);
 }
 
 /**
@@ -71,6 +50,29 @@ function calcDistanceBetween(lat1, lng1, lat2, lng2) {
 }
 
 /**
+ * @description Calculates the distance factor of a crime based on the linear distance.
+ * Crimes with a distance of 0 have a factor of 1
+ * Crimes with a distance of distanceFromCrime or greater have a factor of 0
+ * Crimes in between have a factor of -distanceFromCrime / cutoffDistance + 1
+ *
+ * @param {Number} distanceFromCrime -  Distance that a point is from a crime. (Make sure this is >= 0)
+ *                                      Unit can be in angle or distance.
+ * @param {Number} cutoffDistance -     Max distance that is relevance. Distances greater than
+ *                                      cutoffDistance have a factor of 0
+ *                                      Unit must be same as @param distanceFromCrime
+ * @returns {Number}                    distance factor : range is [0, 1]
+ * @see https://www.desmos.com/calculator/qosbo4ty35
+ */
+function calcLinearDistanceFactor(distanceFromCrime, cutoffDistance) {
+    if (distanceFromCrime < cutoffDistance) {
+        return - distanceFromCrime / cutoffDistance + 1
+    }
+    else {
+        return 0;
+    }
+}
+
+/**
  * @discription Calculates the distance factor of a crime based on the inverse of the distance.
  * Crimes with a distance of 0 have a factor of 1
  * Crimes with a distance of distanceFromCrime or greater have a factor of 0
@@ -92,22 +94,22 @@ function calcInverseDistanceFactor(distanceFromCrime) {
  *
  * @param {Number} distanceFromCrime    Distance that a point is from a crime. (Make sure this is >= 0)
  *                                      Unit can be in angle or distance.
- * @returns {number} distanceFactor     distance factor : range is [0, 1]
+ * @returns {Number} distanceFactor     distance factor : range is [0, 1]
  *
  * @see https://www.desmos.com/calculator/qosbo4ty35
  */
 function calcBellCurveDistanceFactor(distanceFromCrime) {
     let sigma = 1.0;    // The larger sigma the flatter the curve
 
-    let power = -((distanceFromCrime) ** 2) / (2 * sigma * sigma);
+    let power = -(distanceFromCrime ** 2) / (2 * sigma * sigma);
 
-    let coefficient = (1 / (sigma * Math.sqrt(2 * Math.PI)));
+    let coefficient = 1 / (sigma * Math.sqrt(2 * Math.PI));
 
     let distanceFactor = coefficient * Math.E ** power;
 
     // Now the peak of the bell curve will probably not be at 1
-    // So we need to scale the curve so that it will equal 1 when distance equals 0
-    let scalingFactorPower = -1 / (2 * distanceFromCrime * distanceFromCrime);
+    // So we need to scale the curve so that it will equal 1 at the peak (when distance equals 0)
+    let scalingFactorPower = 0;
 
     let scalingFactorCoefficient = 1 / (sigma * Math.sqrt(2 * Math.PI));
 
