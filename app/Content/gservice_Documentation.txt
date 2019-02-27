@@ -1,0 +1,31 @@
+----------------------------- gservice.js ---------------------------
+Address:
+    /app/Controllers/gservice.js
+
+Purpose:
+    To communicate with the Google Maps API. Creates map and heatmap and loads with data upon load
+    and refresh.
+
+Variables:
+    googleMapsService       - contains handler function for map refresh (*See Functions below)
+    crimes                  - list of Crime objects obtained directly from our db
+                              will be cleared and refilled with crimes every time map changes
+
+Functions:
+    googleMapService.refresh()      - called whenever map is refreshed by client (ex: zoom in or out)
+                                      creates google.maps.Map (map) object
+                                      creates google.maps.visualization.HeatmapLayer (heatmap) object
+                                      and loads them to the maps event listener.
+
+    getPoints()                     - inputs crimes (list of Crimes) and returns a list of google.maps.LatLng objects
+                                      that come from the crimes
+
+    getNewRadius()                  - converts radius from meters to pixels based on zoom level of map
+
+    hoverPopup()		    - produces a popup window that gives a localized Safety Score for
+				      the location pointed to by the user's mouse, along with a breakdown
+				      of how many crimes factored into the calculation and their category
+
+    getPopUpInfo()		    - auxiliary function that gets the Safety Score and related information for display
+				      in hoverPopUp()
+

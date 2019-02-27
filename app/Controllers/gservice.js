@@ -64,6 +64,8 @@ angular.module('gservice', [])
                     heatmap.setOptions({radius: getNewRadius(map)});
                 });
 
+                hoverPopup(map);
+
             },function (error) {
                 console.log("This is an error: ",error);
             });
@@ -99,6 +101,60 @@ angular.module('gservice', [])
             //console.log("There are " + meters_per_pixel + " meters per pixel at this zoom");
             //console.log("New radius is " + newRadius);
             return newRadius;
+        }
+
+        function hoverPopup(map) {
+            var contentString;
+            var infoWindow = new google.maps.InfoWindow({
+              content: 'empty',
+              position: map.getCenter()
+            });
+            var timeHandle;
+
+            map.addListener('mousemove', function(e){
+                infoWindow.close();
+                clearTimeout(timeHandle);
+
+                var hoverInfo = getPopUpInfo(e.latLng);
+                contentString = '<p>' + '<------------Placeholder information------------>' + '</p>';
+                contentString = contentString + '<h3>Localized Safety Score: ' + hoverInfo.popupScore.toString() + '</h3>';
+
+
+
+                for (var i = 0; i <= hoverInfo.catInfo.length - 1; i++) {
+                     contentString = contentString + '<p>' + hoverInfo.catInfo[i].catName + ': ' + hoverInfo.catInfo[i].numInCat.toString() + ' incidents' + '</p>';
+                }
+                
+                contentString = contentString + '<p>' + '<------------Dynamic information------------>' + '</p>';
+                contentString += e.latLng.toString();
+                 
+                infoWindow.setContent(contentString);
+                 infoWindow.setPosition(e.latLng);
+
+
+                timeHandle = window.setTimeout(function() {infoWindow.open(map)}, 1500);
+                 
+            });
+              
+        }
+
+
+        function getPopUpInfo(mouseLatLng) {
+            var info = {};
+
+            /** 
+             * For use after we have successfuly tested querying data or when
+             * other stub functions have been implemented:
+             *
+             * var criticalCrimes = getCriticalCrimes(mouseLatLng);
+             * criticalCrimes.sortBySafetyScore();
+             * var popupScore = calculateAggregateScore(criticalCrimes)
+             */
+
+            info.popupScore = 8
+            info.catInfo = [{catName: 'Severe crimes against the person', numInCat: 3}, {catName: 'Crimes against the person', numInCat: 4}, {catName: 'Crimes against property', numInCat: 8}, {catName: 'Crimes against the public', numInCat: 8}];
+
+            return info;
         }
 
         // Refresh the page upon window load. Use the initial latitude and longitude
