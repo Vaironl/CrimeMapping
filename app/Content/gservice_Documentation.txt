@@ -22,3 +22,10 @@ Functions:
 
     getNewRadius()                  - converts radius from meters to pixels based on zoom level of map
 
+    hoverPopup()		    - produces a popup window that gives a localized Safety Score for
+				      the location pointed to by the user's mouse, along with a breakdown
+				      of how many crimes factored into the calculation and their category
+
+    getPopUpInfo()		    - auxiliary function that gets the Safety Score and related information for display
+				      in hoverPopUp()
+
