@@ -1,5 +1,4 @@
 
-
 // Creates the gservice factory. This will be the primary means by which we interact with Google Maps
 angular.module('gservice', [])
     .factory('gservice', function($http){
@@ -7,9 +6,13 @@ angular.module('gservice', [])
         // Initialize Variables
         // -------------------------------------------------------------
         // Service our factory will return
+
         var googleMapService = {};
 
         var crimes = [];
+
+        var startDate = "01-01-2017";
+        var endDate = "01-01-2018";
 
 
         // Functions
@@ -77,15 +80,15 @@ angular.module('gservice', [])
             console.log(crimes);
             //console.log(crimes.length);
             for (var i = 0; i < crimes.length; i++) {
-                var loc = new google.maps.LatLng(crimes[i].lat,crimes[i].lng);
-                //googlePoints.push(loc);
+                var loc = {
+                    location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
+                    weight: ageCrime(crimes[i].severity, crimes[i].date, startDate, endDate)
+                };
+                if (loc.weight > 0.00);{
+                    googlePoints.push(loc);
+                }
 
-                var weightedLoc = new google.maps.MVCObject;
-                var weight = crimes[i].severity;                            // Change to calculated weight later
-                weightedLoc.setValues({'location':loc, 'weight':weight});
-                googlePoints.push(weightedLoc);
             }
-            //console.log(googlePoints);
             console.log(googlePoints.length);
             return googlePoints;
         }
@@ -160,4 +163,62 @@ angular.module('gservice', [])
         // Refresh the page upon window load. Use the initial latitude and longitude
         google.maps.event.addDomListener(window, 'load',
             googleMapService.refresh());
+
+        function getAgeMultiple(crimeDate,startDate, endDate){
+            var dateOfCrime = new Date(crimeDate);
+            var endDateOfIntrest = new Date(endDate);
+            var startDateOfIntrest = new Date(startDate);
+
+            if (dateOfCrime == endDateOfIntrest)
+            {
+                return 1;
+            }
+            else
+            {
+                if ((startDateOfIntrest > dateOfCrime)  || (endDateOfIntrest < dateOfCrime))
+                {
+                    return 0;
+                }
+                else
+                {
+                    var crimeDaysTillEndOfIntrest = endDateOfIntrest-dateOfCrime;
+                    var spanOfIntrest = endDateOfIntrest-startDateOfIntrest;
+                    return (1 - (crimeDaysTillEndOfIntrest / spanOfIntrest));
+                }
+            }
+        }
+
+        function ageCrime(score, crimeDate, startDate, endDate) {
+            return score * getAgeMultiple(crimeDate,  startDate, endDate);
+        }
+
+        function getSafetyScore(arrayOfCrimes, startDate, endDate)
+        {
+            var cat1CrimeCount = 0;
+            var cat2CrimeCount = 0;
+            var cat3CrimeCount = 0;
+            var cat4CrimeCount = 0;
+            var SafetyScore = 0;
+            for (var i = 0 ; i < arrayOfCrimes.length; i++){
+                SafetyScore += ageCrime(arrayOfCrimes[i].severity, startDate, endDate);
+                switch(arrayOfCrimes.crimeCat){
+                    case 1:
+                        cat1CrimeCount++;
+                        break;
+
+                    case 2:
+                        cat2CrimeCount++;
+                        break;
+
+                    case 3:
+                        cat3CrimeCount++;
+                        break;
+
+                    case 4:
+                        cat4CrimeCount++;
+                        break;
+                }
+            }
+            return {SafetyScore, cat1CrimeCount, cat2CrimeCount, cat3CrimeCount, cat4CrimeCount};
+        }
     });
