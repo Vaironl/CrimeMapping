@@ -1,6 +1,6 @@
-function openNav() {
+function toggleNav() {
     document.getElementById("sidenavbtn").style.opacity = "0.0";
-    document.getElementById("mySidenav").style.width = "250px";
+    document.getElementById("mySidenav").style.width = "150px";
 }
 
 /* Set the width of the side navigation to 0 */

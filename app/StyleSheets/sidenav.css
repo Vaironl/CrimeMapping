@@ -6,7 +6,7 @@
     top: 0;
     left: 0;
     overflow-x: hidden;
-    background-color: #dde0df;
+    background-color: rgba(77, 205, 224, 0.47);
     transition: 0.5s;
     padding-top: 60px;
     opacity: 0.2;
@@ -15,6 +15,7 @@
 }
 .sidenav:hover{
     opacity: 1;
+    width: 150px;
 }
 
 .sidenav a {
@@ -27,7 +28,15 @@
 }
 
 .sidenav a:hover {
-    color: #f14858;
+    color: #f1f1ea;
+}
+
+.sidenav img{
+    min-width: 60px;
+    width: 100%;
+}
+
+.sidenav img:hover{
 }
 
 .sidenav .closebtn {

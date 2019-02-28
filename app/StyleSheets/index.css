@@ -23,6 +23,12 @@ nav:hover {
   height: 100%;
 }
 
+.navbar-center a{
+font-size: 1rem;
+  margin:0;
+  padding:0;
+}
+
 /*Logo image */
 #nav-logo {
 }
@@ -30,12 +36,13 @@ nav:hover {
 /*Color Scale Begins*/
 
 .color-scale-holder{
-  border:1px solid black;
-  border-radius: 10px 10px 20px 20px;
-  margin-bottom: 20px;
-  /*padding: top right bottom left*/
-  padding: 10px 8px 10px 8px;
-  background-color: rgba(49, 134, 142, 0.04);
+  /*border:1px solid gray;*/
+  /*border-radius: 10px;*/
+  /*margin-bottom: 20px;*/
+  /*!*padding: top right bottom left*!*/
+  /*padding: 10px 8px 10px 8px;*/
+  /*!*background-color: rgba(241, 241, 234, 0.53);*!*/
+  /*background-color: rgba(255, 255, 255, 0.47);*/
 }
 .color-scale-holder .title{
   /*border:1px solid red;*/
