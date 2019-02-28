@@ -11,7 +11,7 @@ angular.module('gservice', [])
 
         var crimes = [];
 
-        var  startDate = "01-01-2017";
+        var startDate = "01-01-2017";
         var endDate = "01-01-2018";
 
 
@@ -82,9 +82,12 @@ angular.module('gservice', [])
             for (var i = 0; i < crimes.length; i++) {
                 var loc = {
                     location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
-                    weight: ageCrime(crimes[i].severity, crimes.date, startDate, endDate)
+                    weight: ageCrime(crimes[i].severity, crimes[i].date, startDate, endDate)
                 };
-                googlePoints.push(loc);
+                if (loc.weight > 0.00);{
+                    googlePoints.push(loc);
+                }
+
             }
             console.log(googlePoints.length);
             return googlePoints;
@@ -161,38 +164,61 @@ angular.module('gservice', [])
         google.maps.event.addDomListener(window, 'load',
             googleMapService.refresh());
 
-        function getAgeMultiple(crimeDate, startDate, endDate){
-            var d = new Date(crimeDate);
-            var e = new Date(endDate);
-            var s = new Date(startDate);
+        function getAgeMultiple(crimeDate,startDate, endDate){
+            var dateOfCrime = new Date(crimeDate);
+            var endDateOfIntrest = new Date(endDate);
+            var startDateOfIntrest = new Date(startDate);
 
-            if (d === e)
+            if (dateOfCrime == endDateOfIntrest)
             {
                 return 1;
             }
             else
             {
-                if (((s - d) >= 0) || ((e-d)<=0))
+                if ((startDateOfIntrest > dateOfCrime)  || (endDateOfIntrest < dateOfCrime))
                 {
                     return 0;
                 }
                 else
                 {
-                    return (1 - Math.round((e-d)/(e-s)));
+                    var crimeDaysTillEndOfIntrest = endDateOfIntrest-dateOfCrime;
+                    var spanOfIntrest = endDateOfIntrest-startDateOfIntrest;
+                    return (1 - (crimeDaysTillEndOfIntrest / spanOfIntrest));
                 }
             }
         }
 
         function ageCrime(score, crimeDate, startDate, endDate) {
-            return score * getAgeMultiple(crimeDate, startDate, endDate);
+            return score * getAgeMultiple(crimeDate,  startDate, endDate);
         }
 
         function getSafetyScore(arrayOfCrimes, startDate, endDate)
         {
-            var i;
+            var cat1CrimeCount = 0;
+            var cat2CrimeCount = 0;
+            var cat3CrimeCount = 0;
+            var cat4CrimeCount = 0;
             var SafetyScore = 0;
-            for (i = 0 ; i < arrayOfCrimes.size(); i++){
+            for (var i = 0 ; i < arrayOfCrimes.length; i++){
                 SafetyScore += ageCrime(arrayOfCrimes[i].severity, startDate, endDate);
+                switch(arrayOfCrimes.crimeCat){
+                    case 1:
+                        cat1CrimeCount++;
+                        break;
+
+                    case 2:
+                        cat2CrimeCount++;
+                        break;
+
+                    case 3:
+                        cat3CrimeCount++;
+                        break;
+
+                    case 4:
+                        cat4CrimeCount++;
+                        break;
+                }
             }
+            return {SafetyScore, cat1CrimeCount, cat2CrimeCount, cat3CrimeCount, cat4CrimeCount};
         }
     });
