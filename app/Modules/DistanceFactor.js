@@ -1,27 +1,41 @@
 /**
+ * @description Used to calculate the distance factor of a crime in relation to any point on the map.
+ *              Used in the Crime SafetyScore calculation of a point on the map.
  *
+ * @function calcDistanceFactor
+ * @function calcAngleBetween
+ * @function calcLinearDistanceFactor
+ * @function calcInverseDistanceFactor
+ * @function calcBellCurveDistanceFactor
  */
 class DistanceFactor {
     /**
-     * @description
+     * @description Calculates the distance factor between a single Crime and the any single point on the map.
+     *              Generally the further the crime from the point, the lower the distance factor.
+     *              Crimes infinitely far from the point will always have a distance factor of 0
+     *              Crimes located at the point will always have a distance factor of 1
+     *
+     *              Crimes in between will be between 0 and 1 with a trend of either linear, inverse or bell curve
+     *                  depending on the calculation used in the calcDistanceFactor() function. See below functions.
+     *
+     *              This function is used to calculate the Crime SafteyScore of a point on the map
      *
      * @param {Crime} crime     - crime we are calculating the weight of
      * @param {Point} point     - point that we want to calculate the SafetyScore of
-     * @returns {Number}        - range [0, 1]
+     * @returns {*}             - range [0, 1]
      *
      * See link for a graphical representation of the distance factor
      * @see https://www.desmos.com/calculator/qosbo4ty35
      */
     static calcDistanceFactor(crime, point) {
-        let distanceFromCrime = calcDistanceBetween(crime.lat, crime.lng, point.x, point.y);
+        let angleFromCrime = this.calcAngleBetween(crime.lat, crime.lng, point.x, point.y);
 
-        calcBellCurveDistanceFactor(distanceFromCrime);
+        return calcBellCurveDistanceFactor(distanceFromCrime);
     }
 
     /**
      * @description Calculates the angle between two points on the surface of a sphere (~Earth~)
      * Assumes that the radius of the sphere is one unit.
-     *
      *
      * @param {Number} lat1 - latitude coordinate of point 1 in units of (degrees)
      * @param {Number} lng1 - longitude coordinate of point 1 in units of (degrees)
@@ -29,7 +43,7 @@ class DistanceFactor {
      * @param {Number} lng2
      * @returns {number} - angle between two points
      */
-    static calcDistanceBetween(lat1, lng1, lat2, lng2) {
+    static calcAngleBetween(lat1, lng1, lat2, lng2) {
         let cosA = Math.cos(lng1);
         let cosB = Math.cos(lat1);
         let cosC = Math.cos(lng2);
@@ -56,14 +70,16 @@ class DistanceFactor {
     /**
      * @description Calculates the distance factor of a crime based on the linear distance.
      * Crimes with a distance of 0 have a factor of 1
-     * Crimes with a distance of distanceFromCrime or greater have a factor of 0
+     * Crimes with a distance of cutoffDistance or greater have a factor of 0
      * Crimes in between have a factor of -distanceFromCrime / cutoffDistance + 1
      *
+     * @private
+     *
      * @param {Number} distanceFromCrime -  Distance that a point is from a crime. (Make sure this is >= 0)
-     *                                      Unit can be in angle or distance.
-     * @param {Number} cutoffDistance -     Max distance that is relevance. Distances greater than
+     *                                      Should be in units of angles (ex: deg).
+     * @param {Number} cutoffDistance -     Max distance that is relevant. Distances greater than
      *                                      cutoffDistance have a factor of 0
-     *                                      Unit must be same as @param distanceFromCrime
+     *                                      Should be in units of angles (ex: deg).
      * @returns {Number}                    distance factor : range is [0, 1]
      * @see https://www.desmos.com/calculator/qosbo4ty35
      */
@@ -82,8 +98,10 @@ class DistanceFactor {
      * Crimes with a distance of distanceFromCrime or greater have a factor of 0
      * Crimes in between have a factor of 1 / (distanceFromCrime + 1)
      *
+     * @private
+     *
      * @param {number} distanceFromCrime    Distance that a point is from a crime. (Make sure this is >= 0)
-     *                                      Unit can be in angle or distance.
+     *                                      Should be in units of angles (ex: deg).
      * @returns {number}                    distance factor : range is [0, 1]
      * @see https://www.desmos.com/calculator/qosbo4ty35
      */
@@ -96,8 +114,10 @@ class DistanceFactor {
      * Crimes with a distance of 0 have a factor of 1
      * Crimes with a greater distance have a factor in the shape of a bell curve
      *
+     * @private
+     *
      * @param {Number} distanceFromCrime    Distance that a point is from a crime. (Make sure this is >= 0)
-     *                                      Unit can be in angle or distance.
+     *                                      Should be in units of angles (ex: deg).
      * @returns {Number} distanceFactor     distance factor : range is [0, 1]
      *
      * @see https://www.desmos.com/calculator/qosbo4ty35
