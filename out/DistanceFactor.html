@@ -155,7 +155,7 @@
 
 
 <div class="description">
-    Calculates the angle between two points on the surface of a sphere (~Earth~)Assumes that the radius of the sphere is one unit.
+    Calculates the angle between two points on the surface of a sphere (~Earth~)This calculation is independent of the radius of the sphere (as long as it is > 0).
 </div>
 
 
@@ -207,7 +207,7 @@
 
             
 
-            <td class="description last">latitude coordinate of point 1 in units of (degrees)</td>
+            <td class="description last">latitude coordinate of point 1 in units of degrees (NOT radians)</td>
         </tr>
 
     
@@ -230,7 +230,7 @@
 
             
 
-            <td class="description last">longitude coordinate of point 1 in units of (degrees)</td>
+            <td class="description last">longitude coordinate of point 1 in units of degrees (NOT radians)</td>
         </tr>
 
     
@@ -253,7 +253,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">latitude coordinate of point 2 in units of degrees (NOT radians)</td>
         </tr>
 
     
@@ -276,7 +276,7 @@
 
             
 
-            <td class="description last"></td>
+            <td class="description last">longitude coordinate of point 2 in units of degrees (NOT radians)</td>
         </tr>
 
     
@@ -344,7 +344,7 @@
 
         
 <div class="param-desc">
-    - angle between two points
+    - angle between two points (in degrees)
 </div>
 
 
@@ -373,7 +373,7 @@
     
 
     
-    <h4 class="name" id=".calcDistanceFactor"><span class="type-signature">(static) </span>calcDistanceFactor<span class="signature">(crime, point)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id=".calcBellCurveDistanceFactor"><span class="type-signature">(static) </span>calcBellCurveDistanceFactor<span class="signature">(distanceFromCrime)</span><span class="type-signature"> &rarr; {Number}</span></h4>
     
 
     
@@ -381,7 +381,171 @@
 
 
 <div class="description">
-    Calculates the distance factor between a single Crime and the any single point on the map.             Generally the further the crime from the point, the lower the distance factor.             Crimes infinitely far from the point will always have a distance factor of 0             Crimes located at the point will always have a distance factor of 1             Crimes in between will be between 0 and 1 with a trend of either linear, inverse or bell curve                 depending on the calculation used in the calcDistanceFactor() function. See below functions.             This function is used to calculate the Crime SafteyScore of a point on the map
+    Calculates the distance factor of a crime based on the bell curve of the distance.Crimes with a distance of 0 have a factor of 1Crimes with a greater distance have a factor in the shape of a bell curve
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>distanceFromCrime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Distance that a point is from a crime. (Make sure this is >= 0)                                     Should be in units of degrees.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DistanceFactor.js.html">DistanceFactor.js</a>, <a href="DistanceFactor.js.html#line117">line 117</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://www.desmos.com/calculator/c3atr11svh">https://www.desmos.com/calculator/c3atr11svh</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    distanceFactor     distance factor : result will be between 0 and 1
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".calcDistanceFactor"><span class="type-signature">(static) </span>calcDistanceFactor<span class="signature">(crime, point)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Calculates the distance factor between a single Crime and the any single point on the map.             Generally the further the crime from the point, the lower the distance factor.             Crimes infinitely far from the point will always have a distance factor of 0 or an extremely small number.             Crimes located at the point will always have a distance factor of 1             Crimes in between will be between 0 and 1 with a trend of either linear, inverse or bell curve                 depending on the calculation used in function. See below functions.             This function is used to calculate the Crime SafteyScore of a point on the map
 </div>
 
 
@@ -531,7 +695,7 @@
 
         
 <div class="param-desc">
-    - range [0, 1]See link for a graphical representation of the distance factor
+    - result will be between 0 and 1See link for a graphical representation of the distance factor
 </div>
 
 
@@ -542,7 +706,652 @@
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".calcInverseDistanceFactor"><span class="type-signature">(static) </span>calcInverseDistanceFactor<span class="signature">(distanceFromCrime)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>distanceFromCrime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Distance that a point is from a crime. (Make sure this is >= 0)                                     Should be in units of degrees.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DistanceFactor.js.html">DistanceFactor.js</a>, <a href="DistanceFactor.js.html#line102">line 102</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://www.desmos.com/calculator/f6ob5hmn3w">https://www.desmos.com/calculator/f6ob5hmn3w</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    distance factor : result will be between 0 and 1
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".calcLinearDistanceFactor"><span class="type-signature">(static) </span>calcLinearDistanceFactor<span class="signature">(distanceFromCrime, cutoffDistance)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Calculates the distance factor of a crime based on the linear distanceCrimes with a distance of 0 have a factor of 1.Crimes with a distance of cutoffDistance or greater have a factor of 0.Crimes in between have a factor of -distanceFromCrime / cutoffDistance + 1.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>distanceFromCrime</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Distance that a point is from a crime. (Make sure this is >= 0)                                     Should be in units of degrees.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>cutoffDistance</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Max distance that is relevant. Distances greater than                                     cutoffDistance have a factor of 0                                     Should be in units of degrees.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DistanceFactor.js.html">DistanceFactor.js</a>, <a href="DistanceFactor.js.html#line83">line 83</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><a href="https://www.desmos.com/calculator/swjdvtkohs">https://www.desmos.com/calculator/swjdvtkohs</a></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    distance factor : result will be between 0 and 1 degrees
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".degToRad"><span class="type-signature">(static) </span>degToRad<span class="signature">(angleInDegrees)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>angleInDegrees</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DistanceFactor.js.html">DistanceFactor.js</a>, <a href="DistanceFactor.js.html#line143">line 143</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".radToDeg"><span class="type-signature">(static) </span>radToDeg<span class="signature">(angleInRadians)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>angleInRadians</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="DistanceFactor.js.html">DistanceFactor.js</a>, <a href="DistanceFactor.js.html#line152">line 152</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">number</span>
 
 
     </dd>
@@ -576,7 +1385,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Feb 28 2019 12:52:17 GMT-0500 (Eastern Standard Time)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Mar 02 2019 11:46:04 GMT-0500 (Eastern Standard Time)
 </footer>
 
 <script> prettyPrint(); </script>
