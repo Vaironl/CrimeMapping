@@ -15,21 +15,102 @@
  *  Start with an list of Crime objects.
  *  Pass the list to the filter function and specify the filter criteria
  *  The function removes "filtered" items from the list and returns them in another list
+ *
+ *  Warning: The array passed in is not guarenteed to remain in the same order after the function call
+ *
+ *  It is recommended to make a copy of your array and then pass that copy in to the function
  */
 class CrimeFilter {
     static filterByDateRange(crimes, startDate, endDate) {
         let excluded = [];
 
-        
+        // Remove Crimes that do not fall between startDate and endDate
+        for (let i = 0; i < crimes.size(); ) {
+            let date = crimes[i].getDate();
+
+            // Does c fall between startDate and endDate?
+            if (date > startDate && date < endDate) {
+                // Yes it does so we can keep it
+                i++;
+            }
+            else {
+                // No it doesn't, remove it
+                this.moveCrimeToExcluded(crimes, excluded, i);
+            }
+        }
+
+        return excluded;
     }
 
     static filterByDayOfWeek(crimes, sunday, monday, tuesday, wednesday, thursday, friday, saturday) {
+        let excluded = [];
+
+        // Remove Crimes that do not occur on the filtered days
+        // ex: if Mondays and Tuesdays were true, then remove crimes that do not occur on Mondays or Tuesdays
+        for (let i = 0; i < crimes.size(); ) {
+            let date = crimes[i].getDate();
+
+            let dayOfWeek = date.getDay();
+
+            if (dayOfWeek == 0) {   // Sunday
+                if (sunday == true) {
+                    this.moveCrimeToExcluded(crimes, excluded, i);
+                }
+            }
+            else if (dayOfWeek == 1) {  // Monday
+                if (monday == true) {
+                    this.moveCrimeToExcluded(crimes, excluded, i);
+                }
+            }
+            else if (dayOfWeek == 2) {
+                if (tuesday == true) {
+                    this.moveCrimeToExcluded(crimes, excluded, i);
+                }
+            }
+            else if (dayOfWeek == 3) {
+                if (wednesday == true) {
+                    this.moveCrimeToExcluded(crimes, excluded, i);
+                }
+            }
+            else if (dayOfWeek == 4) {
+                if (thursday == true) {
+                    this.moveCrimeToExcluded(crimes, excluded, i);
+                }
+            }
+            else if (dayOfWeek == 5) {
+                if (friday == true) {
+                    this.moveCrimeToExcluded(crimes, excluded, i);
+                }
+            }
+            else if (dayOfWeek == 6) {
+                if (saturday == true) {
+                    this.moveCrimeToExcluded(crimes, excluded, i);
+                }
+            }
+            else {
+                console.log("error: CrimeFilter.filterByDayOfWeek() dayOfWeek = " + dayOfWeek);
+            }
+        }
     }
 
     static filterByDayOfYear(crimes, startDay, endDay) {
+        let excluded = [];
+
+        for (let i = 0; i < crimes.size(); i++) {
+            
+        }
     }
 
     static filterByTimeOfDay(crime, startTime, endTime) {
+    }
+
+    // Private Functions
+    static moveCrimeToExcluded(crimes, excluded, index) {
+        // 1.) By swapping it with the last element
+        // 2.) Then popping off the last element
+        excluded.push(crimes[index]);
+        crimes[index] = crimes[crimes.size() - 1];
+        crimes.pop();
     }
 }
 
