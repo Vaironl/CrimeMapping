@@ -18,6 +18,9 @@
  */
 class CrimeFilter {
     static filterByDateRange(crimes, startDate, endDate) {
+        let excluded = [];
+
+        
     }
 
     static filterByDayOfWeek(crimes, sunday, monday, tuesday, wednesday, thursday, friday, saturday) {
