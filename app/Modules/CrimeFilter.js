@@ -94,17 +94,69 @@ class CrimeFilter {
     }
 
     static filterByDayOfYear(crimes, startDay, endDay) {
+        let start = Object.assign({}, startDay);
+        let end = Object.assign({}, endDay);
+
+        // Error Checking: Make sure startDay and endDay don't have years only days and months and maybe hours, min, sec
+        startDay.setFullYear(0);
+        endDay.setFullYear(0);
+
         let excluded = [];
 
         for (let i = 0; i < crimes.size(); i++) {
-            
+            let date = crimes[i].getDate();
+            date.setFullYear(0);
+
+            // Does date fall between start and end?
+            if (date > start && date < end) {
+                // Yes it does so we can keep it
+                i++;
+            }
+            else {
+                // No it doesn't, remove it
+                this.moveCrimeToExcluded(crimes, excluded, i);
+            }
         }
+
+        return excluded;
     }
 
-    static filterByTimeOfDay(crime, startTime, endTime) {
+    static filterByTimeOfDay(crimes, startTime, endTime) {
+        let start = Object.assign({}, startTime);
+        let end = Object.assign({}, endTime);
+
+        // Error Checking: Make sure startDay and endDay don't have years only days and months and maybe hours, min, sec
+        startDay.setFullYear(0);
+        startDay.setMonth(0);
+        startDay.setDate(0);
+
+        endDay.setFullYear(0);
+        endDay.setMonth(0);
+        endDay.setDate(0);
+
+        let excluded = [];
+
+        for (let i = 0; i < crimes.size(); i++) {
+            let date = crimes[i].getDate();
+            time.setFullYear(0);
+            time.setMonth(0);
+            time.setDate(0);
+
+            // Does time fall between start and end?
+            if (time > start && time < end) {
+                // Yes it does so we can keep it
+                i++;
+            }
+            else {
+                // No it doesn't, remove it
+                this.moveCrimeToExcluded(crimes, excluded, i);
+            }
+        }
+
+        return excluded;
     }
 
-    // Private Functions
+    // Private Function
     static moveCrimeToExcluded(crimes, excluded, index) {
         // 1.) By swapping it with the last element
         // 2.) Then popping off the last element
@@ -112,6 +164,7 @@ class CrimeFilter {
         crimes[index] = crimes[crimes.size() - 1];
         crimes.pop();
     }
+
 }
 
 
