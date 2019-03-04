@@ -11,7 +11,6 @@ angular.module('gservice', [])
 
         var crimes = [];
 
-
         // Functions
         // --------------------------------------------------------------
         // Refresh the Map with new data. Function will take new latitude and longitude coordinates.
