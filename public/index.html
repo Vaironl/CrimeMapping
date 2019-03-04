@@ -62,35 +62,26 @@
 </div>
 
 
-<!--<div class="container">-->
-<!--<nav class="fixed-top">-->
-<!--<div class="navbar-center">-->
-<!--<div class="w-100">-->
-<!--<a class="navbar-brand w-100 text-center">Crime HotSpot</a>-->
-<!--<img alt="CrimeHotSpot Logo" id="nav-logo" class="img-fluid "-->
-<!--src="../app/Content/Images/crimehotspot_logo.png"/>-->
-<!--</div>-->
-
 <!--Sidenav for crime profiles-->
-<div id="mySidenav" class="sidenav" ng-click="">
+<div id="mySidenav" class="sidenav">
     <h5 class="text-center">Crime Against</h5>
     <hr>
-    <div class="text-center active">
+    <div ng-click="mapLoad.publicProfileToggle()" class="profile text-center">
         <h5>Public</h5>
         <a href="#"><img src="../app/Content/Images/public-crime.png"/></a>
     </div>
     <hr>
-    <div class="text-center">
+    <div class="profile text-center">
         <h5>Property</h5>
         <a href="#"><img src="../app/Content/Images/car-theft.png"/></a>
     </div>
     <hr>
-    <div class="text-center">
+    <div class="profile text-center">
         <h5>Person</h5>
         <a href="#"><img src="../app/Content/Images/person-crime.png"/></a>
     </div>
     <hr>
-    <div class="text-center">
+    <div class="profile text-center">
         <h5>Person: Severe</h5>
         <a class="active" href="#"><img src="../app/Content/Images/knife-icon.png"/></a>
     </div>

@@ -4,7 +4,7 @@
     /*Initial width*/
     width: 160px;
     height: 65vh;
-    left: -140px;
+    /*left: -140px;*/
     margin-top:5vh;
     transition: 0.4s;
 
@@ -22,12 +22,17 @@
     left:0;
 }
 
-.sidenav div:hover {
-    color: #f1f1ea;
+.sidenav .profile:hover {
+    color:white;
 }
 
 .sidenav img{
     width: 60px;
+}
+
+.sidenav .active{
+
+    color: #f4fff3;
 }
 
 
