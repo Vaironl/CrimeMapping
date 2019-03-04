@@ -5,18 +5,8 @@ pieChart.factory('chartFactory', function($http){
 
 	var factory = {};
 
-	var crimes = [];
-
 	factory.getCrimeData = function() {
-		crimes = [];
-
-		$http.get('/crimes').then(function (response){
-			crimes = response.data;
-		}, function (error) {
-                console.log("This is an error: ",error);
-            });
-
-		return crimes;
+		return $http.get('/crimes');
 	};
 
 	return factory;
@@ -26,21 +16,23 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 
 	console.log('Hello from pieChartController!');
 
-	/*
-	$scope.first = 1;
-	$scope.second = 1;
+	chartFactory.getCrimeData().then(function(response) {
+		createPieChart('crimeCat', response.data);
+	});
 
-	$scope.updateValue = function() {
-		$scope.calculation = $scope.first + ' + ' + $scope.second + ' = ' + (+$scope.first + +$scope.second);
-	};
-	*/
-	allCrimes = chartFactory.getCrimeData();
 
-	crimeData = [1,2,3];
+	function createPieChart(attribute, crimes){
+		console.log(crimes);
 
-	console.log(allCrimes);
+		var pieData = [];
 
-	$scope.data = crimeData;
+		for (var i = 0; i < crimes.length; i++){
+			pieData.push(crimes[i].crimeCat);
+		}
+
+		console.log(pieData);
+		$scope.data = pieData;
+	}
 
 
 
