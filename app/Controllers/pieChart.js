@@ -24,14 +24,33 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 	function createPieChart(attribute, crimes){
 		console.log(crimes);
 
-		var pieData = [];
-
+		var pieData = [0, 0, 0, 0, 0];
+		var pieLabels = ['Uncategorized', 'Crimes against the public', 'Crimes against property' , 'Crimes against the person', 'Severe crimes against the person'];
+		
 		for (var i = 0; i < crimes.length; i++){
-			pieData.push(crimes[i].crimeCat);
+			switch(crimes[i].crimeCat){
+				case 0:
+					pieData[0]++;
+					break;
+				case 1:
+					pieData[1]++;
+					break;
+				case 2:
+					pieData[2]++;
+					break;
+				case 3:
+					pieData[3]++;
+					break;
+				case 4:
+					pieData[4]++;
+					break;
+			}
 		}
+		
 
 		console.log(pieData);
 		$scope.data = pieData;
+		$scope.labels = pieLabels;
 	}
 
 
