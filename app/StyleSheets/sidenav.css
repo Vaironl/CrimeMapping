@@ -1,16 +1,16 @@
 .sidenav {
-    height: 80%;
+    /*Allows left justified positioning otherwise, this position would be based on other elements. Throwing views/elements off.*/
+    position: absolute;
+    /*Initial width*/
     width: 10px;
-    position: fixed;
     z-index: 2;
-    top: 0;
     left: 0;
+    bottom:0;
     overflow-x: hidden;
+    padding-top: 60px;
     background-color: rgba(77, 205, 224, 0.47);
     transition: 0.5s;
-    padding-top: 60px;
     opacity: 0.2;
-    margin-top: 5%;
     border:1px solid gray;
 }
 .sidenav:hover{
