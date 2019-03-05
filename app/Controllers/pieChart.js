@@ -58,7 +58,7 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 		console.log(crimes);
 
 		var pieData = [0, 0, 0, 0];
-		var pieLabels = ['Morning', 'Afternoon', 'Evening' , 'Night'];
+		var pieLabels = ['Morning (5am-12pm)', 'Afternoon (12pm-5pm)', 'Evening (5pm-9pm)' , 'Night (9pm-5am)'];
 		
 		for (var i = 0; i < crimes.length; i++){
 			var time = crimes[i].time;
