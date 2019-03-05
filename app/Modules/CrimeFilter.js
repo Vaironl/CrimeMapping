@@ -156,6 +156,28 @@ class CrimeFilter {
         return excluded;
     }
 
+    static filterByCrimeCategory(crimes, categoriesToKeep) {
+        let excluded = [];
+
+        // Remove Crimes that are not of the categories
+        for (let i = 0; i < crimes.size(); ) {
+            let category = crimes[i].getCrimeCat();
+
+            // Is category one of the ones listed
+            let keep = false;
+            for (let j = 0; j < categoriesToKeep.size(); j++) {
+                if (category == categoriesToKeep[j]) {
+                    keep = true;
+                    break;
+                }
+            }
+
+            if (keep == false) {   // Sunday
+                this.moveCrimeToExcluded(crimes, excluded, i);
+            }
+        }
+    }
+
     // Private Function
     static moveCrimeToExcluded(crimes, excluded, index) {
         // 1.) By swapping it with the last element
