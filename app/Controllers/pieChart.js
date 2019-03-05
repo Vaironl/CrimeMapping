@@ -17,11 +17,12 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 	console.log('Hello from pieChartController!');
 
 	chartFactory.getCrimeData().then(function(response) {
-		createPieChart('crimeCat', response.data);
+		pieCrimeCat(response.data);
+		pieTimeOfDay(response.data);
 	});
 
 
-	function createPieChart(attribute, crimes){
+	function pieCrimeCat(crimes){
 		console.log(crimes);
 
 		var pieData = [0, 0, 0, 0, 0];
@@ -49,8 +50,38 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 		
 
 		console.log(pieData);
-		$scope.data = pieData;
-		$scope.labels = pieLabels;
+		$scope.ccData = pieData;
+		$scope.ccLabels = pieLabels;
+	}
+
+	function pieTimeOfDay(crimes){
+		console.log(crimes);
+
+		var pieData = [0, 0, 0, 0];
+		var pieLabels = ['Morning', 'Afternoon', 'Evening' , 'Night'];
+		
+		for (var i = 0; i < crimes.length; i++){
+			var time = crimes[i].time;
+			switch(true){
+				case (parseInt(time, 10) >= 500 && parseInt(time, 10) < 1200):
+					pieData[0]++;
+					break;
+				case (parseInt(time, 10) >= 1200 && parseInt(time, 10) < 1700):
+					pieData[1]++;
+					break;
+				case (parseInt(time, 10) >= 1700 && parseInt(time, 10) < 2100):
+					pieData[2]++;
+					break;
+				case ((parseInt(time, 10) >= 2100 && parseInt(time, 10) <= 2400) || (parseInt(time, 10) == 0) || (parseInt(time, 10) > 0 && parseInt(time, 10) < 500)):
+					pieData[3]++;
+					break;
+			}
+		}
+		
+
+		console.log(pieData);
+		$scope.tdData = pieData;
+		$scope.tdLabels = pieLabels;
 	}
 
 
