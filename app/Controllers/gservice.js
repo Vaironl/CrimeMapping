@@ -9,16 +9,24 @@ angular.module('gservice', [])
 
         var googleMapService = {};
 
+        // used to store the database response.
         var crimes = [];
 
+        // start and end dates of the period of observation should include all crimes.
         var startDate = "01-01-2017";
         var endDate = "01-01-2018";
 
+       // variables for user preference selections
+        var cat1Factor = 1;
+        var cat2Factor = 1;
+        var cat3Factor = 1;
+        var cat4Factor = 1;
 
         // Functions
         // --------------------------------------------------------------
         // Refresh the Map with new data. Function will take new latitude and longitude coordinates.
-        googleMapService.refresh = function () {
+        googleMapService.refresh = function ()
+        {
             console.log("Refreshing/Loading map");
             // Clears the holding array of locations
             crimes = [];
@@ -73,16 +81,22 @@ angular.module('gservice', [])
 
         // Private Inner Functions
         // --------------------------------------------------------------
-        function getPoints(crimes) {
+        // Refresh the page upon window load. Use the initial latitude and longitude
+        google.maps.event.addDomListener(window, 'load',
+            googleMapService.refresh());
+
+        function getPoints(crimes)
+        {
             // An array that will contain all the crimes lat and lng values
             //      as objects of type google.maps.LatLng
             var googlePoints = [];
             console.log(crimes);
             //console.log(crimes.length);
-            for (var i = 0; i < crimes.length; i++) {
+            for (var i = 0; i < crimes.length; i++)
+            {
                 var loc = {
                     location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
-                    weight: ageCrime(crimes[i].severity, crimes[i].date, startDate, endDate)
+                    weight: scaleCrime(crimes[i])
                 };
                 if (loc.weight > 0.00);{
                     googlePoints.push(loc);
@@ -93,7 +107,8 @@ angular.module('gservice', [])
             return googlePoints;
         }
 
-        function getNewRadius(map){
+        function getNewRadius(map)
+        {
             // Convert desired crime radius in meters into radius in pixels based on zoom level
             var newRadius;
             var crimeRadiusInMeters = 150;
@@ -104,6 +119,17 @@ angular.module('gservice', [])
             //console.log("There are " + meters_per_pixel + " meters per pixel at this zoom");
             //console.log("New radius is " + newRadius);
             return newRadius;
+        }
+
+        function scaleCrime(crime)
+        {
+            var scaledScore = crime.severity * getUserPreferenc(crime.crimeCat) * getAgeMultiple(crime.date);
+            if (scaledScore <= 10.00){
+                return scaledScore;
+            }
+            else {
+                return 10.00;
+            }
         }
 
         function hoverPopup(map) {
@@ -127,25 +153,25 @@ angular.module('gservice', [])
                 for (var i = 0; i <= hoverInfo.catInfo.length - 1; i++) {
                      contentString = contentString + '<p>' + hoverInfo.catInfo[i].catName + ': ' + hoverInfo.catInfo[i].numInCat.toString() + ' incidents' + '</p>';
                 }
-                
+
                 contentString = contentString + '<p>' + '<------------Dynamic information------------>' + '</p>';
                 contentString += e.latLng.toString();
-                 
+
                 infoWindow.setContent(contentString);
                  infoWindow.setPosition(e.latLng);
 
 
                 timeHandle = window.setTimeout(function() {infoWindow.open(map)}, 1500);
-                 
+
             });
-              
+
         }
 
 
         function getPopUpInfo(mouseLatLng) {
             var info = {};
 
-            /** 
+            /**
              * For use after we have successfuly tested querying data or when
              * other stub functions have been implemented:
              *
@@ -164,7 +190,8 @@ angular.module('gservice', [])
         google.maps.event.addDomListener(window, 'load',
             googleMapService.refresh());
 
-        function getAgeMultiple(crimeDate,startDate, endDate){
+        function getAgeMultiple(crimeDate)
+        {
             var dateOfCrime = new Date(crimeDate);
             var endDateOfIntrest = new Date(endDate);
             var startDateOfIntrest = new Date(startDate);
@@ -188,11 +215,36 @@ angular.module('gservice', [])
             }
         }
 
-        function ageCrime(score, crimeDate, startDate, endDate) {
-            return score * getAgeMultiple(crimeDate,  startDate, endDate);
+        function getUserPreferenc(crimeCat)
+        {
+            var userMultiple = 1;
+            switch(crimeCat)
+            {
+                case 1:
+                {
+                    userMultiple = cat1Factor;
+                    break;
+                }
+                case 2:
+                {
+                    userMultiple = cat2Factor;
+                    break;
+                }
+                case 3:
+                {
+                    userMultiple = cat3Factor;
+                    break;
+                }
+                case 4:
+                {
+                    userMultiple = cat4Factor;
+                    break;
+                }
+            }
+            return userMultiple;
         }
 
-        function getSafetyScore(arrayOfCrimes, startDate, endDate)
+        function getSafetyScore(arrayOfCrimes)
         {
             var cat1CrimeCount = 0;
             var cat2CrimeCount = 0;
@@ -200,25 +252,30 @@ angular.module('gservice', [])
             var cat4CrimeCount = 0;
             var SafetyScore = 0;
             for (var i = 0 ; i < arrayOfCrimes.length; i++){
-                SafetyScore += ageCrime(arrayOfCrimes[i].severity, startDate, endDate);
-                switch(arrayOfCrimes.crimeCat){
+                var scaledScore = scaleCrime(arrayOfCrimes[i]);
+                SafetyScore += scaledScore;
+                switch(arrayOfCrimes[i].crimeCat){
                     case 1:
-                        cat1CrimeCount++;
+                        if (scaledScore > 0.00)
+                            {cat1CrimeCount++;}
                         break;
 
                     case 2:
-                        cat2CrimeCount++;
+                        if (scaledScore > 0.00)
+                            {cat2CrimeCount++;}
                         break;
 
                     case 3:
-                        cat3CrimeCount++;
+                        if (scaledScore > 0.00)
+                            {cat3CrimeCount++;}
                         break;
 
                     case 4:
-                        cat4CrimeCount++;
+                        if (scaledScore > 0.00)
+                            {cat4CrimeCount++;}
                         break;
                 }
             }
-            return {SafetyScore, cat1CrimeCount, cat2CrimeCount, cat3CrimeCount, cat4CrimeCount};
+            return {SafetyScore: (SafetyScore / arrayOfCrimes.length), count1: cat1CrimeCount, count2: cat2CrimeCount, count3: cat3CrimeCount, count4: cat4CrimeCount};
         }
     });
