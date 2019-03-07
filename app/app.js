@@ -2,4 +2,4 @@
  * http://usejsdoc.org/
  */
 
-var app = angular.module('crimeHotSpot', ['gservice','mapLoad']);
+var app = angular.module('crimeHotSpot', ['gservice','mapLoad','publicCrimes']);
