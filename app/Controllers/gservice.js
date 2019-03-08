@@ -17,10 +17,11 @@ angular.module('gservice', [])
         var endDate = "01-01-2018";
 
        // variables for user preference selections
-        var cat1Factor = 1;
-        var cat2Factor = 1;
-        var cat3Factor = 1;
-        var cat4Factor = 1;
+        var cat1Factor = 1.0;
+        var cat2Factor = 1.0;
+        var cat3Factor = 1.0;
+        var cat4Factor = 1.0;
+
 
         // Functions
         // --------------------------------------------------------------
@@ -90,20 +91,22 @@ angular.module('gservice', [])
             // An array that will contain all the crimes lat and lng values
             //      as objects of type google.maps.LatLng
             var googlePoints = [];
-            console.log(crimes);
+           // console.log(crimes);
             //console.log(crimes.length);
             for (var i = 0; i < crimes.length; i++)
             {
-                var loc = {
-                    location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
-                    weight: scaleCrime(crimes[i])
-                };
-                if (loc.weight > 0.00);{
+                var weight = scaleCrime(crimes[i]);
+                if (weight > 0.0 )
+                {
+                    var loc = {
+                        location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
+                        weight: weight
+                    };
                     googlePoints.push(loc);
                 }
 
             }
-            console.log(googlePoints.length);
+            //console.log(googlePoints);
             return googlePoints;
         }
 
@@ -240,6 +243,11 @@ angular.module('gservice', [])
                     userMultiple = cat4Factor;
                     break;
                 }
+                default:
+                {
+                    userMultiple = 0.0;
+                }
+
             }
             return userMultiple;
         }
