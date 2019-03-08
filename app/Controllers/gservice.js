@@ -20,7 +20,7 @@ angular.module('gservice', [])
         var cat1Factor = 1.0;
         var cat2Factor = 1.0;
         var cat3Factor = 1.0;
-        var cat4Factor = 0.0;
+        var cat4Factor = 1.0;
 
 
         // Functions
