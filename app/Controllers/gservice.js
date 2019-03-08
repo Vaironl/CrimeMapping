@@ -17,10 +17,10 @@ angular.module('gservice', [])
         var endDate = "01-01-2018";
 
        // variables for user preference selections
-        var cat1Factor = 1.0;
+        var cat1Factor = 2.0;
         var cat2Factor = 1.0;
         var cat3Factor = 1.0;
-        var cat4Factor = 1.0;
+        var cat4Factor = 0.0;
 
 
         // Functions
@@ -93,7 +93,7 @@ angular.module('gservice', [])
             //console.log(crimes.length);
             for (var i = 0; i < crimes.length; i++)
             {
-                var weight =scaleCrime(crimes[i]);
+                var weight = scaleCrime(crimes[i]);
                 if (weight > 0.0 )
                 {
                     var loc = {
