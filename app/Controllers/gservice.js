@@ -17,7 +17,7 @@ angular.module('gservice', [])
         var endDate = "01-01-2018";
 
        // variables for user preference selections
-        var cat1Factor = 2.0;
+        var cat1Factor = 1.0;
         var cat2Factor = 1.0;
         var cat3Factor = 1.0;
         var cat4Factor = 0.0;
