@@ -143,15 +143,12 @@ angular.module('gservice', [])
             });
             var timeHandle;
 
-           map.addListener('mousemove', function(e){
+           map.addListener('click', function(e){
                 infoWindow.close();
-                clearTimeout(timeHandle);
-
+            
                 var hoverInfo = getPopUpInfo(e.latLng);
                 contentString = '<p>' + '<------------Placeholder information------------>' + '</p>';
                 contentString = contentString + '<h3>Localized Safety Score: ' + hoverInfo.popupScore.toString() + '</h3>';
-
-
 
                 for (var i = 0; i <= hoverInfo.catInfo.length - 1; i++) {
                      contentString = contentString + '<p>' + hoverInfo.catInfo[i].catName + ': ' + hoverInfo.catInfo[i].numInCat.toString() + ' incidents' + '</p>';
@@ -161,10 +158,10 @@ angular.module('gservice', [])
                 contentString += e.latLng.toString();
 
                 infoWindow.setContent(contentString);
-                 infoWindow.setPosition(e.latLng);
+                infoWindow.setPosition(e.latLng);
 
 
-                timeHandle = window.setTimeout(function() {infoWindow.open(map)}, 1500);
+                infoWindow.open(map);
 
             });
 
