@@ -4,39 +4,44 @@
     /*Initial width*/
     width: 160px;
     height: 65vh;
-    /*left: -140px;*/
-    margin-top:5vh;
+    left: -140px;
+    margin-top: 5vh;
     transition: 0.4s;
 
     /*Clicks don't work as expected without z-index modification*/
     z-index: 2;
     overflow-x: hidden;
     opacity: 0.2;
-    border:1px solid gray;
+    border: 1px solid gray;
     background-color: rgba(77, 205, 224, 0.47);
 }
 
 /*Make the sidenav visible by sliding it out*/
-.sidenav:hover{
+.sidenav:hover {
     opacity: 1;
-    left:0;
+    left: 0;
 }
 
 .sidenav .profile:hover {
-    color:white;
+    color: white;
 }
 
-.sidenav img{
+.sidenav img {
     width: 60px;
 }
 
-.sidenav .active{
+.sidenav .active {
 
     color: #f4fff3;
 }
 
 
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
 }
