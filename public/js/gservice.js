@@ -265,10 +265,7 @@ angular.module('gservice', [])
                             {cat1CrimeCount++;}
                         break;
 
-                    case 2:
-                        if (scaledScore > 0.00)
-                            {cat2CrimeCount++;}
-                        break;
+
 
                     case 3:
                         if (scaledScore > 0.00)
@@ -283,4 +280,5 @@ angular.module('gservice', [])
             }
             return {SafetyScore: (SafetyScore / arrayOfCrimes.length), count1: cat1CrimeCount, count2: cat2CrimeCount, count3: cat3CrimeCount, count4: cat4CrimeCount};
         }
+        return googleMapService;
     });
