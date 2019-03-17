@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
 
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="">Analytics Page</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,7 +49,8 @@
         <h3> End Date-time</h3>
     </div>
 </div>
-<div class="row">
+
+<div class="row" >
     <div class='col-sm-2'>
         <div class="form-group">
             <div class='input-group date' id='datetimepicker1'>
@@ -79,7 +82,7 @@
         });
     </script>
     <div class='col-sm-2'>
-        <button type="button" class="btn btn-primary" onclick="query()">Query</button>
+        <button ng-click="queryTime()" type="button" class="btn btn-primary" >Query</button>
     </div>
 
     <script>
@@ -95,6 +98,7 @@
 <div ng-controller="pieChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
          <canvas id="pieTimeOfDay" class="chart chart-pie" chart-data="tdData" chart-labels="tdLabels" chart-options="tdOptions"></canvas> 
 </div>
+
 
 <!-- If you want to know more about how to use this application of date time go to
 // https://eonasdan.github.io/bootstrap-datetimepicker/Options/

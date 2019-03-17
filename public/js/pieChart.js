@@ -55,6 +55,11 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 			title: {
 				display: true,
 				text: 'Crime Category Breakdown'
+			},
+
+			legend: {
+				display: true,
+				position: 'left'
 			}
 		};
 	}
@@ -91,6 +96,11 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 			title: {
 				display: true,
 				text: 'Time of Day Breakdown'
+			},
+
+			legend: {
+				display: true,
+				position: 'left'
 			}
 		};
 	}
