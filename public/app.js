@@ -2,7 +2,7 @@
  * http://usejsdoc.org/
  */
 
-var app = angular.module('crimeHotSpot', ['ui.router', 'gservice','mapLoad']);
+var app = angular.module('crimeHotSpot', ['ui.router', 'gservice','mapLoad', 'analytics']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,  $urlRouterProvider) {
     $urlRouterProvider.otherwise('/main');
@@ -12,13 +12,15 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,  $
     var mainState = {
         name: 'main',
         url: '/main',
-        templateUrl: '../../app/view/main.html'
+        templateUrl: '../app/view/main.html',
+        controller: 'mapLoad'
     };
 
     var analyticState = {
         name: 'analytics',
         url: '/analytics',
-        templateUrl: '../../app/view/analytics.html'
+        templateUrl: '../app/view/analytics.html',
+        controller: 'analyticsCtrl'
     };
 
     $stateProvider.state(mainState);
