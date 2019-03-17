@@ -77,6 +77,19 @@
             $('#datetimepicker2').datetimepicker();
         });
     </script>
+    <div class='col-sm-2'>
+        <button type="button" class="btn btn-primary" onclick="query()">Query</button>
+    </div>
+
+    <script>
+        function query() {
+            alert($("#datetimepicker1").data("DateTimePicker").date());
+            alert($("#datetimepicker2").data("DateTimePicker").date());
+        }
+    </script>
 </div>
 
 
+<!-- If you want to know more about how to use this application of date time go to
+// https://eonasdan.github.io/bootstrap-datetimepicker/Options/
+!>
