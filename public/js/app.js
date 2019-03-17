@@ -2,7 +2,7 @@
  * http://usejsdoc.org/
  */
 
-var app = angular.module('crimeHotSpot', ['ui.router', 'gservice','mapLoad']);
+var app = angular.module('crimeHotSpot', ['ui.router', 'gservice','mapLoad', 'pieChart']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,  $urlRouterProvider) {
     $urlRouterProvider.otherwise('/main');
