@@ -51,7 +51,7 @@
     <div class='col-sm-2'>
         <div class="form-group">
             <div class='input-group date' id='datetimepicker1'>
-                <input type='text' class="form-control" />
+                <input type='text' class="form-control" value="default (no limit)"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -61,7 +61,7 @@
     <div class='col-sm-2'>
         <div class="form-group">
             <div class='input-group date' id='datetimepicker2'>
-                <input type='text' class="form-control" />
+                <input type='text' class="form-control" value="default (no limit)"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -89,11 +89,11 @@
         }
     </script>
 </div>
-<div ng-controller="pieChartController">
-    <div id="container" style="width: 80%; border:3px #ccc solid; margin: auto;">
+<div ng-controller="pieChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
          <canvas id="pieCrimeCat" class="chart chart-pie" chart-data="ccData" chart-labels="ccLabels" chart-options="ccOptions"></canvas> 
+</div>
+<div ng-controller="pieChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
          <canvas id="pieTimeOfDay" class="chart chart-pie" chart-data="tdData" chart-labels="tdLabels" chart-options="tdOptions"></canvas> 
-      </div>
 </div>
 
 <!-- If you want to know more about how to use this application of date time go to

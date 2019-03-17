@@ -48,10 +48,15 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 			}
 		}
 		
-
 		console.log(pieData);
 		$scope.ccData = pieData;
 		$scope.ccLabels = pieLabels;
+		$scope.ccOptions = {
+			title: {
+				display: true,
+				text: 'Crime Category Breakdown'
+			}
+		};
 	}
 
 	function pieTimeOfDay(crimes){
@@ -82,6 +87,12 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 		console.log(pieData);
 		$scope.tdData = pieData;
 		$scope.tdLabels = pieLabels;
+		$scope.tdOptions = {
+			title: {
+				display: true,
+				text: 'Time of Day Breakdown'
+			}
+		};
 	}
 
 
