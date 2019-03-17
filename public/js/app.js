@@ -6,7 +6,9 @@ var app = angular.module('crimeHotSpot', ['ui.router', 'gservice','mapLoad']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,  $urlRouterProvider) {
     $urlRouterProvider.otherwise('/main');
-    $urlRouterProvider.when('/analytics', '/analytics');
+    $urlRouterProvider.when('/#!/analytics', '/analytics');
+
+
     var mainState = {
         name: 'main',
         url: '/main',
