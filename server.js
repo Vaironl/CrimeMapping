@@ -1,11 +1,11 @@
 
 // -----------------------------------------------------
 var express         = require('express');
-
 var mongoose        = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 var readline = require ('readline');
+
 var port            = process.env.PORT || 3000;
 var morgan          = require('morgan');
 var bodyParser      = require('body-parser');
@@ -32,5 +32,81 @@ require('./app/routes.js')(app);
 app.listen(port);
 console.log('App listening on port ' + port);
 
+/*
+// Connect to MongoDB Atlas
+// -------------------------------------------------------
+const url =  process.env.DB_CONN;
+const dbName = "Cluster0";
+const collectionName = "Crimes";
+
+MongoClient.connect(url,function(err, client){
+    if(err){
+        console.log('Error connecting to MongoDB Atlas\n',err);
+    }
+    console.log('Connected...');
+    const collection = client.db(dbName).collection(collectionName);
+});*/
+
+console.log(Stringify(collection));
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+(async function() {
+    // Connection URL
+    let username = new Promise((resolve, reject) => {
+        rl.question('What is your username? ', (user_name) => {
+            username = user_name;
+            if (username != null)
+            {
+
+                setTimeout(() => resolve(username), 0);
+            }
+
+        });
+    });
+    // I don't know of another way to continue follow
+    await username;
+
+    let password = new Promise((resolve, reject) => {
+        rl.question('What is your password? ', (answer) => {
+            password = answer;
+            if (password != null)
+            {
+
+                setTimeout(() => resolve(password), 0);
+            }
+        });
+    });
+
+    let url = await password;
+
+    console.log(url);
+
+    url =  `mongodb+srv://${username}:${password}@cluster0-7xnng.mongodb.net/test?retryWrites=true`;
+    // Database Name
+    const dbName = 'Cluster0';
+    const client = new MongoClient(url);
+
+    try {
+        // Use connect method to connect to the Server
+        await client.connect();
+
+        const db = client.db(dbName);
+
+        console.log("MongoDB queries here");
+        let query = db.collection('Crimes').count();
+        query.then(function () {
+            console.log(query);
+
+        })
 
 
+    } catch (err) {
+        console.log(err.stack);
+    }
+
+
+    client.close();
+})();
