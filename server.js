@@ -1,13 +1,11 @@
 
 // -----------------------------------------------------
 var express         = require('express');
-<<<<<<< .merge_file_a07220
-=======
 var mongoose        = require('mongoose');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 var readline = require ('readline');
->>>>>>> .merge_file_a15036
+
 var port            = process.env.PORT || 3000;
 var morgan          = require('morgan');
 var bodyParser      = require('body-parser');
@@ -34,8 +32,6 @@ require('./app/routes.js')(app);
 app.listen(port);
 console.log('App listening on port ' + port);
 
-<<<<<<< .merge_file_a07220
-=======
 /*
 // Connect to MongoDB Atlas
 // -------------------------------------------------------
@@ -114,4 +110,4 @@ const rl = readline.createInterface({
 
     client.close();
 })();
->>>>>>> .merge_file_a15036
+
