@@ -12,8 +12,8 @@
  * Filters can be combined by applying multiple filters to the same set or list
  *
  * How to use:
- *  Start with an list of Crime objects.
- *  Pass the list to the filter function and specify the filter criteria
+ *  Start with a list of Crime objects.
+ *  Pass the list to the filter function and specify the filter criteria in the parameters
  *  The function removes "filtered" items from the list and returns them in another list
  *
  *  Warning: The array passed in is not guarenteed to remain in the same order after the function call

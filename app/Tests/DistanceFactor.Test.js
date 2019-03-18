@@ -1,7 +1,7 @@
 /**
  * Test code for class DistanceFactor
  *
- *
+ * To run test code: open DistanceFactor.Test.html in Google Chrome.
  */
 class Test_DistanceFactor {
     static calcDistanceFactor() {
@@ -19,7 +19,7 @@ class Test_DistanceFactor {
         let minAcceptableError = theoretical * 0.99;
         let passed = percentError < maxAcceptableError && percentError > minAcceptableError;
 
-        return passed
+        return passed;
     }
 
     /**
