@@ -1,54 +1,47 @@
 .sidenav {
-    height: 80%;
-    width: 10px;
-    position: fixed;
+    /*Allows left justified positioning otherwise, this position would be based on other elements. Throwing views/elements off.*/
+    position: absolute;
+    /*Initial width*/
+    width: 160px;
+    height: 65vh;
+    left: -140px;
+    margin-top: 5vh;
+    transition: 0.4s;
+
+    /*Clicks don't work as expected without z-index modification*/
     z-index: 2;
-    top: 0;
-    left: 0;
     overflow-x: hidden;
-    background-color: #dde0df;
-    transition: 0.5s;
-    padding-top: 60px;
     opacity: 0.2;
-    margin-top: 5%;
-    border:1px solid gray;
+    border: 1px solid gray;
+    background-color: rgba(77, 205, 224, 0.47);
 }
-.sidenav:hover{
+
+/*Make the sidenav visible by sliding it out*/
+.sidenav:hover {
     opacity: 1;
+    left: 0;
 }
 
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: black;
-    display: block;
-    transition: 0.3s;
+.sidenav .profile:hover {
+    color: white;
 }
 
-.sidenav a:hover {
-    color: #f14858;
+.sidenav img {
+    width: 60px;
 }
 
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
+.sidenav .active {
+
+    color: #f4fff3;
 }
 
-
-.openbtn{
-    font-size:30px;
-    cursor:pointer;
-    position: absolute;
-    z-index: 1;
-    top:50px;
-    left:0px;
-}
 
 @media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
 }
