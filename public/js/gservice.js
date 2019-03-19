@@ -13,8 +13,8 @@ angular.module('gservice', [])
         var crimes = [];
 
         // start and end dates of the period of observation should include all crimes.
-        var startDate = "01-01-2017";
-        var endDate = "01-01-2018";
+        var startDate = "2017-01-01";
+        var endDate = "2018-01-01";
 
        // variables for user preference selections
         var cat1Factor = 1.0;
@@ -95,6 +95,7 @@ angular.module('gservice', [])
             //console.log(crimes.length);
             for (var i = 0; i < crimes.length; i++)
             {
+                //console.log("crime number: " + i );
                 var weight = scaleCrime(crimes[i]);
                 if (weight > 0.0 )
                 {
@@ -104,9 +105,12 @@ angular.module('gservice', [])
                     };
                     googlePoints.push(loc);
                 }
+                else {
+                    ;
+                }
 
             }
-            //console.log(googlePoints);
+            console.log("number of crime points in heatmap is: " + googlePoints.length);
             return googlePoints;
         }
 
@@ -195,6 +199,7 @@ angular.module('gservice', [])
             var dateOfCrime = new Date(crimeDate);
             var endDateOfIntrest = new Date(endDate);
             var startDateOfIntrest = new Date(startDate);
+            //console.log("crime date: " + dateOfCrime + " end : " + endDateOfIntrest +" start: " + startDateOfIntrest);
 
             if (dateOfCrime == endDateOfIntrest)
             {
