@@ -153,6 +153,7 @@ angular.module('gservice', [])
                 var hoverInfo = getPopUpInfo(e.latLng);
                 contentString = '<p>' + '<------------Placeholder information------------>' + '</p>';
                 contentString = contentString + '<h3>Localized Safety Score: ' + hoverInfo.popupScore.toString() + '</h3>';
+               contentString = contentString + '<h4>Average Crime Rating: ' + hoverInfo.popupAvgScore.toString() + '</h4>';
 
                 for (var i = 0; i <= hoverInfo.catInfo.length - 1; i++) {
                      contentString = contentString + '<p>' + hoverInfo.catInfo[i].catName + ': ' + hoverInfo.catInfo[i].numInCat.toString() + ' incidents' + '</p>';
@@ -184,8 +185,11 @@ angular.module('gservice', [])
              * var popupScore = calculateAggregateScore(criticalCrimes)
              */
 
-            info.popupScore = 8
-            info.catInfo = [{catName: 'Severe crimes against the person', numInCat: 3}, {catName: 'Crimes against the person', numInCat: 4}, {catName: 'Crimes against property', numInCat: 8}, {catName: 'Crimes against the public', numInCat: 8}];
+            let safetyScore = getSafetyScore(crimes, mouseLatLng);
+
+            info.popupAvgScore = safetyScore.avgCrime
+            info.popupScore = safetyScore.SafetyScore
+            info.catInfo = [{catName: 'Severe crimes against the person', numInCat: safetyScore.count4}, {catName: 'Crimes against the person', numInCat: safetyScore.count3}, {catName: 'Crimes against property', numInCat: safetyScore.count2}, {catName: 'Crimes against the public', numInCat: safetyScore.count1}];
 
             return info;
         }
@@ -254,36 +258,56 @@ angular.module('gservice', [])
             return userMultiple;
         }
 
-        function getSafetyScore(arrayOfCrimes)
+        function getSafetyScore(arrayOfCrimes, originPoint)
         {
             var cat1CrimeCount = 0;
             var cat2CrimeCount = 0;
             var cat3CrimeCount = 0;
             var cat4CrimeCount = 0;
-            var SafetyScore = 0;
+            var totalInRadius = 0;
+            var SafetyScore = 0.0;
+            //console.log("origin: " + originPoint.toString());
             for (var i = 0 ; i < arrayOfCrimes.length; i++){
-                var scaledScore = scaleCrime(arrayOfCrimes[i]);
-                SafetyScore += scaledScore;
-                switch(arrayOfCrimes[i].crimeCat){
-                    case 1:
-                        if (scaledScore > 0.00)
-                            {cat1CrimeCount++;}
-                        break;
-
-
-
-                    case 3:
-                        if (scaledScore > 0.00)
-                            {cat3CrimeCount++;}
-                        break;
-
-                    case 4:
-                        if (scaledScore > 0.00)
-                            {cat4CrimeCount++;}
-                        break;
+                let toPoint = new google.maps.LatLng(arrayOfCrimes[i].lat, arrayOfCrimes[i].lng);
+               // console.log("toPoint: " + toPoint.toString());
+                if (isInRadius(originPoint, toPoint))
+                {
+                    var scaledScore = scaleCrime(arrayOfCrimes[i]);
+                    SafetyScore += scaledScore;
+                    if (scaledScore > 0.00) {
+                        totalInRadius++;
+                        switch (arrayOfCrimes[i].crimeCat) {
+                            case 1:
+                                    cat1CrimeCount++;
+                                break;
+                            case 2:
+                                    cat3CrimeCount++;
+                                break;
+                            case 3:
+                                    cat3CrimeCount++;
+                                break;
+                            case 4:
+                                    cat4CrimeCount++;
+                                break;
+                        }
+                    }
                 }
             }
-            return {SafetyScore: (SafetyScore / arrayOfCrimes.length), count1: cat1CrimeCount, count2: cat2CrimeCount, count3: cat3CrimeCount, count4: cat4CrimeCount};
+            let avg =  0;
+            if (totalInRadius != 0)
+                avg = (SafetyScore/totalInRadius).toFixed(2);
+
+            return {SafetyScore: (SafetyScore*0.1).toFixed(2), avgCrime: avg, count1: cat1CrimeCount, count2: cat2CrimeCount, count3: cat3CrimeCount, count4: cat4CrimeCount};
+        }
+
+        function isInRadius(originPoint, targetPoint){
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(originPoint, targetPoint);
+            if (distance <= 150){
+                return true;
+            }
+            else{
+                return false;
+            }
         }
         return googleMapService;
     });
