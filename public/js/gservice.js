@@ -162,18 +162,16 @@ angular.module('gservice', [])
 
            map.addListener('click', function(e){
                 infoWindow.close();
-            
+                contentString = '';
                 var hoverInfo = getPopUpInfo(e.latLng);
-                contentString = '<p>' + '<------------Placeholder information------------>' + '</p>';
                 contentString = contentString + '<h3>Localized Safety Score: ' + hoverInfo.popupScore.toString() + '</h3>';
-               contentString = contentString + '<h4>Average Crime Rating: ' + hoverInfo.popupAvgScore.toString() + '</h4>';
+                contentString = contentString + '<h4>Average Crime Rating: ' + hoverInfo.popupAvgScore.toString() + '</h4>';
 
                 for (var i = 0; i <= hoverInfo.catInfo.length - 1; i++) {
                      contentString = contentString + '<p>' + hoverInfo.catInfo[i].catName + ': ' + hoverInfo.catInfo[i].numInCat.toString() + ' incidents' + '</p>';
                 }
 
-                contentString = contentString + '<p>' + '<------------Dynamic information------------>' + '</p>';
-                contentString += e.latLng.toString();
+                //contentString = contentString + '<p>' + '(Lat,Lng): ' + e.latLng.toString() + '</p>';
 
                 infoWindow.setContent(contentString);
                 infoWindow.setPosition(e.latLng);
