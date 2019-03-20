@@ -57,14 +57,27 @@ angular.module('gservice', [])
                         }
                     ]
                 });
+                var grad = [
+                    'rgba(0, 0, 0, 0)',
+                    'rgba(0, 255, 255, 1)',
+                    'rgba(100,149,237, 1)',
+                    'rgba(0, 0, 255, 1)',
+                    'rgba(0,139,139, 1)',
+                    'rgba(0, 255, 0, 1)',
+                    'rgba(173,255,47, 1)',
+                    'rgba(255,165,0, 1)',
+                    'rgba(255,69,0, 1)',
+                    'rgba(255, 0, 0, 1)'
 
+                ]
                 heatmap = new google.maps.visualization.HeatmapLayer({
                     data: getPoints(crimes),
                     map: map,
                     radius: getNewRadius(map),
                     maxIntensity: 100,
                     //opacity:0.6,
-                    dissipating: true
+                    dissipating: true,
+                    gradient: grad
 
                 });
 
