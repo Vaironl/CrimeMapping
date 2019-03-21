@@ -34,6 +34,8 @@
  *          - linear distance
  *          - inverse distance
  *          - bell curve distance (probably the most effective)
+ *      Which way is actually used depends on the function DistanceFactor.calcDistancefactor(crime, point);
+ *      The function call inside that function determines the way. (Most likely Bell Curve)
  *
  *      For descriptions of each way, see the functions inside class DistanceFactor
  *      See link for a graphical representation of the distance factor
@@ -120,7 +122,7 @@ export default class DistanceFactor {
      *                                      Must be in units of degrees.
      * @returns {Number} distanceFactor     distance factor : result will be between 0.0 and 1.0
      *
-     * @see https://www.desmos.com/calculator/c3atr11svh
+     * @see https://www.desmos.com/calculator/wuzccgj9b9
      */
     static calcBellCurveDistanceFactor(distanceFromCrime) {
         let sigma = 1.0;    // The larger sigma the flatter the curve
@@ -135,7 +137,7 @@ export default class DistanceFactor {
      * the height of the curve is 1.0 when x = 0.0 no matter the value sigma.
      *
      * See the red curve in:
-     * @see https://www.desmos.com/calculator/qosbo4ty35
+     * @see https://www.desmos.com/calculator/wuzccgj9b9
      *
      * @param x {number}
      * @param sigma {number}
