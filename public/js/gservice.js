@@ -277,6 +277,7 @@ angular.module('gservice', [])
             var cat4CrimeCount = 0;
             var totalInRadius = 0;
             var SafetyScore = 0.0;
+            var aScore = 0.0;
             //console.log("origin: " + originPoint.toString());
             for (var i = 0 ; i < arrayOfCrimes.length; i++){
                 let toPoint = new google.maps.LatLng(arrayOfCrimes[i].lat, arrayOfCrimes[i].lng);
@@ -284,7 +285,8 @@ angular.module('gservice', [])
                 if (isInRadius(originPoint, toPoint))
                 {
                     var scaledScore = scaleCrime(arrayOfCrimes[i]);
-                    SafetyScore += scaledScore;
+                    SafetyScore += scaledScore*(1-(google.maps.geometry.spherical.computeDistanceBetween(originPoint, toPoint)/150));
+                    aScore += scaledScore;
                     if (scaledScore > 0.00) {
                         totalInRadius++;
                         switch (arrayOfCrimes[i].crimeCat) {
@@ -306,7 +308,7 @@ angular.module('gservice', [])
             }
             let avg =  0;
             if (totalInRadius != 0)
-                avg = (SafetyScore/totalInRadius).toFixed(2);
+                avg = (aScore/totalInRadius).toFixed(2);
 
             return {SafetyScore: (SafetyScore*0.1).toFixed(2), avgCrime: avg, count1: cat1CrimeCount, count2: cat2CrimeCount, count3: cat3CrimeCount, count4: cat4CrimeCount};
         }
