@@ -17,10 +17,6 @@ export default class Crime
         return this._date;
     }
 
-    get time() {
-        return this._time;
-    }
-
     get offenses() {
         return this._offenses;
     }
@@ -41,7 +37,6 @@ export default class Crime
         crimeCat,
         desc,
         date,
-        time,
         offenses,
         severity,
         lat,
@@ -51,7 +46,6 @@ export default class Crime
         this._crimeCat = crimeCat;
         this._desc = desc;
         this._date = date;
-        this._time = time;
         this._offenses = offenses;
         this._severity = severity;
         this._lat = lat;
