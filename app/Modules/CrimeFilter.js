@@ -28,16 +28,15 @@
  *  It may be a good idea to make a copy of your crimes array and then pass that copy in to the function in case you
  *      still need all your crime objects for some reason.
  *
- *  Fomateing: Formatting is very important in these functions. The Crime objects inside the
+ *  Formatting: Formatting is very important in these functions. The Crime objects inside the
  *      crimes list will need to be in the correct data type.
  *      See 'app/Classes/Crime.js' for details on what the data types of each variable need
  *      to be.
  *
  *      The variables that are most important for now are:
- *          - Crime.date
- *          - Crime.time
- *          - Crime.lat
- *          - Crime.lng
+ *          - Crime.date    (Date)  (<-- Includes month day year hr min sec)
+ *          - Crime.lat     (float)
+ *          - Crime.lng     (float)
  *
  *  For Later:
  *      Implement a filterByRadius function that takes a single point and a radius and filters out crimes that
@@ -224,13 +223,22 @@ export default class CrimeFilter {
      *                                  taken out of the crimes list.
      */
     static filterByDayOfYear(crimes, startDay, endDay) {
-        let start = new Date(startDay);
+        let start = new Date(startDay);        
         let end = new Date(endDay);
 
         // Error Checking: Make sure startDay and endDay don't have years only
         // days and months and maybe hours, min, sec
         start.setFullYear(0);
+        start.setHours(0);
+        start.setMinutes(0);
+        start.setSeconds(0);
+        start.setMilliseconds(0);
+
         end.setFullYear(0);
+        end.setHours(0);
+        end.setMinutes(0);
+        end.setSeconds(0);
+        end.setMilliseconds(0);
 
         start = start.getTime();
         end = end.getTime();
@@ -240,6 +248,10 @@ export default class CrimeFilter {
         for (let i = 0; i < crimes.length;) {
             let tempDate = new Date(crimes[i].date);
             tempDate.setFullYear(0);
+            tempDate.setHours(0);
+            tempDate.setMinutes(0);
+            tempDate.setSeconds(0);
+            tempDate.setMilliseconds(0);
             tempDate = tempDate.getTime();
 
             // Does date fall between start and end?
@@ -257,7 +269,22 @@ export default class CrimeFilter {
     }
 
     /**
+     * Keep crimes that occur between startTime and end Time.
+     * Filters out crimes that do not occur between startTime and endTime.
      *
+     * ex: CrimeFilter.filterByTimeOfDay(   crimes,
+     *                                      Date(0, 0, 1, 21),
+     *                                      Date(0, 0, 1, 24)   );
+     *
+     *      will keep crimes that occurred between 21:00:00 and
+     *      midnight (00:00:00) on any day and
+     *
+     * ex: CrimeFilter.filterByTimeOfDay(   crimes,
+     *                                      Date(0, 0, 1, 21),
+     *                                      Date(0, 0, 1, 25)   );
+     *
+     *      will keep crimes that occurred between 21:00:00 and
+     *      01:00:00 (1am 4 hours later)
      *
      * @param {Crime[]} crimes  - list of Crime objects that are to be filtered
      * @param {Date} startTime  - Time object specifying the start time of the day
@@ -272,27 +299,32 @@ export default class CrimeFilter {
      *                              taken out of the crimes list.
      */
     static filterByTimeOfDay(crimes, startTime, endTime) {
-        let start = Object.assign({}, startTime);
-        let end = Object.assign({}, endTime);
+        let start = new Date(startTime);
+        let end = new Date(endTime);
 
         // Error Checking: Make sure startDay and endDay don't have years days and months
         //      but only hours, min, sec
-        startTime.setFullYear(0);
-        startTime.setMonth(0);
-        startTime.setDate(0);
+        start.setFullYear(1970);
+        start.setMonth(0);
+        start.setDate(1);
 
-        endTime.setFullYear(0);
-        endTime.setMonth(0);
-        endTime.setDate(0);
+        end.setFullYear(1970);
+        end.setMonth(0);
+        end.setDate(1);
+
+        start = start.getTime();
+        end = end.getTime();
 
         let excluded = [];
 
-        for (let i = 0; i < crimes.length; i++) {
+        for (let i = 0; i < crimes.length;) {
             // Remember
-            let time = crimes[i].time;
-            time.setFullYear(0);
+            let time = new Date(crimes[i].date);
+            time.setFullYear(1970);
             time.setMonth(0);
-            time.setDate(0);
+            time.setDate(1);
+
+            time = time.getTime();
 
             // Does time fall between start and end?
             if (time > start && time < end) {
@@ -317,23 +349,25 @@ export default class CrimeFilter {
      * @returns {Array}                 - A list of Crime objects that contains all the Crimes that were
      *                                      taken out of the crimes list.
      */
-    static filterByCrimeCategory(crimes, categoriesToKeep) {
+    static filterByCrimeOffenses(crimes, offensesToKeep) {
         let excluded = [];
 
         // Remove Crimes that are not of the categories listed
         //  in the categoriesToKeep parameter
         for (let i = 0; i < crimes.length; ) {
             // Get the crimes category
-            let category = crimes[i].crimeCat();
+            let offense = crimes[i].offenses;
 
             // Is category one of the ones listed?
             let keep = false;
-            for (let j = 0; j < categoriesToKeep.length; j++) {
-                // So is it categoriesToKeep[j]?
-                if (category == categoriesToKeep[j]) {
-                    // Yes it is a keeper.
-                    keep = true;
-                    break;
+            for (let j = 0; j < offensesToKeep.length; j++) {
+                for (let k = 0; k < offense.length; k++) {
+                    if (offense[k] == offensesToKeep[j]) {
+                        // Yes it is a keeper.
+                        keep = true;
+                        j = offensesToKeep.length;
+                        k = offense.length;
+                    }
                 }
             }
 
@@ -341,6 +375,9 @@ export default class CrimeFilter {
             if (keep == false) {
                 // Nope. Get rid of it.
                 this.moveCrimeToExcluded(crimes, excluded, i);
+            }
+            else {
+                i++;
             }
         }
 
