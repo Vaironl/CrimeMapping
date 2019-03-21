@@ -3,6 +3,7 @@ Purpose:
     This script is intended to be run by CrimeFilter.Test.html and is used to test the CrimeFilter class.
     All outputs of this script are made by console.log()
 
+ Instructions:
     To run this test script, open CrimeFilter.Test.html in a web browser and open the developer console.
 
     ex:
@@ -11,7 +12,6 @@ Purpose:
  <script type="module" src="../Classes/Crime.js"></script>
  <script src="CrimeFilter.Test.js" defer></script>
 
- !!!!!!!!!!!!!!!!! NOT FINISHED IMPLEMENTING THIS SCRIPT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  */
 
 import Crime from "../Classes/Crime.js";
