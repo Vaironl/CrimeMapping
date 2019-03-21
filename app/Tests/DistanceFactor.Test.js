@@ -3,6 +3,9 @@
  *
  * To run test code: open DistanceFactor.Test.html in Google Chrome.
  */
+
+import Crime from "../Classes/Crime.js"
+
 class Test_DistanceFactor {
     static calcDistanceFactor() {
         // coordinate of a Crime in units of degrees
