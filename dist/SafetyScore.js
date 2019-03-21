@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getAgeMultiple = getAgeMultiple;
+exports.getAgeMltiple = getAgeMultiple;
 exports.ageCrime = ageCrime;
 exports.getSafetyScore = getSafetyScore;
 
@@ -36,10 +36,9 @@ function ageCrime(score, crimeDate, startDate, endDate) {
 }
 
 function getSafetyScore(arrayOfCrimes, startDate, endDate) {
-  var i;
   var SafetyScore = 0;
 
-  for (i = 0; i < arrayOfCrimes.size(); i++) {
+  for (var i = 0; i < arrayOfCrimes.size(); i++) {
     SafetyScore += arrayOfCrimes[i].severity * getAgeMultiple(arrayOfCrimes[i].date, startDate, endDate);
   }
 }

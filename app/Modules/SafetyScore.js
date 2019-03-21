@@ -1,4 +1,3 @@
-import Crime from '/../Classes/Crime.js'
 
 export function getAgeMultiple(crimeDate, startDate, endDate){
     var d = new Date(crimeDate);
@@ -24,7 +23,6 @@ export function getAgeMultiple(crimeDate, startDate, endDate){
 
 export function ageCrime(score, crimeDate, startDate, endDate) {
     return score * getAgeMultiple(crimeDate, startDate, endDate);
-
 }
 
 export function getSafetyScore(arrayOfCrimes, startDate, endDate)

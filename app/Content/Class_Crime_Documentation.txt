@@ -1,0 +1,18 @@
+----------------------------- Class Crime ---------------------------
+
+Address:
+    /app/Classes/Crime.js
+
+Purpose:
+    A class to store data about a single crime
+
+Variables:
+    _id             -
+    _crimeCat       - category:
+    _desc           - description of crime
+    _date           - day crime was committed
+    _time           - time of day crime was committed
+    _offenses       -
+    _severity       -
+    _lat            - vertical coordinate of crime
+    _lng            - horizontal coordinate of crime
