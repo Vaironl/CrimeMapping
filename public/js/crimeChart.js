@@ -1,7 +1,7 @@
 
-var pieChart = angular.module('pieChart', ['chart.js']);
+var crimeChart = angular.module('crimeCharts', ['chart.js']);
 
-pieChart.factory('chartFactory', function($http){
+crimeChart.factory('chartFactory', function($http){
 
 	var factory = {};
 
@@ -12,9 +12,9 @@ pieChart.factory('chartFactory', function($http){
 	return factory;
 });	
 
-pieChart.controller('pieChartController', function($scope, chartFactory){
+crimeChart.controller('crimeChartController', function($scope, chartFactory){
 
-	console.log('Hello from pieChartController!');
+	console.log('Hello from crimeChartController!');
 
 	chartFactory.getCrimeData().then(function(response) {
 		pieCrimeCat(response.data);
@@ -26,7 +26,7 @@ pieChart.controller('pieChartController', function($scope, chartFactory){
 		console.log(crimes);
 
 		var pieData = [0, 0, 0, 0, 0];
-		var pieLabels = ['Uncategorized', 'Crimes against the public', 'Crimes against property' , 'Crimes against the person', 'Severe crimes against the person'];
+		var pieLabels = ['Other', 'Crimes against the public', 'Crimes against property' , 'Crimes against the person', 'Severe crimes against the person'];
 		
 		for (var i = 0; i < crimes.length; i++){
 			switch(crimes[i].crimeCat){
