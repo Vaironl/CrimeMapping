@@ -54,7 +54,7 @@
     <div class='col-sm-2'>
         <div class="form-group">
             <div class='input-group date' id='datetimepicker1'>
-                <input type='text' class="form-control" value="default (no limit)"/>
+                <input type='text' class="form-control" ng-model="startDate"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -64,7 +64,7 @@
     <div class='col-sm-2'>
         <div class="form-group">
             <div class='input-group date' id='datetimepicker2'>
-                <input type='text' class="form-control" value="default (no limit)"/>
+                <input type='text' class="form-control" ng-model="endDate"/>
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -92,11 +92,14 @@
         }
     </script>
 </div>
-<div ng-controller="pieChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
+<div ng-controller="crimeChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
          <canvas id="pieCrimeCat" class="chart chart-pie" chart-data="ccData" chart-labels="ccLabels" chart-options="ccOptions"></canvas> 
 </div>
-<div ng-controller="pieChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
+<div ng-controller="crimeChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
          <canvas id="pieTimeOfDay" class="chart chart-pie" chart-data="tdData" chart-labels="tdLabels" chart-options="tdOptions"></canvas> 
+</div>
+<div ng-controller="crimeChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
+         <canvas id="lineDayOfWeek" class="chart chart-line" chart-data="dwData" chart-labels="dwLabels" chart-options="dwOptions"></canvas> 
 </div>
 
 
