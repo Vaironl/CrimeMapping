@@ -154,19 +154,26 @@ crimeChart.controller('crimeChartController', function($scope, chartFactory){
 		//console.log(pieData);
 		$scope.dwData = lineData;
 		$scope.dwLabels = lineLabels;
-		/*
+		$scope.dwSeries = ['Crime Incidents']
+		
 		$scope.dwOptions = {
 			title: {
 				display: true,
-				text: 'Time of Day Breakdown'
+				text: 'Total Crime Occurrences Across the Days of the Week'
 			},
 
 			legend: {
-				display: true,
+				display: false,
 				position: 'left'
+			},
+
+			scales: {
+				yAxes: [{
+					display: true
+				}]
 			}
 		};
-		*/
+		
 	}
 
 
@@ -174,3 +181,4 @@ crimeChart.controller('crimeChartController', function($scope, chartFactory){
 
 
 });
+
