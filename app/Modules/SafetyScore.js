@@ -59,16 +59,16 @@ angular.module('SafetyScoreData',[])
         var totalInRadius = 0;
         var SafetyScore = 0.0;
         //console.log("origin: " + originPoint.toString());
-        for (var i = 0 ; i < this.crimes.length; i++){
-            let toPoint = new google.maps.LatLng(this.crimes[i].lat, arrayOfCrimes[i].lng);
+        for (var i = 0 ; i < crimes.length; i++){
+            let toPoint = new google.maps.LatLng(crimes[i].lat, crimes[i].lng);
             // console.log("toPoint: " + toPoint.toString());
             if (isInRadius(originPoint, toPoint))
             {
-                var scaledScore = scaleCrime(this.crimes[i]);
+                var scaledScore = scaleCrime(crimes[i]);
                 SafetyScore += scaledScore;
                 if (scaledScore > 0.00) {
                     totalInRadius++;
-                    switch (this.crimes[i].crimeCat) {
+                    switch (crimes[i].crimeCat) {
                         case 1:
                             cat1CrimeCount++;
                             break;
@@ -96,6 +96,8 @@ angular.module('SafetyScoreData',[])
 
 
     function isInRadius(originPoint, targetPoint){
+        //console.log("originPoint Parameter in isInRadius: " + originPoint);
+        //console.log("targetPoint Parameter in isInRadius: " + targetPoint);
         var distance = google.maps.geometry.spherical.computeDistanceBetween(originPoint, targetPoint);
         return distance <= CRITICAL_RADIUS;
     }

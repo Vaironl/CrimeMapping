@@ -3,12 +3,14 @@
 angular.module('gservice', ['SafetyScoreData'])
     .factory('gservice', function($http,SafetyScoreData){
 
+        // Refresh the page upon window load. Use the initial latitude and longitude
+
         // Initialize Variables
         // -------------------------------------------------------------
         // Service our factory will return
-
         var googleMapService = {};
         var crimes = [];
+        var infoWindow;
         // Functions
         // --------------------------------------------------------------
         // Refresh the Map with new data. Function will take new latitude and longitude coordinates.
@@ -41,35 +43,43 @@ angular.module('gservice', ['SafetyScoreData'])
                         }
                     ]
                 });
-                console.log(map);
+
+                heatmap = new google.maps.visualization.HeatmapLayer({
+                    data: SafetyScoreData.getCrimePoints(),
+                    map: map,
+                    radius: getNewRadius(map),
+                    maxIntensity: 100,
+                    //opacity:0.6,
+                    dissipating: true,
+                    gradient: getGradient()
+
+                });
+
+                infoWindow = new google.maps.InfoWindow({
+                    content: 'empty',
+                    position: map.getCenter()
+                });
+                //console.log(map);
+                //Add Event Listeners
+                google.maps.event.addListener(map, 'zoom_changed', function () {
+                    //console.log("Zoom is " + map.getZoom());
+                    heatmap.setOptions({radius: getNewRadius(map)});
+                });
+
+                map.addListener('click', function(event) {
+                    clickCrimePopUp(event.latLng);
+                });
+
+
+            },function (error) {
+                console.log("This is an error: ",error);
             });
 
-            heatmap = new google.maps.visualization.HeatmapLayer({
-                data: SafetyScoreData.getCrimePoints(),
-                map: map,
-                radius: getNewRadius(map),
-                maxIntensity: 100,
-                //opacity:0.6,
-                dissipating: true,
-                gradient: getGradient()
-
-            });
-
-            //Add Event Listeners
-            google.maps.event.addListener(map, 'zoom_changed', function () {
-                //console.log("Zoom is " + map.getZoom());
-                heatmap.setOptions({radius: getNewRadius(map)});
-            });
-
-            google.maps.event.addListener(map, 'click', function(event) {
-                clickCrimePopUp(map, event);
-            });
-
-            // Refresh the page upon window load. Use the initial latitude and longitude
-            google.maps.event.addDomListener(window, 'load',
-                googleMapService.refresh());
 
         };
+
+        //google.maps.event.addDomListener(window, 'load',
+        //    googleMapService.refresh());
 
         // Private Inner Functions
         // --------------------------------------------------------------
@@ -88,26 +98,20 @@ angular.module('gservice', ['SafetyScoreData'])
             return newRadius;
         }
 
-        function clickCrimePopUp(map,loc) {
+        function clickCrimePopUp(loc) {
             var contentString;
-
-            var infoWindow = new google.maps.InfoWindow({
-              content: 'empty',
-              position: map.getCenter()
-            });
-            infoWindow.close();
 
             contentString = '';
             var hoverInfo = SafetyScoreData.getLocSafetyScore(loc);
-            contentString += contentString + '<h3>Localized Safety Score: ' + hoverInfo.SafetyScore + '</h3>';
-            contentString += contentString + '<h4>Average Crime Rating: ' + hoverInfo.avgCrime + '</h4>';
-            contentString += contentString + '<h4>Crimes Against the public: ' + hoverInfo.count1 + '</h4>';
-            contentString += contentString + '<h4>Crimes Against Property: ' + hoverInfo.count2 + '</h4>';
-            contentString += contentString + '<h4>Crimes Against the Person: ' + hoverInfo.count3 + '</h4>';
-            contentString += contentString + '<h4>Severe Crimes Against the Person: ' + hoverInfo.count4 + '</h4>';
+            contentString += '<h3>Localized Safety Score: ' + hoverInfo.SafetyScore + '</h3>';
+            contentString += '<h4>Average Crime Rating: ' + hoverInfo.avgCrime + '</h4>';
+            contentString += '<h4>Crimes Against the public: ' + hoverInfo.count1 + '</h4>';
+            contentString += '<h4>Crimes Against Property: ' + hoverInfo.count2 + '</h4>';
+            contentString += '<h4>Crimes Against the Person: ' + hoverInfo.count3 + '</h4>';
+            contentString += '<h4>Severe Crimes Against the Person: ' + hoverInfo.count4 + '</h4>';
 
             infoWindow.setContent(contentString);
-            infoWindow.setPosition(e.latLng);
+            infoWindow.setPosition(loc);
 
 
             infoWindow.open(map);
