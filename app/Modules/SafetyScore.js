@@ -1,45 +1,47 @@
 
 
 angular.module('SafetyScoreData',[])
-    .factory('SafetyScoreData',function($http){
+    .factory('SafetyScoreData',function(){
 
-    var SafetyScoreData = {};
-    var crimes = [];
-    var heatMapData = [];
+    let SafetyScoreData = {};
+    let crimes = [];
+    let heatMapData = [];
 
     //variables for user preference selections
-    var cat1Factor = 1.0;
-    var cat2Factor = 1.0;
-    var cat3Factor = 1.0;
-    var cat4Factor = 1.0;
+    let cat1Factor = 1.0;
+    let cat2Factor = 1.0;
+    let cat3Factor = 1.0;
+    let cat4Factor = 1.0;
 
-    // start and end dates of the period of observation should include all crimes.
-    var startDate = "2017-01-01";
-    var endDate = "2018-01-01";
+    // start and end dates of the period of observation
+        // should include all crimes.
+    let startDate = "2017-01-01";
+    let endDate = "2018-01-01";
 
     const CRITICAL_RADIUS = 150;
 
+    //Public Functions
     SafetyScoreData.loadData = function(data){
         crimes= data;
         heatMapData = createCrimePoints();
-    }
+    };
+
 
     SafetyScoreData.getCrimePoints = function(filter = null){
-            return heatMapData;
-    }
+        return heatMapData;
+    };
 
+    //Private Functions
     function createCrimePoints ()
     {
-        var googleMapsPoints = [];
-        //console.log(crimes);
-        //console.log(crimes.length);
-        for (var i = 0; i < crimes.length; i++)
+        let googleMapsPoints = [];
+
+        for (let i = 0; i < crimes.length; i++)
         {
-            //console.log("crime number: " + i );
-            var weight = scaleCrime(crimes[i]);
+            let weight = scaleCrime(crimes[i]);
             if (weight > 0.0 )
             {
-                var loc = {
+                let loc = {
                     location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
                     weight: weight
                 };
@@ -52,19 +54,19 @@ angular.module('SafetyScoreData',[])
 
     SafetyScoreData.getLocSafetyScore = function(originPoint)
     {
-        var cat1CrimeCount = 0;
-        var cat2CrimeCount = 0;
-        var cat3CrimeCount = 0;
-        var cat4CrimeCount = 0;
-        var totalInRadius = 0;
-        var SafetyScore = 0.0;
+        let cat1CrimeCount = 0;
+        let cat2CrimeCount = 0;
+        let cat3CrimeCount = 0;
+        let cat4CrimeCount = 0;
+        let totalInRadius = 0;
+        let SafetyScore = 0.0;
         //console.log("origin: " + originPoint.toString());
-        for (var i = 0 ; i < crimes.length; i++){
+        for (let i = 0 ; i < crimes.length; i++){
             let toPoint = new google.maps.LatLng(crimes[i].lat, crimes[i].lng);
             // console.log("toPoint: " + toPoint.toString());
             if (isInRadius(originPoint, toPoint))
             {
-                var scaledScore = scaleCrime(crimes[i]);
+                let scaledScore = scaleCrime(crimes[i]);
                 SafetyScore += scaledScore;
                 if (scaledScore > 0.00) {
                     totalInRadius++;
@@ -86,25 +88,26 @@ angular.module('SafetyScoreData',[])
             }
         }
         let avg =  0;
-        if (totalInRadius != 0)
+        if (totalInRadius !== 0)
             avg = (SafetyScore/totalInRadius).toFixed(2);
 
-        return {SafetyScore: (SafetyScore*0.1).toFixed(2), avgCrime: avg, count1: cat1CrimeCount, count2: cat2CrimeCount,
-            count3: cat3CrimeCount, count4: cat4CrimeCount};
-    }
+        return {SafetyScore: (SafetyScore*0.1).toFixed(2),
+                avgCrime: avg,
+                count1: cat1CrimeCount,
+                count2: cat2CrimeCount,
+                count3: cat3CrimeCount, count4: cat4CrimeCount};
+    };
 
 
 
     function isInRadius(originPoint, targetPoint){
-        //console.log("originPoint Parameter in isInRadius: " + originPoint);
-        //console.log("targetPoint Parameter in isInRadius: " + targetPoint);
-        var distance = google.maps.geometry.spherical.computeDistanceBetween(originPoint, targetPoint);
+        let distance = google.maps.geometry.spherical.computeDistanceBetween(originPoint, targetPoint);
         return distance <= CRITICAL_RADIUS;
     }
 
     function scaleCrime(crime)
     {
-        var scaledScore = crime.severity * getUserPreferenc(crime.crimeCat) * getAgeMultiple(crime.date);
+        let scaledScore = crime.severity * getUserPreferenc(crime.crimeCat) * getAgeMultiple(crime.date);
         if (scaledScore <= 10.00){
             return scaledScore;
         }
@@ -113,89 +116,64 @@ angular.module('SafetyScoreData',[])
         }
     }
 
-        function getAgeMultiple(crimeDate)
-        {
-            var dateOfCrime = new Date(crimeDate);
-            var endDateOfIntrest = new Date(endDate);
-            var startDateOfIntrest = new Date(startDate);
-            //console.log("crime date: " + dateOfCrime + " end : " + endDateOfIntrest +" start: " + startDateOfIntrest);
+    function getAgeMultiple(crimeDate)
+    {
+        let dateOfCrime = new Date(crimeDate);
+        let endDateOfIntrest = new Date(endDate);
+        let startDateOfIntrest = new Date(startDate);
 
-            if (dateOfCrime === endDateOfIntrest)
+        if (dateOfCrime === endDateOfIntrest)
+        {
+            return 1;
+        }
+        else
+        {
+            if ((startDateOfIntrest > dateOfCrime)  || (endDateOfIntrest < dateOfCrime))
             {
-                return 1;
+                return 0;
             }
             else
             {
-                if ((startDateOfIntrest > dateOfCrime)  || (endDateOfIntrest < dateOfCrime))
-                {
-                    return 0;
-                }
-                else
-                {
-                    var crimeDaysTillEndOfIntrest = endDateOfIntrest-dateOfCrime;
-                    var spanOfIntrest = endDateOfIntrest-startDateOfIntrest;
-                    return (1 - (crimeDaysTillEndOfIntrest / spanOfIntrest));
-                }
+                let crimeDaysTillEndOfIntrest = endDateOfIntrest-dateOfCrime;
+                let spanOfIntrest = endDateOfIntrest-startDateOfIntrest;
+                return (1 - (crimeDaysTillEndOfIntrest / spanOfIntrest));
             }
         }
-
-        function getUserPreferenc(crimeCat)
-        {
-            var userMultiple = 1;
-            switch(crimeCat)
-            {
-                case 1:
-                {
-                    userMultiple = cat1Factor;
-                    break;
-                }
-                case 2:
-                {
-                    userMultiple = cat2Factor;
-                    break;
-                }
-                case 3:
-                {
-                    userMultiple = cat3Factor;
-                    break;
-                }
-                case 4:
-                {
-                    userMultiple = cat4Factor;
-                    break;
-                }
-                default:
-                {
-                    userMultiple = 0.0;
-                }
-
-            }
-            return userMultiple;
-        }
-
-    function pullCrimeData(){
-        // Perform an AJAX call to get all of the records in the db.
-
     }
 
-    console.log('Creating SafetyScoreData Factory');
+    function getUserPreferenc(crimeCat)
+    {
+        let userMultiple = 1;
+        switch(crimeCat)
+        {
+            case 1:
+            {
+                userMultiple = cat1Factor;
+                break;
+            }
+            case 2:
+            {
+                userMultiple = cat2Factor;
+                break;
+            }
+            case 3:
+            {
+                userMultiple = cat3Factor;
+                break;
+            }
+            case 4:
+            {
+                userMultiple = cat4Factor;
+                break;
+            }
+            default:
+            {
+                userMultiple = 0.0;
+            }
+
+        }
+        return userMultiple;
+    }
+
     return SafetyScoreData;
 });
-/*
-
-    Private getDistanceFactor(crime){ need a good mathematical function for this}
-    Private getTimeFactor(crime){see above}
-
-
-        getFilteredResults(filter){
-            Let filteredResults = [];
-            for(each crime in query){
-                if(crime.category === filter){
-                    filteredResults.push(crime);
-                }
-            }
-            Return filteredResults;
-        }
-
-
-*/
