@@ -19,7 +19,7 @@
 .btn3d:active,
 .btn3d.active {
   top: 2px;
-  background-color: gray !important;
+  background-color: rgba(98, 98, 98, 0.79) !important;
 }
 
 .btn3d.btn-white {
