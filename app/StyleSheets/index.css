@@ -6,6 +6,25 @@
   opacity: 0.4;
 }
 
+
+#horizontalmenu{
+  min-width: 35vw;
+}
+
+/*Allows dropdown menu links to be displayed in a horizontal manner*/
+#horizontalmenu div > li {
+  display: inline-block;
+  float:left;
+}
+
+/*When hovering animate the link text to be a different color*/
+#horizontalmenu a:hover {
+  margin:0;
+  padidng:0;
+  transition: color 0.5s;
+  color: darkgray !important;
+}
+
 .container-fluid .dropdown:hover {
   opacity: 1;
 }
