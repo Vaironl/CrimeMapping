@@ -22,7 +22,7 @@
   margin:0;
   padidng:0;
   transition: color 0.5s;
-  color: darkgray !important;
+  color: rgb(36, 150, 186) !important;
 }
 
 .container-fluid .dropdown:hover {
