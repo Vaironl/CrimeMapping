@@ -1,0 +1,179 @@
+
+
+angular.module('SafetyScoreData',[])
+    .factory('SafetyScoreData',function(){
+
+    let SafetyScoreData = {};
+    let crimes = [];
+    let heatMapData = [];
+
+    //variables for user preference selections
+    let cat1Factor = 1.0;
+    let cat2Factor = 1.0;
+    let cat3Factor = 1.0;
+    let cat4Factor = 1.0;
+
+    // start and end dates of the period of observation
+        // should include all crimes.
+    let startDate = "2017-01-01";
+    let endDate = "2018-01-01";
+
+    const CRITICAL_RADIUS = 150;
+
+    //Public Functions
+    SafetyScoreData.loadData = function(data){
+        crimes= data;
+        heatMapData = createCrimePoints();
+    };
+
+
+    SafetyScoreData.getCrimePoints = function(filter = null){
+        return heatMapData;
+    };
+
+    //Private Functions
+    function createCrimePoints ()
+    {
+        let googleMapsPoints = [];
+
+        for (let i = 0; i < crimes.length; i++)
+        {
+            let weight = scaleCrime(crimes[i]);
+            if (weight > 0.0 )
+            {
+                let loc = {
+                    location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
+                    weight: weight
+                };
+                googleMapsPoints.push(loc);
+            }
+        }
+        console.log("number of crime points in heatmap is: " + googleMapsPoints.length);
+        return googleMapsPoints;
+    }
+
+    SafetyScoreData.getLocSafetyScore = function(originPoint)
+    {
+        let cat1CrimeCount = 0;
+        let cat2CrimeCount = 0;
+        let cat3CrimeCount = 0;
+        let cat4CrimeCount = 0;
+        let totalInRadius = 0;
+        let SafetyScore = 0.0;
+        //console.log("origin: " + originPoint.toString());
+        for (let i = 0 ; i < crimes.length; i++){
+            let toPoint = new google.maps.LatLng(crimes[i].lat, crimes[i].lng);
+            // console.log("toPoint: " + toPoint.toString());
+            if (isInRadius(originPoint, toPoint))
+            {
+                let scaledScore = scaleCrime(crimes[i]);
+                SafetyScore += scaledScore;
+                if (scaledScore > 0.00) {
+                    totalInRadius++;
+                    switch (crimes[i].crimeCat) {
+                        case 1:
+                            cat1CrimeCount++;
+                            break;
+                        case 2:
+                            cat3CrimeCount++;
+                            break;
+                        case 3:
+                            cat3CrimeCount++;
+                            break;
+                        case 4:
+                            cat4CrimeCount++;
+                            break;
+                    }
+                }
+            }
+        }
+        let avg =  0;
+        if (totalInRadius !== 0)
+            avg = (SafetyScore/totalInRadius).toFixed(2);
+
+        return {SafetyScore: (SafetyScore*0.1).toFixed(2),
+                avgCrime: avg,
+                count1: cat1CrimeCount,
+                count2: cat2CrimeCount,
+                count3: cat3CrimeCount, count4: cat4CrimeCount};
+    };
+
+
+
+    function isInRadius(originPoint, targetPoint){
+        let distance = google.maps.geometry.spherical.computeDistanceBetween(originPoint, targetPoint);
+        return distance <= CRITICAL_RADIUS;
+    }
+
+    function scaleCrime(crime)
+    {
+        let scaledScore = crime.severity * getUserPreferenc(crime.crimeCat) * getAgeMultiple(crime.date);
+        if (scaledScore <= 10.00){
+            return scaledScore;
+        }
+        else {
+            return 10.00;
+        }
+    }
+
+    function getAgeMultiple(crimeDate)
+    {
+        let dateOfCrime = new Date(crimeDate);
+        let endDateOfIntrest = new Date(endDate);
+        let startDateOfIntrest = new Date(startDate);
+
+        if (dateOfCrime === endDateOfIntrest)
+        {
+            return 1;
+        }
+        else
+        {
+            if ((startDateOfIntrest > dateOfCrime)  || (endDateOfIntrest < dateOfCrime))
+            {
+                return 0;
+            }
+            else
+            {
+                let crimeDaysTillEndOfIntrest = endDateOfIntrest-dateOfCrime;
+                let spanOfIntrest = endDateOfIntrest-startDateOfIntrest;
+                return (1 - (crimeDaysTillEndOfIntrest / spanOfIntrest));
+            }
+        }
+    }
+
+    function getUserPreferenc(crimeCat)
+    {
+        let userMultiple = 1;
+        switch(crimeCat)
+        {
+            case 1:
+            {
+                userMultiple = cat1Factor;
+                break;
+            }
+            case 2:
+            {
+                userMultiple = cat2Factor;
+                break;
+            }
+            case 3:
+            {
+                userMultiple = cat3Factor;
+                break;
+            }
+            case 4:
+            {
+                userMultiple = cat4Factor;
+                break;
+            }
+            default:
+            {
+                userMultiple = 0.0;
+            }
+
+        }
+        return userMultiple;
+    }
+
+    return SafetyScoreData;
+});

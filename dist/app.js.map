@@ -1,0 +1,1 @@
+{"version":3,"sources":["../app/Controllers/app.js"],"names":["app","angular"],"mappings":";AAAA;;;;AAIA,IAAIA,GAAG,GAAGC,OAAO,CAAPA,MAAAA,CAAAA,cAAAA,EAA+B,CAAA,UAAA,EAAA,aAAA,EAAzC,UAAyC,CAA/BA,CAAV","sourcesContent":["/**\r\n * http://usejsdoc.org/\r\n */\r\n\r\nvar app = angular.module('crimeHotSpot', ['indexMap', 'geolocation', 'gservice']);"],"file":"app.js"}

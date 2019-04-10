@@ -1,6 +1,11 @@
 
 // -----------------------------------------------------
 var express         = require('express');
+
+var mongoose        = require('mongoose');
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+var readline = require ('readline');
 var port            = process.env.PORT || 3000;
 var morgan          = require('morgan');
 var bodyParser      = require('body-parser');
@@ -22,8 +27,14 @@ app.use(methodOverride());
 // ------------------------------------------------------
 require('./app/routes.js')(app);
 
+// SafetyScoreData
+//-------------------------------------------------------
+//require('./app/Modules/SafetyScore')(app);
+
 // Listen
 // -------------------------------------------------------
 app.listen(port);
 console.log('App listening on port ' + port);
+
+
 

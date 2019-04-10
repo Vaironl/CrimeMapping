@@ -1,0 +1,47 @@
+.sidenav {
+    /*Allows left justified positioning otherwise, this position would be based on other elements. Throwing views/elements off.*/
+    position: absolute;
+    /*Initial width*/
+    width: 160px;
+    height: 65vh;
+    left: -140px;
+    margin-top: 5vh;
+    transition: 0.4s;
+
+    /*Clicks don't work as expected without z-index modification*/
+    z-index: 2;
+    overflow-x: hidden;
+    opacity: 0.2;
+    border: 1px solid gray;
+    background-color: rgba(77, 205, 224, 0.47);
+}
+
+/*Make the sidenav visible by sliding it out*/
+.sidenav:hover {
+    opacity: 1;
+    left: 0;
+}
+
+.sidenav .profile:hover {
+    color: white;
+}
+
+.sidenav img {
+    width: 50px;
+}
+
+.sidenav .active {
+
+    color: #f4fff3;
+}
+
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}

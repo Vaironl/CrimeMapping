@@ -1,105 +1,150 @@
 
 // Creates the gservice factory. This will be the primary means by which we interact with Google Maps
-angular.module('gservice', [])
-    .factory('gservice', function($http){
+angular.module('gservice', ['SafetyScoreData'])
+    .factory('gservice'/**
+*
+*/
+, function($http,SafetyScoreData){
 
-            // Initialize Variables
-            // -------------------------------------------------------------
-            // Service our factory will return
-            var googleMapService = {};
+        // Refresh the page upon window load. Use the initial latitude and longitude
 
-            var crimes = [];
+        // Initialize Variables
+        // -------------------------------------------------------------
+        // Service our factory will return
+        let googleMapService = {};
+        let crimes = [];
+        let infoWindow;
+
+        // Public Functions
 
 
-            // Functions
-            // --------------------------------------------------------------
-            // Refresh the Map with new data. Function will take new latitude and longitude coordinates.
-            googleMapService.refresh = function () {
-                console.log("Refreshing/Loading map");
-                // Clears the holding array of locations
-                crimes = [];
+        /**
+         * Reload the map based on current location
+         */
+        googleMapService.refresh = function ()
+        {
+            console.log("Refreshing/Loading map");
+            crimes = [];
 
-                // Perform an AJAX call to get all of the records in the db.
-                $http.get('/crimes').then(function (response) {
-                    crimes = response.data;
-                    //console.log(crimes);
+            $http.get('/crimes').then(function (response) {
+                crimes = response.data;
+                console.log('got crime data in SafetyScore initialize');
+                SafetyScoreData.loadData(crimes);
 
-                    map = new google.maps.Map(document.getElementById('map'), {
-                        center: {lat: 36.8853, lng: -76.3059},
-                        zoom: 15,
-                        minZoom:12,
-                        mapTypeControl: false,
-                        streetViewControl: false,
-                        fullscreenControl: false,
-                        styles: [
-                            //Hide distracting features
-                            {
-                                featureType: 'poi',
-                                stylers: [{visibility: 'off'}]
-                            },
-                            {
-                                featureType: 'transit',
-                                stylers: [{visibility: 'off'}]
-                            }
-                            ]
-                    });
+                //Create base map
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: 36.8853, lng: -76.3059},
+                    zoom: 15,
+                    minZoom:14,
+                    maxZoom: 16,
+                    mapTypeControl: false,
+                    streetViewControl: false,
+                    fullscreenControl: false,
 
-                    heatmap = new google.maps.visualization.HeatmapLayer({
-                        data: getPoints(crimes),
-                        map: map,
-                        radius: getNewRadius(map),
-                        maxIntensity: 100,
-                        //opacity:0.6,
-                        dissipating: true
-
-                    });
-
-                    google.maps.event.addListener(map, 'zoom_changed', function () {
-                        //console.log("Zoom is " + map.getZoom());
-                        heatmap.setOptions({radius: getNewRadius(map)});
-                    });
-
-                },function (error) {
-                    console.log("This is an error: ",error);
+                    styles: [
+                        {
+                            featureType: 'poi',
+                            stylers: [{visibility: 'off'}]
+                        },
+                        {
+                            featureType: 'transit',
+                            stylers: [{visibility: 'off'}]
+                        }
+                    ]
                 });
-            };
 
-            // Private Inner Functions
-            // --------------------------------------------------------------
-            function getPoints(crimes) {
-                // An array that will contain all the crimes lat and lng values
-                //      as objects of type google.maps.LatLng
-                var googlePoints = [];
-                console.log(crimes);
-                //console.log(crimes.length);
-                for (var i = 0; i < crimes.length; i++) {
-                    var loc = new google.maps.LatLng(crimes[i].lat,crimes[i].lng);
-                    //googlePoints.push(loc);
+                //Create heat map
+                heatmap = new google.maps.visualization.HeatmapLayer({
+                    data: SafetyScoreData.getCrimePoints(),
+                    map: map,
+                    radius: getNewRadius(),
+                    maxIntensity: 100,
+                    dissipating: true,
+                    gradient: getGradient()
 
-                    var weightedLoc = new google.maps.MVCObject;
-                    var weight = crimes[i].severity;                            // Change to calculated weight later
-                    weightedLoc.setValues({'location':loc, 'weight':weight});
-                    googlePoints.push(weightedLoc);
-                }
-                //console.log(googlePoints);
-                console.log(googlePoints.length);
-                return googlePoints;
-            }
+                });
 
-            function getNewRadius(map){
-                // Convert desired crime radius in meters into radius in pixels based on zoom level
-                var newRadius;
-                var crimeRadiusInMeters = 150;
-                //var meters_per_pixel = 156543.03392 * Math.cos(map.getCenter().lat() * Math.PI / 180) / Math.pow(2, map.getZoom());       // Generic ratio calculation; accounts for different scaling at different latitiudes
-                var meters_per_pixel = 125209.17/ Math.pow(2, map.getZoom());                                                               // Hardcoded and approximated for prototype map center
+                //Create pop-up
+                infoWindow = new google.maps.InfoWindow({
+                    content: 'empty',
+                    position: map.getCenter()
+                });
 
-                newRadius = crimeRadiusInMeters/meters_per_pixel;
-                //console.log("There are " + meters_per_pixel + " meters per pixel at this zoom");
-                //console.log("New radius is " + newRadius);
-                return newRadius;
-            }
+                //Event Listeners
+                google.maps.event.addListener(map, 'zoom_changed', function () {
+                    heatmap.setOptions({radius: getNewRadius(map)});
+                });
 
-            // Refresh the page upon window load. Use the initial latitude and longitude
-            google.maps.event.addDomListener(window, 'load',
-                googleMapService.refresh());
+                map.addListener('click', function(event) {
+                    clickCrimePopUp(event.latLng);
+                });
+
+
+            },function (error) {
+                console.log("This is an error: ",error);
+            });
+
+
+        };
+
+        // Private Inner Functions
+        // --------------------------------------------------------------
+
+        /**
+         * Calculate convert meters into pixels based on current zoom
+         * @returns {number}
+         */
+       function getNewRadius()
+        {
+
+            let newRadius;
+            const crimeRadiusInMeters = 150;
+            let meters_per_pixel = 125209.17/ Math.pow(2, map.getZoom());
+
+            newRadius = crimeRadiusInMeters/meters_per_pixel;
+            return newRadius;
+        }
+
+            /**
+             * Present an infobox with information about the local SafetyScore
+             * @param loc - The location where the click occured
+             */
+        function clickCrimePopUp(loc) {
+            let contentString = '';
+            let hoverInfo = SafetyScoreData.getLocSafetyScore(loc);
+
+            contentString += '<h3>Localized Safety Score: ' + hoverInfo.SafetyScore + '</h3>';
+            contentString += '<h4>Average Crime Rating: ' + hoverInfo.avgCrime + '</h4>';
+            contentString += '<h4>Crimes Against the public: ' + hoverInfo.count1 + '</h4>';
+            contentString += '<h4>Crimes Against Property: ' + hoverInfo.count2 + '</h4>';
+            contentString += '<h4>Crimes Against the Person: ' + hoverInfo.count3 + '</h4>';
+            contentString += '<h4>Severe Crimes Against the Person: ' + hoverInfo.count4 + '</h4>';
+
+            infoWindow.setContent(contentString);
+            infoWindow.setPosition(loc);
+
+            infoWindow.open(map);
+        }
+
+            /**
+             * Set the gradient for the heat map
+             * @returns {string[]} - An array of gradients
+             */
+        function getGradient(){
+            return [
+                'rgba(0, 0, 0, 0)',
+                'rgba(0, 255, 255, 1)',
+                'rgba(100,149,237, 1)',
+                'rgba(0, 0, 255, 1)',
+                'rgba(0,139,139, 1)',
+                'rgba(0, 255, 0, 1)',
+                'rgba(173,255,47, 1)',
+                'rgba(255,165,0, 1)',
+                'rgba(255,69,0, 1)',
+                'rgba(255, 0, 0, 1)'
+
+            ]
+        }
+
+        return googleMapService;
     });
