@@ -54,54 +54,6 @@ let safetyScore = angular.module('SafetyScoreData',[])
         console.log("number of crime points in heatmap is: " + googleMapsPoints.length);
         return googleMapsPoints;
     }
-/*
-    SafetyScoreData.getLocSafetyScore = function(originPoint)
-    {
-        let cat1CrimeCount = 0;
-        let cat2CrimeCount = 0;
-        let cat3CrimeCount = 0;
-        let cat4CrimeCount = 0;
-        let totalInRadius = 0;
-        let SafetyScore = 0.0;
-        //console.log("origin: " + originPoint.toString());
-        for (let i = 0 ; i < crimes.length; i++){
-            let toPoint = new google.maps.LatLng(crimes[i].lat, crimes[i].lng);
-            // console.log("toPoint: " + toPoint.toString());
-            if (isInRadius(originPoint, toPoint))
-            {
-                let scaledScore = scaleCrime(crimes[i]);
-                SafetyScore += scaledScore;
-                if (scaledScore > 0.00) {
-                    totalInRadius++;
-                    switch (crimes[i].crimeCat) {
-                        case 1:
-                            cat1CrimeCount++;
-                            break;
-                        case 2:
-                            cat3CrimeCount++;
-                            break;
-                        case 3:
-                            cat3CrimeCount++;
-                            break;
-                        case 4:
-                            cat4CrimeCount++;
-                            break;
-                    }
-                }
-            }
-        }
-        let avg =  0;
-        if (totalInRadius !== 0)
-            avg = (SafetyScore/totalInRadius).toFixed(2);
-
-        return {SafetyScore: (SafetyScore*0.1).toFixed(2),
-                avgCrime: avg,
-                count1: cat1CrimeCount,
-                count2: cat2CrimeCount,
-                count3: cat3CrimeCount, count4: cat4CrimeCount};
-    };
-
-*/
 
     function isInRadius(originPoint, targetPoint){
         let distance = google.maps.geometry.spherical.computeDistanceBetween(originPoint, targetPoint);
@@ -209,18 +161,12 @@ let safetyScore = angular.module('SafetyScoreData',[])
             default:
             {}
         }
-        createCrimePoints();
     }
 
     // All public functions.
     return {
-        publicFilter: function(){return "Hi from the public filter!";},
-        setPropertyFilter: function filterProperty() {
-            console.log("Hi from inside setPropertyFilter!");
-            setFilter(2);
-            console.log("Filtering property crimes now.");
-        },
-        getPropertyFilter: function(){return "Hi from inside getPropertyFilter!";},
+        setCrimeFilter: function filterCrime(c){setFilter(c);},
+
         loadData: function (data) {
             crimes = data;
             heatMapData = createCrimePoints()
