@@ -6,6 +6,11 @@ mapLoad.controller('mapLoad', function ($scope, $http, gservice) {
     console.log(document.getElementById('map').valueOf());
     gservice.refresh();
 
+    $scope.togglePublic = !$scope.togglePublic;
+    $scope.toggleProperty = !$scope.toggleProperty;
+    $scope.togglePerson = !$scope.togglePerson;
+    $scope.toggleSevere = !$scope.toggleSevere;
+
     $scope.$on('FilterChange', function(event, arg){
         $scope.receiver = 'Received ' + arg;
         gservice.refresh();

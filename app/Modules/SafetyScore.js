@@ -131,31 +131,34 @@ let safetyScore = angular.module('SafetyScoreData',[])
     }
 
     function setFilter(categoryNumber){
-        //Very temporary testing logic
-        cat1Factor = 0;
-        cat2Factor = 0;
-        cat3Factor = 0;
-        cat4Factor = 0;
         switch(categoryNumber)
         {
             case 1:
             {
-                cat1Factor = 1.0;
+                if(cat1Factor == 0)
+                    cat1Factor = 1.0;
+                else cat1Factor = 0;
                 break;
             }
             case 2:
             {
-                cat2Factor = 1.0;
+                if(cat2Factor == 0)
+                    cat2Factor = 1.0;
+                else cat2Factor = 0;
                 break;
             }
             case 3:
             {
-                cat3Factor = 1.0;
+                if(cat3Factor == 0)
+                    cat3Factor = 1.0;
+                else cat3Factor = 0;
                 break;
             }
             case 4:
             {
-                cat4Factor = 1.0;
+                if(cat4Factor == 0)
+                    cat4Factor = 1.0;
+                else cat4Factor = 0;
                 break;
             }
             default:
