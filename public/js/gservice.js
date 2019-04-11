@@ -49,7 +49,16 @@ angular.module('gservice', ['SafetyScoreData'])
                         {
                             featureType: 'transit',
                             stylers: [{visibility: 'off'}]
-                        }
+                        },
+                        /*{
+                            featureType: "water",
+                            elementType: "geometry.fill",
+                            stylers: [
+                                {
+                                    "color": "#bdc8ce"
+                                }
+                            ]
+                        }*/
                     ]
                 });
 
@@ -58,7 +67,7 @@ angular.module('gservice', ['SafetyScoreData'])
                     data: SafetyScoreData.getCrimePoints(),
                     map: map,
                     radius: getNewRadius(),
-                    maxIntensity: 100,
+                    maxIntensity: 35,
                     dissipating: true,
                     gradient: getGradient()
 
@@ -132,7 +141,7 @@ angular.module('gservice', ['SafetyScoreData'])
              */
         function getGradient(){
             return [
-                'rgba(0, 0, 0, 0)',
+        /*        'rgba(0, 0, 0, 0)',
                 'rgba(0, 255, 255, 1)',
                 'rgba(100,149,237, 1)',
                 'rgba(0, 0, 255, 1)',
@@ -142,6 +151,20 @@ angular.module('gservice', ['SafetyScoreData'])
                 'rgba(255,165,0, 1)',
                 'rgba(255,69,0, 1)',
                 'rgba(255, 0, 0, 1)'
+*/
+  //Lowest value
+                'rgba(0,0,0,0)',
+                //'rgba(0,6,166,0.6)',
+                'rgba(0,115,255,1)',
+                'rgba(0,251,255,1)',
+                'rgba(17,255,0,1)',
+                'rgba(238,255,0,1)',
+                'rgba(255,181,0,1)',
+                'rgba(255,0,0,1)'
+
+  // Highest value
+                //
+
 
             ]
         }
