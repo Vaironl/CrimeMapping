@@ -20,20 +20,6 @@ let safetyScore = angular.module('SafetyScoreData',[])
 
     const CRITICAL_RADIUS = 150;
 
-    //Public Functions
-    SafetyScoreData.testReturn = function(){console.log("Entered the testReturn in SafetyScore (via the controller)");}
- /*
-    SafetyScoreData.loadData = function(data){
-        crimes= data;
-        heatMapData = createCrimePoints();
-    };
-
-
-    SafetyScoreData.getCrimePoints = function(filter = null){
-        return heatMapData;
-    };
-*/
-
     //Private Functions
     function createCrimePoints ()
     {
