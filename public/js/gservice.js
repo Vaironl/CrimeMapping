@@ -61,7 +61,7 @@ angular.module('gservice', ['SafetyScoreData'])
                         }*/
                     ]
                 });
-
+                
                 //Create heat map
                 heatmap = new google.maps.visualization.HeatmapLayer({
                     data: SafetyScoreData.getCrimePoints(),
@@ -94,6 +94,11 @@ angular.module('gservice', ['SafetyScoreData'])
             });
 
 
+        };
+
+        googleMapService.refreshHeatmap = function(){
+            console.log("Refreshing JUST the heatmap");
+            heatmap.setOptions({data: SafetyScoreData.getCrimePoints()});
         };
 
         // Private Inner Functions

@@ -13,6 +13,6 @@ mapLoad.controller('mapLoad', function ($scope, $http, gservice) {
 
     $scope.$on('FilterChange', function(event, arg){
         $scope.receiver = 'Received ' + arg;
-        gservice.refresh();
+        gservice.refreshHeatmap();
     })
 });

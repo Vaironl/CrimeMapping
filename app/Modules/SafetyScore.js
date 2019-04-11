@@ -168,11 +168,14 @@ let safetyScore = angular.module('SafetyScoreData',[])
 
     // All public functions.
     return {
-        setCrimeFilter: function filterCrime(c){setFilter(c);},
+        setCrimeFilter: function filterCrime(c){
+            setFilter(c);
+            heatMapData = createCrimePoints();
+            },
 
         loadData: function (data) {
             crimes = data;
-            heatMapData = createCrimePoints()
+            heatMapData = createCrimePoints();
         },
         getCrimePoints: function(filter = null){
             return heatMapData;
