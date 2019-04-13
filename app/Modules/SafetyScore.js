@@ -1,5 +1,3 @@
-
-
 let safetyScore = angular.module('SafetyScoreData',[])
     .factory('SafetyScoreData',function(){
 
@@ -19,6 +17,67 @@ let safetyScore = angular.module('SafetyScoreData',[])
     let endDate = "2018-01-01";
 
     const CRITICAL_RADIUS = 150;
+
+    //Public Functions
+    SafetyScoreData.loadData = function (data) {
+        crimes = data;
+        heatMapData = createCrimePoints();
+    }
+
+    SafetyScoreData.getCrimePoints = function(filter = null){
+        return heatMapData;
+    }
+
+    SafetyScoreData.setCrimeFilter = function filterCrime(c){
+        setFilter(c);
+        heatMapData = createCrimePoints();
+    }
+
+    SafetyScoreData.getLocSafetyScore =  function(originPoint)
+    {
+        let cat1CrimeCount = 0;
+        let cat2CrimeCount = 0;
+        let cat3CrimeCount = 0;
+        let cat4CrimeCount = 0;
+        let totalInRadius = 0;
+        let SafetyScore = 0.0;
+        //console.log("origin: " + originPoint.toString());
+        for (let i = 0 ; i < crimes.length; i++){
+            let toPoint = new google.maps.LatLng(crimes[i].lat, crimes[i].lng);
+            // console.log("toPoint: " + toPoint.toString());
+            if (isInRadius(originPoint, toPoint))
+            {
+                let scaledScore = scaleCrime(crimes[i]);
+                SafetyScore += scaledScore;
+                if (scaledScore > 0.00) {
+                    totalInRadius++;
+                    switch (crimes[i].crimeCat) {
+                        case 1:
+                            cat1CrimeCount++;
+                            break;
+                        case 2:
+                            cat3CrimeCount++;
+                            break;
+                        case 3:
+                            cat3CrimeCount++;
+                            break;
+                        case 4:
+                            cat4CrimeCount++;
+                            break;
+                    }
+                }
+            }
+        }
+        let avg =  0;
+        if (totalInRadius !== 0)
+            avg = (SafetyScore/totalInRadius).toFixed(2);
+
+        return {SafetyScore: (SafetyScore*0.1).toFixed(2),
+            avgCrime: avg,
+            count1: cat1CrimeCount,
+            count2: cat2CrimeCount,
+            count3: cat3CrimeCount, count4: cat4CrimeCount};
+    }
 
     //Private Functions
     function createCrimePoints ()
@@ -152,64 +211,5 @@ let safetyScore = angular.module('SafetyScoreData',[])
         }
     }
 
-    // All public functions.
-    return {
-        setCrimeFilter: function filterCrime(c){
-            setFilter(c);
-            heatMapData = createCrimePoints();
-            },
-
-        loadData: function (data) {
-            crimes = data;
-            heatMapData = createCrimePoints();
-        },
-        getCrimePoints: function(filter = null){
-            return heatMapData;
-        },
-        getLocSafetyScore: function(originPoint)
-        {
-            let cat1CrimeCount = 0;
-            let cat2CrimeCount = 0;
-            let cat3CrimeCount = 0;
-            let cat4CrimeCount = 0;
-            let totalInRadius = 0;
-            let SafetyScore = 0.0;
-            //console.log("origin: " + originPoint.toString());
-            for (let i = 0 ; i < crimes.length; i++){
-                let toPoint = new google.maps.LatLng(crimes[i].lat, crimes[i].lng);
-                // console.log("toPoint: " + toPoint.toString());
-                if (isInRadius(originPoint, toPoint))
-                {
-                    let scaledScore = scaleCrime(crimes[i]);
-                    SafetyScore += scaledScore;
-                    if (scaledScore > 0.00) {
-                        totalInRadius++;
-                        switch (crimes[i].crimeCat) {
-                            case 1:
-                                cat1CrimeCount++;
-                                break;
-                            case 2:
-                                cat3CrimeCount++;
-                                break;
-                            case 3:
-                                cat3CrimeCount++;
-                                break;
-                            case 4:
-                                cat4CrimeCount++;
-                                break;
-                        }
-                    }
-                }
-            }
-            let avg =  0;
-            if (totalInRadius !== 0)
-                avg = (SafetyScore/totalInRadius).toFixed(2);
-
-            return {SafetyScore: (SafetyScore*0.1).toFixed(2),
-                avgCrime: avg,
-                count1: cat1CrimeCount,
-                count2: cat2CrimeCount,
-                count3: cat3CrimeCount, count4: cat4CrimeCount};
-        }
-    }
+    return SafetyScoreData;
 });
