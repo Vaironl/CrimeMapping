@@ -26,7 +26,7 @@
     </div>
 </nav>
 
-<div class="container">
+<div ng-controller="crimeChartController" class="container">
     <div class="row justify-content-center">
         <div class="col-3">
             <h3> Start Date-time</h3>
@@ -68,7 +68,7 @@
             });
         </script>
         <div class='col-sm-2'>
-            <button ng-click="queryTime()" type="button" class="btn btn-primary">Query</button>
+            <button ng-click="setUp()" type="button" class="btn btn-primary">Query</button>
         </div>
 
         <script>
@@ -80,18 +80,15 @@
     </div>
 
     <div class="row">
-        <div class="col-7" ng-controller="crimeChartController"
-             style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
+        <div class="col-7" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
             <canvas id="pieCrimeCat" class="chart chart-pie" chart-data="ccData" chart-labels="ccLabels"
                     chart-options="ccOptions"></canvas>
         </div>
-        <div class="col-7" ng-controller="crimeChartController"
-             style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
+        <div class="col-7" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
             <canvas id="pieTimeOfDay" class="chart chart-pie" chart-data="tdData" chart-labels="tdLabels"
                     chart-options="tdOptions"></canvas>
         </div>
-        <div class="col-7" ng-controller="crimeChartController"
-             style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
+        <div class="col-7" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
             <canvas id="lineDayOfWeek" class="chart chart-line" chart-data="dwData" chart-labels="dwLabels"
                     chart-options="dwOptions"></canvas>
         </div>

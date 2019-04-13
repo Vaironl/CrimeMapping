@@ -12,26 +12,69 @@ crimeChart.factory('chartFactory', function($http){
 	return factory;
 });	
 
-crimeChart.controller('crimeChartController', function($scope, chartFactory){
+crimeChart.controller('crimeChartController', function($scope, chartFactory, crimeFilters){
 
 	console.log('Hello from crimeChartController!');
 
-	chartFactory.getCrimeData().then(function(response) {
-		crimes = response.data;
+	setUpOG();
 
-		crimeDates = [];
+	$scope.setUp = function() {
+		console.log('test from Within Setup!');
 
-		for (var i = crimes.length - 1; i >= 0; i--) {
-			var k = new Date(crimes[i].date);
-			crimeDates.push(k);
-			//console.log(k.toString());
-		}
+		chartFactory.getCrimeData().then(function(response) {
+			allCrimes = response.data;
+			sDate = $("#datetimepicker1").data("DateTimePicker").date().toDate();
+			eDate = $("#datetimepicker2").data("DateTimePicker").date().toDate();
+			console.log(sDate.toString());
+			console.log(eDate.toString());
+			filteredCrimes = crimeFilters.filterByDateRange(allCrimes, sDate, eDate);
+			crimeDates = [];
+			
+			
+			for (var i = allCrimes.length - 1; i >= 0; i--) {
+				var k = new Date(allCrimes[i].date);
+				crimeDates.push(k);
+				console.log(allCrimes[i]);
+			}
+			
+
+			pieCrimeCat(allCrimes);
+			pieTimeOfDay(allCrimes);
+			lineDayOfWeek(crimeDates);
+			
+
+			/*
+			for (var i = filteredCrimes.length - 1; i >= 0; i--) {
+				var k = new Date(filteredCrimes[i].date);
+				crimeDates.push(k);
+				//console.log(k);
+			}
 
 
-		pieCrimeCat(crimes);
-		pieTimeOfDay(crimes);
-		lineDayOfWeek(crimeDates);
-	});
+			pieCrimeCat(filteredCrimes);
+			pieTimeOfDay(filteredCrimes);
+			lineDayOfWeek(crimeDates);
+			*/
+		});
+	};
+
+	function setUpOG(){
+		chartFactory.getCrimeData().then(function(response) {
+			allCrimes = response.data;
+			crimeDates = [];
+				
+				for (var i = allCrimes.length - 1; i >= 0; i--) {
+					var k = new Date(allCrimes[i].date);
+					crimeDates.push(k);
+					console.log(allCrimes[i]);
+				}
+				
+
+				pieCrimeCat(allCrimes);
+				pieTimeOfDay(allCrimes);
+				lineDayOfWeek(crimeDates);
+		});
+	}
 
 
 	function pieCrimeCat(crimes){
@@ -124,6 +167,7 @@ crimeChart.controller('crimeChartController', function($scope, chartFactory){
 		var lineLabels = ['Sunday', 'Monday', 'Tuesday' , 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 		
 		for (var i = 0; i < crimes.length; i++){
+			//var date = new Date(crimes[i].date);
 			var day = crimes[i].getDay();
 			switch(true){
 				case (day == 0):
