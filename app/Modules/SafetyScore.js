@@ -88,8 +88,9 @@ angular.module('SafetyScoreData',[])
             }
         }
         let avg =  0;
-        if (totalInRadius !== 0)
-            avg = (SafetyScore/totalInRadius).toFixed(2);
+        if (totalInRadius !== 0) {
+            avg = (SafetyScore / totalInRadius).toFixed(2);
+        }
 
         return {SafetyScore: (SafetyScore*0.1).toFixed(2),
                 avgCrime: avg,
@@ -106,7 +107,7 @@ angular.module('SafetyScoreData',[])
     }
 
     function scaleDistance(from, to){
-        return 1 - google.maps.geometry.spherical.computeDistanceBetween(from, to)/150;
+        return 1 - google.maps.geometry.spherical.computeDistanceBetween(from, to)/CRITICAL_RADIUS;
     }
 
     function scaleCrime(crime)
@@ -179,5 +180,38 @@ angular.module('SafetyScoreData',[])
         return userMultiple;
     }
 
-    return SafetyScoreData;
-});
+        SafetyScoreData.setUserPreferenc = function (crimeCat, pref)
+        {
+            switch(crimeCat)
+            {
+                case 1:
+                {
+                    cat1Factor = pref;
+                    break;
+                }
+                case 2:
+                {
+                    cat2Factor = pref;
+                    break;
+                }
+                case 3:
+                {
+                    cat3Factor = pref;
+                    break;
+                }
+                case 4:
+                {
+                    cat4Factor = pref;
+                    break;
+                }
+                default:
+                {
+                    ;
+                }
+
+            }
+        }
+
+        return SafetyScoreData;
+    });
+

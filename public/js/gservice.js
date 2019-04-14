@@ -15,6 +15,8 @@ angular.module('gservice', ['SafetyScoreData'])
         let crimes = [];
         let infoWindow;
 
+        let heatmap;
+
         // Public Functions
 
 
@@ -54,15 +56,16 @@ angular.module('gservice', ['SafetyScoreData'])
                 });
 
                 //Create heat map
-                heatmap = new google.maps.visualization.HeatmapLayer({
+                heatmap = new google.maps.visualization.HeatmapLayer(
+                    {
                     data: SafetyScoreData.getCrimePoints(),
                     map: map,
                     radius: getNewRadius(),
                     maxIntensity: 100,
                     dissipating: true,
                     gradient: getGradient()
-
-                });
+                    }
+                );
 
                 //Create pop-up
                 infoWindow = new google.maps.InfoWindow({
@@ -86,6 +89,7 @@ angular.module('gservice', ['SafetyScoreData'])
 
 
         };
+
 
         // Private Inner Functions
         // --------------------------------------------------------------
