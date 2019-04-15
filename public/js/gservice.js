@@ -67,7 +67,7 @@ angular.module('gservice', ['SafetyScoreData'])
                     data: SafetyScoreData.getCrimePoints(),
                     map: map,
                     radius: getNewRadius(),
-                    maxIntensity: 35,
+                    maxIntensity: 100,
                     dissipating: true,
                     gradient: getGradient()
 
@@ -157,14 +157,16 @@ angular.module('gservice', ['SafetyScoreData'])
                 'rgba(255, 0, 0, 1)'
 */
   //Lowest value
-                'rgba(0,0,0,0)',
-                //'rgba(0,6,166,0.6)',
-                'rgba(0,115,255,1)',
-                'rgba(0,251,255,1)',
-                'rgba(17,255,0,1)',
-                'rgba(238,255,0,1)',
-                'rgba(255,181,0,1)',
-                'rgba(255,0,0,1)'
+                'rgba(0,0,0,0)', //1
+                'rgba(164,204,255,0.6)', //2
+                'rgba(0,115,255,1)', //3
+                'rgba(0,251,255,1)', //4
+                'rgba(1,255,50,1)', //5
+                'rgba(238,255,0,1)', //6
+                'rgba(255,181,0,1)', //7
+                'rgba(255,162,0,1)', //8
+                'rgba(255,62,50,1)', //9
+                'rgba(255,0,0,1)' //10
 
   // Highest value
                 //

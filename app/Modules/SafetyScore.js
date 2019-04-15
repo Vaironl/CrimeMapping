@@ -47,7 +47,7 @@ let safetyScore = angular.module('SafetyScoreData',[])
             // console.log("toPoint: " + toPoint.toString());
             if (isInRadius(originPoint, toPoint))
             {
-                let scaledScore = scaleCrime(crimes[i]);
+                let scaledScore = scaleCrime(crimes[i]) * getDistancescalar(originPoint, toPoint);
                 SafetyScore += scaledScore;
                 if (scaledScore > 0.00) {
                     totalInRadius++;
@@ -209,6 +209,10 @@ let safetyScore = angular.module('SafetyScoreData',[])
             default:
             {}
         }
+    }
+
+    function getDistancescalar(from, to){
+        return 1 - google.maps.geometry.spherical.computeDistanceBetween(from, to) / CRITICAL_RADIUS;
     }
 
     return SafetyScoreData;
