@@ -41,20 +41,14 @@ crimeChart.controller('crimeChartController', function($scope, chartFactory, cri
 			pieCrimeCat(allCrimes);
 			pieTimeOfDay(allCrimes);
 			lineDayOfWeek(crimeDates);
-			
 
-			/*
-			for (var i = filteredCrimes.length - 1; i >= 0; i--) {
-				var k = new Date(filteredCrimes[i].date);
-				crimeDates.push(k);
-				//console.log(k);
-			}
+			for (var i = allCrimes.length - 1; i >= 0; i--) {
+					var end = allCrimes[i].desc.indexOf("at") + 3;
+					var descSub = allCrimes[i].desc.substring(0, end);
+					allCrimes[i].desc = descSub;
+				}
 
-
-			pieCrimeCat(filteredCrimes);
-			pieTimeOfDay(filteredCrimes);
-			lineDayOfWeek(crimeDates);
-			*/
+			$scope.Crimes = allCrimes;
 		});
 	};
 
@@ -73,6 +67,15 @@ crimeChart.controller('crimeChartController', function($scope, chartFactory, cri
 				pieCrimeCat(allCrimes);
 				pieTimeOfDay(allCrimes);
 				lineDayOfWeek(crimeDates);
+
+				for (var i = allCrimes.length - 1; i >= 0; i--) {
+					var end = allCrimes[i].desc.indexOf("at") + 3;
+					var descSub = allCrimes[i].desc.substring(0, end);
+					allCrimes[i].desc = descSub;
+				}
+
+				$scope.Crimes = allCrimes;
+
 		});
 	}
 
