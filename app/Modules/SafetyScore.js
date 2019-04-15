@@ -1,6 +1,4 @@
-
-
-angular.module('SafetyScoreData',[])
+let safetyScore = angular.module('SafetyScoreData',[])
     .factory('SafetyScoreData',function(){
 
     let SafetyScoreData = {};
@@ -21,38 +19,21 @@ angular.module('SafetyScoreData',[])
     const CRITICAL_RADIUS = 150;
 
     //Public Functions
-    SafetyScoreData.loadData = function(data){
-        crimes= data;
+    SafetyScoreData.loadData = function (data) {
+        crimes = data;
         heatMapData = createCrimePoints();
-    };
-
+    }
 
     SafetyScoreData.getCrimePoints = function(filter = null){
         return heatMapData;
-    };
-
-    //Private Functions
-    function createCrimePoints ()
-    {
-        let googleMapsPoints = [];
-
-        for (let i = 0; i < crimes.length; i++)
-        {
-            let weight = scaleCrime(crimes[i]);
-            if (weight > 0.0 )
-            {
-                let loc = {
-                    location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
-                    weight: weight
-                };
-                googleMapsPoints.push(loc);
-            }
-        }
-        console.log("number of crime points in heatmap is: " + googleMapsPoints.length);
-        return googleMapsPoints;
     }
 
-    SafetyScoreData.getLocSafetyScore = function(originPoint)
+    SafetyScoreData.setCrimeFilter = function filterCrime(c){
+        setFilter(c);
+        heatMapData = createCrimePoints();
+    }
+
+    SafetyScoreData.getLocSafetyScore =  function(originPoint)
     {
         let cat1CrimeCount = 0;
         let cat2CrimeCount = 0;
@@ -66,7 +47,7 @@ angular.module('SafetyScoreData',[])
             // console.log("toPoint: " + toPoint.toString());
             if (isInRadius(originPoint, toPoint))
             {
-                let scaledScore = scaleCrime(crimes[i]) * scaleDistance(originPoint, toPoint);
+                let scaledScore = scaleCrime(crimes[i]) * getDistancescalar(originPoint, toPoint);
                 SafetyScore += scaledScore;
                 if (scaledScore > 0.00) {
                     totalInRadius++;
@@ -93,21 +74,36 @@ angular.module('SafetyScoreData',[])
         }
 
         return {SafetyScore: (SafetyScore*0.1).toFixed(2),
-                avgCrime: avg,
-                count1: cat1CrimeCount,
-                count2: cat2CrimeCount,
-                count3: cat3CrimeCount, count4: cat4CrimeCount};
-    };
+            avgCrime: avg,
+            count1: cat1CrimeCount,
+            count2: cat2CrimeCount,
+            count3: cat3CrimeCount, count4: cat4CrimeCount};
+    }
 
+    //Private Functions
+    function createCrimePoints ()
+    {
+        let googleMapsPoints = [];
 
+        for (let i = 0; i < crimes.length; i++)
+        {
+            let weight = scaleCrime(crimes[i]);
+            if (weight > 0.0 )
+            {
+                let loc = {
+                    location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
+                    weight: weight
+                };
+                googleMapsPoints.push(loc);
+            }
+        }
+        console.log("number of crime points in heatmap is: " + googleMapsPoints.length);
+        return googleMapsPoints;
+    }
 
     function isInRadius(originPoint, targetPoint){
         let distance = google.maps.geometry.spherical.computeDistanceBetween(originPoint, targetPoint);
         return distance <= CRITICAL_RADIUS;
-    }
-
-    function scaleDistance(from, to){
-        return 1 - google.maps.geometry.spherical.computeDistanceBetween(from, to)/CRITICAL_RADIUS;
     }
 
     function scaleCrime(crime)
@@ -180,38 +176,45 @@ angular.module('SafetyScoreData',[])
         return userMultiple;
     }
 
-        SafetyScoreData.setUserPreferenc = function (crimeCat, pref)
+    function setFilter(categoryNumber){
+        switch(categoryNumber)
         {
-            switch(crimeCat)
+            case 1:
             {
-                case 1:
-                {
-                    cat1Factor = pref;
-                    break;
-                }
-                case 2:
-                {
-                    cat2Factor = pref;
-                    break;
-                }
-                case 3:
-                {
-                    cat3Factor = pref;
-                    break;
-                }
-                case 4:
-                {
-                    cat4Factor = pref;
-                    break;
-                }
-                default:
-                {
-                    ;
-                }
-
+                if(cat1Factor == 0)
+                    cat1Factor = 1.0;
+                else cat1Factor = 0;
+                break;
             }
+            case 2:
+            {
+                if(cat2Factor == 0)
+                    cat2Factor = 1.0;
+                else cat2Factor = 0;
+                break;
+            }
+            case 3:
+            {
+                if(cat3Factor == 0)
+                    cat3Factor = 1.0;
+                else cat3Factor = 0;
+                break;
+            }
+            case 4:
+            {
+                if(cat4Factor == 0)
+                    cat4Factor = 1.0;
+                else cat4Factor = 0;
+                break;
+            }
+            default:
+            {}
         }
+    }
 
-        return SafetyScoreData;
-    });
+    function getDistancescalar(from, to){
+        return 1 - google.maps.geometry.spherical.computeDistanceBetween(from, to) / CRITICAL_RADIUS;
+    }
 
+    return SafetyScoreData;
+});

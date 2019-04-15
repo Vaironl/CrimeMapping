@@ -15,8 +15,6 @@ angular.module('gservice', ['SafetyScoreData'])
         let crimes = [];
         let infoWindow;
 
-        let heatmap;
-
         // Public Functions
 
 
@@ -56,16 +54,15 @@ angular.module('gservice', ['SafetyScoreData'])
                 });
 
                 //Create heat map
-                heatmap = new google.maps.visualization.HeatmapLayer(
-                    {
+                heatmap = new google.maps.visualization.HeatmapLayer({
                     data: SafetyScoreData.getCrimePoints(),
                     map: map,
                     radius: getNewRadius(),
                     maxIntensity: 100,
                     dissipating: true,
                     gradient: getGradient()
-                    }
-                );
+
+                });
 
                 //Create pop-up
                 infoWindow = new google.maps.InfoWindow({
@@ -90,6 +87,9 @@ angular.module('gservice', ['SafetyScoreData'])
 
         };
 
+        googleMapService.refreshHeatmap = function(){
+            heatmap.setOptions({data: SafetyScoreData.getCrimePoints()});
+        };
 
         // Private Inner Functions
         // --------------------------------------------------------------
@@ -136,7 +136,7 @@ angular.module('gservice', ['SafetyScoreData'])
              */
         function getGradient(){
             return [
-                'rgba(0, 0, 0, 0)',
+        /*        'rgba(0, 0, 0, 0)',
                 'rgba(0, 255, 255, 1)',
                 'rgba(100,149,237, 1)',
                 'rgba(0, 0, 255, 1)',
@@ -146,6 +146,24 @@ angular.module('gservice', ['SafetyScoreData'])
                 'rgba(255,165,0, 1)',
                 'rgba(255,69,0, 1)',
                 'rgba(255, 0, 0, 1)'
+*/
+  //Lowest value
+
+                '#FFFFFF', //0
+                '#C0C0CF', //1
+                '#AAE5FF', //2
+                '#3380FA', //3
+                '#00F7FF', //4
+                '#60FFB0', //5
+                '#007900', //6
+                '#99FF33', //7
+                '#FFFF00', //8
+                '#FF8000', //9
+                '#ff0000'  //10
+
+  // Highest value
+                //
+
 
             ]
         }

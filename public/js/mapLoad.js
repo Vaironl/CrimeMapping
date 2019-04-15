@@ -6,34 +6,13 @@ mapLoad.controller('mapLoad', function ($scope, $http, gservice) {
     console.log(document.getElementById('map').valueOf());
     gservice.refresh();
 
-    /**
-     * Side navigation crime profiles are loaded in the following functions
-     */
-    $scope.publicProfile = function () {
-        $scope.togglePublic = !$scope.togglePublic;
-        if ($scope.togglePublic === true) {
-            // Apply public profile
-        }
-    };
+    $scope.togglePublic = !$scope.togglePublic;
+    $scope.toggleProperty = !$scope.toggleProperty;
+    $scope.togglePerson = !$scope.togglePerson;
+    $scope.toggleSevere = !$scope.toggleSevere;
 
-    $scope.propertyProfile = function () {
-        $scope.toggleProperty = !$scope.toggleProperty;
-        if ($scope.toggleProperty === true) {
-            // Apply property profile
-        }
-    };
-
-    $scope.personProfile = function () {
-        $scope.togglePerson = !$scope.togglePerson;
-        if ($scope.togglePerson === true) {
-            // Apply person profile
-        }
-    };
-
-    $scope.severeProfile = function () {
-        $scope.toggleSevere = !$scope.toggleSevere;
-        if ($scope.toggleSevere === true) {
-            // Apply severe profile
-        }
-    };
+    $scope.$on('FilterChange', function(event, arg){
+        $scope.receiver = 'Received ' + arg;
+        gservice.refreshHeatmap();
+    })
 });
