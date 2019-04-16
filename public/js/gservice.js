@@ -149,9 +149,9 @@ angular.module('gservice', ['SafetyScoreData'])
 */
   //Lowest value
 
-                '#FFFFFF', //0
+                '#F0F0F0', //0
                 '#C0C0CF', //1
-                '#AAE5FF', //2
+                '#8AC5DF', //2
                 '#3380FA', //3
                 '#00F7FF', //4
                 '#60FFB0', //5
