@@ -26,7 +26,12 @@
     </div>
 </nav>
 
-<div ng-controller="crimeChartController" class="container">
+<div ng-controller="crimeChartController">
+<div style="width: 100%; height: 110px; padding: 0px 10px; border-top: 3px solid gray; border-bottom: 3px solid gray; overflow: auto;">
+    <li ng-repeat="crime in Crimes | orderBy: 'date'">{{crime.date}}&nbsp;&nbsp; Time: {{crime.time}}&emsp; {{crime.desc}}(Lat: {{crime.lat}}, Lng: {{crime.lng}})&emsp; {{crime.offenses}}</li>
+</div>
+
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-3">
             <h3> Start Date-time</h3>
@@ -93,6 +98,7 @@
                     chart-options="dwOptions"></canvas>
         </div>
     </div>
+</div>
 </div>
 
 <!-- If you want to know more about how to use this application of date time go to
