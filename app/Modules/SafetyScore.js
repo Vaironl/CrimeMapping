@@ -56,7 +56,7 @@ let safetyScore = angular.module('SafetyScoreData',[])
                             cat1CrimeCount++;
                             break;
                         case 2:
-                            cat3CrimeCount++;
+                            cat2CrimeCount++;
                             break;
                         case 3:
                             cat3CrimeCount++;
