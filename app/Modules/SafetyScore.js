@@ -24,6 +24,21 @@ let safetyScore = angular.module('SafetyScoreData',[])
         heatMapData = createCrimePoints();
     }
 
+    SafetyScoreData.getStartDate = function (){
+        return startDate;
+    }
+
+    SafetyScoreData.getEndDate = function (){
+        return endDate;
+    }
+
+    // enter dates as strings yyyy-mm-dd
+    SafetyScoreData.setDateRange = function (newStart, newEnd){
+        setStartDate(newStart);
+        setEndDate(newEnd);
+        heatMapData = createCrimePoints();
+    }
+
     SafetyScoreData.getCrimePoints = function(filter = null){
         return heatMapData;
     }
@@ -210,6 +225,14 @@ let safetyScore = angular.module('SafetyScoreData',[])
             default:
             {}
         }
+    }
+
+    function setStartDate(newStart){
+        startDate = newStart;
+    }
+
+    function setEndDate(newEnd){
+        endDate = newEnd;
     }
 
     function getDistancescalar(from, to){
