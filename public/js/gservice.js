@@ -119,7 +119,7 @@ angular.module('gservice', ['SafetyScoreData'])
 
             contentString += '<h3>Localized Safety Score: ' + hoverInfo.SafetyScore + '</h3>';
             contentString += '<h4>Average Crime Rating: ' + hoverInfo.avgCrime + '</h4>';
-            contentString += '<h4>Crimes Against the public: ' + hoverInfo.count1 + '</h4>';
+            contentString += '<h4>Crimes Against the Public: ' + hoverInfo.count1 + '</h4>';
             contentString += '<h4>Crimes Against Property: ' + hoverInfo.count2 + '</h4>';
             contentString += '<h4>Crimes Against the Person: ' + hoverInfo.count3 + '</h4>';
             contentString += '<h4>Severe Crimes Against the Person: ' + hoverInfo.count4 + '</h4>';
