@@ -1,0 +1,47 @@
+.easterEgg {
+    /*Allows left justified positioning otherwise, this position would be based on other elements. Throwing views/elements off.*/
+    position: absolute;
+    /*Initial width*/
+    width: 160px;
+    height: 15vh;
+    left: -140px;
+    margin-top: 70vh;
+    transition: 0.4s;
+
+    /*Clicks don't work as expected without z-index modification*/
+    z-index: 2;
+    overflow-x: hidden;
+    opacity: 0.2;
+    border: 1px solid gray;
+    background-color: rgba(77, 205, 224, 0.47);
+}
+
+/*Make the sidenav visible by sliding it out*/
+.easterEgg:hover {
+    opacity: 1;
+    left: 0;
+}
+
+
+.easterEgg .profile:hover {
+    color: white;
+}
+
+.easterEgg img {
+    width: 50px;
+}
+
+.easterEgg .active {
+
+    color: #f4fff3;
+}
+
+
+@media screen and (max-height: 450px) {
+    .easterEgg {
+        padding-top: 15px;
+    }
+
+    .easterEgg a {
+        font-size: 18px;
+    }
