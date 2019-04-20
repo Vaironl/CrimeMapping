@@ -29,13 +29,13 @@
 
 
 <!-- TODO put a controller for the easter egg -->
-<div id="easterSunday"  class="easterEgg" >
+<div id="easterSunday"  class="easterEgg" ng-controller="safetyScoreCtrl" >
 
     <h5 class="text-center">Demo</h5>
     <hr>
-    <div class="profile text-center" ng-controller="safetyScoreCtrl">
-        <button ng-click="publicProfile()"
-                ng-class="{'active' : togglePublic}" type="button"
+    <div class="profile text-center">
+        <button ng-click="demoProfile()"
+                ng-class="{'active' : toggleDemo}" type="button"
                 class="btn3d btn btn-white btn-lg">
             <a href="#"><img src="../app/Content/Images/easterEgg.png"/></a>
         </button>

@@ -10,6 +10,7 @@ let safetyScore = angular.module('SafetyScoreData',[])
     let cat2Factor = 1.0;
     let cat3Factor = 1.0;
     let cat4Factor = 1.0;
+    let cat5Factor = 0.0;
 
     // start and end dates of the period of observation
         // should include all crimes.
@@ -222,6 +223,13 @@ let safetyScore = angular.module('SafetyScoreData',[])
                 else cat4Factor = 0;
                 break;
             }
+            //case 5 is demo data
+            case 5: {
+                if(cat5Factor == 0)
+                    cat5Factor = 1.0;
+                else cat5Factor = 0;
+                break;
+             }
             default:
             {}
         }

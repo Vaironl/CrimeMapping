@@ -21,5 +21,10 @@ safetyScore.controller('safetyScoreCtrl', function ($rootScope, $scope, SafetySc
         SafetyScoreData.setCrimeFilter(4);
         $rootScope.$broadcast('FilterChange', 'SevereToggled');
     }
+    $scope.demoProfile = function (){
+        $scope.toggleDemo = !$scope.toggleDemo;
+       // SafetyScoreData.setCrimeFilter();
+        $rootScope.$broadcast('FilterChange', 'demoToggled');
+    }
 
 })
