@@ -1,16 +1,25 @@
+//import * as crimes2 from "express";
+
 let safetyScore = angular.module('SafetyScoreData',[])
-    .factory('SafetyScoreData',function(){
+    .factory('SafetyScoreData',function($http){
 
     let SafetyScoreData = {};
     let crimes = [];
     let heatMapData = [];
+
+    //Constant variables used to choose dataset.
+    const crimesCollection ="Crimes";
+    const crimesDemoCollection = "crimesDemo";
+
+    // Currently selected Collection - default is Crimes.
+    let collectionChoice ='Crimes';
 
     //variables for user preference selections
     let cat1Factor = 1.0;
     let cat2Factor = 1.0;
     let cat3Factor = 1.0;
     let cat4Factor = 1.0;
-    let cat5Factor = 0.0;
+    let cat5Factor = 1.0;
 
     // start and end dates of the period of observation
         // should include all crimes.
@@ -18,6 +27,37 @@ let safetyScore = angular.module('SafetyScoreData',[])
     let endDate = "2018-01-01";
 
     const CRITICAL_RADIUS = 150;
+
+        function setEasterEgg(demoBool) {
+            if (demoBool === true) {
+                collectionChoice = crimesDemoCollection;
+                $http.get(collectionChoice).then(function (response) {
+                    crimes = response.data;
+                    startDate = "2019-12-01";
+                    endDate = "2020-01-02";
+                }, function (error) {
+                    console.log("This is an error: ", error);
+
+                });
+
+
+            } else{
+                startDate = "2017-01-01";
+                endDate = "2018-01-01";
+                collectionChoice =crimesCollection;
+                $http.get(collectionChoice).then(function (response) {
+                    crimes = response.data;
+                }, function (error) {
+                    console.log("This is an error: ", error);
+
+                });
+
+            }
+        }
+
+    SafetyScoreData.getCollection =  function getCollection(){
+        return collectionChoice;
+    }
 
     //Public Functions
     SafetyScoreData.loadData = function (data) {
@@ -225,10 +265,17 @@ let safetyScore = angular.module('SafetyScoreData',[])
             }
             //case 5 is demo data
             case 5: {
-                if(cat5Factor == 0)
+                if(cat5Factor == 0) {
                     cat5Factor = 1.0;
-                else cat5Factor = 0;
-                break;
+                    setEasterEgg(true);
+                    heatMapData = createCrimePoints();
+                    break;
+                }
+                else {
+                    cat5Factor = 0.0;
+                    setEasterEgg(true);
+                    break;
+                }
              }
             default:
             {}
@@ -246,6 +293,10 @@ let safetyScore = angular.module('SafetyScoreData',[])
     function getDistancescalar(from, to){
         return 1 - google.maps.geometry.spherical.computeDistanceBetween(from, to) / CRITICAL_RADIUS;
     }
+
+
+
+
 
     return SafetyScoreData;
 });

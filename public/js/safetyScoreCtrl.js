@@ -23,7 +23,7 @@ safetyScore.controller('safetyScoreCtrl', function ($rootScope, $scope, SafetySc
     }
     $scope.demoProfile = function (){
         $scope.toggleDemo = !$scope.toggleDemo;
-       // SafetyScoreData.setCrimeFilter();
+        SafetyScoreData.setCrimeFilter(5);
         $rootScope.$broadcast('FilterChange', 'demoToggled');
     }
 

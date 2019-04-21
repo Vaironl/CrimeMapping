@@ -16,8 +16,8 @@ angular.module('gservice', ['SafetyScoreData'])
         let infoWindow;
 
         // Public Functions
-
-
+        var collectionChoice ='Crimes';
+        collectionChoice= SafetyScoreData.getCollection();
         /**
          * Reload the map based on current location
          */
@@ -26,7 +26,8 @@ angular.module('gservice', ['SafetyScoreData'])
             console.log("Refreshing/Loading map");
             crimes = [];
 
-            $http.get('/crimes').then(function (response) {
+
+            $http.get(collectionChoice).then(function (response) {
                 crimes = response.data;
                 console.log('got crime data in SafetyScore initialize');
                 SafetyScoreData.loadData(crimes);
@@ -110,8 +111,8 @@ angular.module('gservice', ['SafetyScoreData'])
         }
 
             /**
-             * Present an infobox with information about the local SafetyScore
-             * @param loc - The location where the click occured
+             * Present an detail tool tip with information about the local SafetyScore
+             * @param loc - The location where the click occurred
              */
         function clickCrimePopUp(loc) {
             let contentString = '';
@@ -168,5 +169,6 @@ angular.module('gservice', ['SafetyScoreData'])
             ]
         }
 
-        return googleMapService;
+
+            return googleMapService;
     });
