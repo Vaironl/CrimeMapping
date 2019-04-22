@@ -16,8 +16,8 @@ angular.module('gservice', ['SafetyScoreData'])
         let infoWindow;
 
         // Public Functions
-        var collectionChoice ='Crimes';
-        collectionChoice= SafetyScoreData.getCollection();
+
+
         /**
          * Reload the map based on current location
          */
@@ -27,7 +27,7 @@ angular.module('gservice', ['SafetyScoreData'])
             crimes = [];
 
 
-            $http.get(collectionChoice).then(function (response) {
+            $http.get('Crimes').then(function (response) {
                 crimes = response.data;
                 console.log('got crime data in SafetyScore initialize');
                 SafetyScoreData.loadData(crimes);
@@ -87,6 +87,10 @@ angular.module('gservice', ['SafetyScoreData'])
 
 
         };
+
+        googleMapService.updatePoints = function (){
+              SafetyScoreData.loadData(crimes);
+            };
 
         googleMapService.refreshHeatmap = function(){
             heatmap.setOptions({data: SafetyScoreData.getCrimePoints()});

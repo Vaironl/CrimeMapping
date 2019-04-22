@@ -11,15 +11,13 @@ let safetyScore = angular.module('SafetyScoreData',[])
     const crimesCollection ="Crimes";
     const crimesDemoCollection = "crimesDemo";
 
-    // Currently selected Collection - default is Crimes.
-    let collectionChoice ='Crimes';
 
     //variables for user preference selections
     let cat1Factor = 1.0;
     let cat2Factor = 1.0;
     let cat3Factor = 1.0;
     let cat4Factor = 1.0;
-    let cat5Factor = 1.0;
+    let demoSelected = false;
 
     // start and end dates of the period of observation
         // should include all crimes.
@@ -28,41 +26,15 @@ let safetyScore = angular.module('SafetyScoreData',[])
 
     const CRITICAL_RADIUS = 150;
 
-        function setEasterEgg(demoBool) {
-            if (demoBool === true) {
-                collectionChoice = crimesDemoCollection;
-                $http.get(collectionChoice).then(function (response) {
-                    crimes = response.data;
-                    startDate = "2019-12-01";
-                    endDate = "2020-01-02";
-                }, function (error) {
-                    console.log("This is an error: ", error);
-
-                });
 
 
-            } else{
-                startDate = "2017-01-01";
-                endDate = "2018-01-01";
-                collectionChoice =crimesCollection;
-                $http.get(collectionChoice).then(function (response) {
-                    crimes = response.data;
-                }, function (error) {
-                    console.log("This is an error: ", error);
 
-                });
-
-            }
-        }
-
-    SafetyScoreData.getCollection =  function getCollection(){
-        return collectionChoice;
-    }
 
     //Public Functions
     SafetyScoreData.loadData = function (data) {
         crimes = data;
         heatMapData = createCrimePoints();
+
     }
 
     SafetyScoreData.getStartDate = function (){
@@ -78,6 +50,7 @@ let safetyScore = angular.module('SafetyScoreData',[])
         setStartDate(newStart);
         setEndDate(newEnd);
         heatMapData = createCrimePoints();
+
     }
 
     SafetyScoreData.getCrimePoints = function(filter = null){
@@ -88,6 +61,36 @@ let safetyScore = angular.module('SafetyScoreData',[])
         setFilter(c);
         heatMapData = createCrimePoints();
     }
+
+    SafetyScoreData.demo  = function () {
+        if (demoSelected === false) {
+            console.log('Setting crimes to second data set');
+            demoSelected = true;
+            startDate = "2019-12-01";
+            endDate = "2020-01-02";
+            $http.get(crimesDemoCollection).then(function (response) {
+                crimes = response.data;
+                heatMapData = createCrimePoints();
+                //SafetyScoreData.setDateRange('2019-12-01','2020-01-02');
+            }, function (error) {
+                console.log("This is an error: ", error);
+            });
+        } else{
+            demoSelected = false;
+            startDate = "2017-01-01";
+            endDate = "2018-01-01";
+            $http.get(crimesCollection).then(function (response) {
+                crimes = response.data;
+                heatMapData = createCrimePoints();
+            }, function (error) {
+                console.log("This is an error: ", error);
+            });
+        }
+    };
+
+
+
+
 
     SafetyScoreData.getLocSafetyScore =  function(originPoint)
     {
@@ -146,6 +149,7 @@ let safetyScore = angular.module('SafetyScoreData',[])
             let weight = scaleCrime(crimes[i]);
             if (weight > 0.0 )
             {
+
                 let loc = {
                     location: new google.maps.LatLng(crimes[i].lat, crimes[i].lng),
                     weight: weight
@@ -263,20 +267,6 @@ let safetyScore = angular.module('SafetyScoreData',[])
                 else cat4Factor = 0;
                 break;
             }
-            //case 5 is demo data
-            case 5: {
-                if(cat5Factor == 0) {
-                    cat5Factor = 1.0;
-                    setEasterEgg(true);
-                    heatMapData = createCrimePoints();
-                    break;
-                }
-                else {
-                    cat5Factor = 0.0;
-                    setEasterEgg(true);
-                    break;
-                }
-             }
             default:
             {}
         }

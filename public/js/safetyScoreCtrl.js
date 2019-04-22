@@ -21,10 +21,15 @@ safetyScore.controller('safetyScoreCtrl', function ($rootScope, $scope, SafetySc
         SafetyScoreData.setCrimeFilter(4);
         $rootScope.$broadcast('FilterChange', 'SevereToggled');
     }
-    $scope.demoProfile = function (){
+
+    // This toggles demo data on and off.
+    $scope.demoProfile =  async function (){
+        let promise = new Promise((resolve, reject)=>{
+            setTimeout(() => resolve( $rootScope.$broadcast('FilterChange', 'demoToggled') ), 1000)
+        })
         $scope.toggleDemo = !$scope.toggleDemo;
-        SafetyScoreData.setCrimeFilter(5);
-        $rootScope.$broadcast('FilterChange', 'demoToggled');
+        SafetyScoreData.demo();
+        let result = await  promise;
     }
 
 })
