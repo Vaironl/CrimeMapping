@@ -3,7 +3,7 @@
  */
 
 
-var app = angular.module('crimeHotSpot', ['ui.router', 'gservice','mapLoad', 'analytics', 'pieChart']);
+var app = angular.module('crimeHotSpot', ['ui.router', 'gservice','mapLoad', 'analytics', 'crimeFilter', 'crimeCharts', 'SafetyScoreData']);
 
 app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider,  $urlRouterProvider) {
     $urlRouterProvider.otherwise('/main');

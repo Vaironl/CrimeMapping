@@ -1,11 +1,11 @@
-.sidenav {
+.easterEgg {
     /*Allows left justified positioning otherwise, this position would be based on other elements. Throwing views/elements off.*/
     position: absolute;
     /*Initial width*/
     width: 160px;
-    height: 65vh;
+    height: 15vh;
     left: -140px;
-    margin-top: 5vh;
+    margin-top: 70vh;
     transition: 0.4s;
 
     /*Clicks don't work as expected without z-index modification*/
@@ -17,31 +17,32 @@
 }
 
 /*Make the sidenav visible by sliding it out*/
-.sidenav:hover {
+.easterEgg:hover {
     opacity: 1;
     left: 0;
 }
 
-.sidenav .profile:hover {
+
+.easterEgg .profile:hover {
     color: white;
 }
 
-.sidenav img {
+.easterEgg img {
     width: 50px;
 }
 
-.sidenav .active {
+.easterEgg .active {
 
     color: #f4fff3;
 }
 
 
 @media screen and (max-height: 450px) {
-    .sidenav {
+    .easterEgg {
         padding-top: 15px;
     }
 
-    .sidenav a {
+    .easterEgg a {
         font-size: 18px;
     }
 }

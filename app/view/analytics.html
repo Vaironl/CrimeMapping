@@ -2,103 +2,104 @@
 <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
 <script type="text/javascript" src="/bower_components/moment/min/moment.min.js"></script>
 <script type="text/javascript" src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript"
+        src="/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
 
-<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css" />
-<link rel="stylesheet" href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
-
+<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css"/>
+<link rel="stylesheet"
+      href="/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css"/>
 
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="">Analytics Page</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <a class="navbar-brand" href="">Analytics</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
+            aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarColor01">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
+                <a class="nav-link" ui-sref="main">Map</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">About</a>
-            </li>
-        </ul>
-        <form class="form-inline">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-        </form>
+            </ul>
     </div>
 </nav>
-<br>
-<br>
-<br>
-<hr />
 
-<div class="row">
-    <div class="col-2">
-        <h3> Start Date-time</h3>
-    </div>
-    <div class="col-2">
-        <h3> End Date-time</h3>
-    </div>
+<div ng-controller="crimeChartController">
+<div style="width: 100%; height: 110px; padding: 0px 10px; border-top: 3px solid gray; border-bottom: 3px solid gray; overflow: auto;">
+    <li ng-repeat="crime in Crimes | orderBy: 'date'">{{crime.date}}&nbsp;&nbsp; Time: {{crime.time}}&emsp; {{crime.desc}}(Lat: {{crime.lat}}, Lng: {{crime.lng}})&emsp; {{crime.offenses}}</li>
 </div>
 
-<div class="row" >
-    <div class='col-sm-2'>
-        <div class="form-group">
-            <div class='input-group date' id='datetimepicker1'>
-                <input type='text' class="form-control" value="default (no limit)"/>
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-3">
+            <h3> Start Date-time</h3>
+        </div>
+        <div class="col-3">
+            <h3> End Date-time</h3>
         </div>
     </div>
-    <div class='col-sm-2'>
-        <div class="form-group">
-            <div class='input-group date' id='datetimepicker2'>
-                <input type='text' class="form-control" value="default (no limit)"/>
-                <span class="input-group-addon">
+
+    <div class="row justify-content-center">
+        <div class='col-3'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" ng-model="startDate"/>
+                    <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
+                </div>
             </div>
         </div>
-    </div>
-    <script type="text/javascript">
-        $(function () {
-        $('#datetimepicker1').datetimepicker();
-        });
-    </script>
-    <script type="text/javascript">
-        $(function () {
-            $('#datetimepicker2').datetimepicker();
-        });
-    </script>
-    <div class='col-sm-2'>
-        <button ng-click="queryTime()" type="button" class="btn btn-primary" >Query</button>
+        <div class='col-3'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker2'>
+                    <input type='text' class="form-control" ng-model="endDate"/>
+                    <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker();
+            });
+        </script>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker2').datetimepicker();
+            });
+        </script>
+        <div class='col-sm-2'>
+            <button ng-click="setUp()" type="button" class="btn btn-primary">Query</button>
+        </div>
+
+        <script>
+            function query() {
+                alert($("#datetimepicker1").data("DateTimePicker").date());
+                alert($("#datetimepicker2").data("DateTimePicker").date());
+            }
+        </script>
     </div>
 
-    <script>
-        function query() {
-            alert($("#datetimepicker1").data("DateTimePicker").date());
-            alert($("#datetimepicker2").data("DateTimePicker").date());
-        }
-    </script>
+    <div class="row">
+        <div class="col-7" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
+            <canvas id="pieCrimeCat" class="chart chart-pie" chart-data="ccData" chart-labels="ccLabels"
+                    chart-options="ccOptions"></canvas>
+        </div>
+        <div class="col-7" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
+            <canvas id="pieTimeOfDay" class="chart chart-pie" chart-data="tdData" chart-labels="tdLabels"
+                    chart-options="tdOptions"></canvas>
+        </div>
+        <div class="col-7" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
+            <canvas id="lineDayOfWeek" class="chart chart-line" chart-data="dwData" chart-labels="dwLabels"
+                    chart-options="dwOptions"></canvas>
+        </div>
+    </div>
 </div>
-<div ng-controller="pieChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
-         <canvas id="pieCrimeCat" class="chart chart-pie" chart-data="ccData" chart-labels="ccLabels" chart-options="ccOptions"></canvas> 
 </div>
-<div ng-controller="pieChartController" style="float: left; width:33.3%; box-sizing: border-box; margin: auto;">
-         <canvas id="pieTimeOfDay" class="chart chart-pie" chart-data="tdData" chart-labels="tdLabels" chart-options="tdOptions"></canvas> 
-</div>
-
 
 <!-- If you want to know more about how to use this application of date time go to
 // https://eonasdan.github.io/bootstrap-datetimepicker/Options/

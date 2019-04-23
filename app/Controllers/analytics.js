@@ -23,3 +23,4 @@ analytics.controller('analyticsCtrl', function($http, queryService, $scope){
         queryService.queryTime();
     };
 });
+

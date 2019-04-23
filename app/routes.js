@@ -8,6 +8,7 @@ const url = "mongodb+srv://Admin:mynameismypassport@cluster0-7xnng.mongodb.net/t
 const dbName = "Cluster0";
 const collectionName = "Crimes";
 var collection;
+var crimesDemoCollection;
 
 MongoClient.connect(url, function (err, client) {
     if (err) {
@@ -15,6 +16,7 @@ MongoClient.connect(url, function (err, client) {
     }
     console.log('Connected...');
     collection = client.db(dbName).collection(collectionName);
+    crimesDemoCollection = client.db(dbName).collection("crimesDemo");
     crimes = collection.find({}).toArray((error, result) => {
         if (error) {
             return result.status(500).send(error);
@@ -33,6 +35,23 @@ module.exports = function(app) {
 
         // Uses Mongoose schema to run the search (empty conditions)
         collection.find({}).toArray((error, result) => {
+            if(error) {
+                return response.status(500).send(error);
+            }
+
+
+            return response.json(result);
+        });
+    });
+
+    // GET Routes
+    // --------------------------------------------------------
+    // Retrieve records for all users in the db
+    app.get('/crimesDemo', function (req, response) {
+
+        // Uses Mongoose schema to run the search (empty conditions)
+        //collectionName="crimesDemo";
+        crimesDemoCollection.find({}).toArray((error, result) => {
             if(error) {
                 return response.status(500).send(error);
             }
