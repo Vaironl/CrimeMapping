@@ -131,6 +131,8 @@ let safetyScore = angular.module('SafetyScoreData',[])
         if (totalInRadius !== 0) {
             avg = (SafetyScore / totalInRadius).toFixed(2);
         }
+        if (SafetyScore > 100)
+            SafetyScore = 100;
 
         return {SafetyScore: (SafetyScore*0.1).toFixed(2),
             avgCrime: avg,
