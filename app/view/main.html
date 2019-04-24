@@ -28,6 +28,26 @@
 </div>
 
 
+<div class="dropdown" style="margin-left: 15px;">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    Date Filter
+  </button>
+  <div class="dropdown-menu" style="padding-bottom: 0px;">
+                        <form>
+                        <div class="form-group" style="float: left;">
+                            <label>Start Date</label>
+                            <input type='text' ng-model="sDate"/>
+                        </div>
+
+                        <div class="form-group" style="float: left; clear: right;">
+                            <label>End Date</label>
+                            <input type='text' ng-model="eDate"/>
+                        </div>
+                        <input ng-click="extractDates()" class="button" type="submit" value="Submit">
+                    </form>
+  </div>
+</div>
+
 <!-- TODO put a controller for the easter egg -->
 <div id="easterSunday"  class="easterEgg" ng-controller="safetyScoreCtrl" >
 
