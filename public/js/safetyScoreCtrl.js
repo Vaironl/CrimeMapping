@@ -22,6 +22,19 @@ safetyScore.controller('safetyScoreCtrl', function ($rootScope, $scope, SafetySc
         $rootScope.$broadcast('FilterChange', 'SevereToggled');
     }
 
+    $scope.dates = {
+        'startdate' : '',
+        'enddate' : '',
+    }
+
+    $scope.extractDates = function (){
+        console.log("Extracting those dates, y'all!");
+        console.log($scope.dates.startdate);
+        console.log($scope.dates.enddate);
+        SafetyScoreData.setDateRange($scope.dates.startdate, $scope.dates.enddate);
+        $rootScope.$broadcast('FilterChange', 'DateRangeChanged');
+    }
+
     // This toggles demo data on and off.
     $scope.demoProfile =  async function (){
         let promise = new Promise((resolve, reject)=>{
