@@ -2,9 +2,9 @@
     /*Allows left justified positioning otherwise, this position would be based on other elements. Throwing views/elements off.*/
     position: absolute;
     /*Initial width*/
-    width: 160px;
+    width: 260px;
     height: 15vh;
-    left: -140px;
+    left: -240px;
     margin-top: 70vh;
     transition: 0.4s;
 

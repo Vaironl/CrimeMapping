@@ -23,8 +23,8 @@ safetyScore.controller('safetyScoreCtrl', function ($rootScope, $scope, SafetySc
     }
 
     $scope.dates = {
-        'startdate' : '',
-        'enddate' : '',
+        'startdate' : '2017-01-01',
+        'enddate' : '2018-01-01',
     }
 
     $scope.extractDates = function (){

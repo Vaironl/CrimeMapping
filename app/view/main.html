@@ -15,7 +15,7 @@
         <ul id="horizontalmenu" class="dropdown-menu" role="menu" aria-labelledby="menu1">
             <div class="row w-100 mx-auto">
                 <li class="col-4 border-right" role="presentation"><a class="nav-link text-dark" role="menuitem"
-                                                    tabindex="-1" href="#">Map</a></li>
+                                                                          tabindex="-1" href="#">Map</a></li>
                 <li class="col-4 border-right" role="presentation" ui-sref="analytics"><a class="nav-link text-dark"
                                                                         role="menuitem" tabindex="-1"
                                                                         ui-sref="analytics">Analytics</a></li>
@@ -28,38 +28,32 @@
 </div>
 
 
-<div class="dropdown" style="margin-left: 15px;">
-  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-    Date Filter
-  </button>
-  <div class="dropdown-menu" style="padding-bottom: 0px;" ng-controller="safetyScoreCtrl">
-                    <form>
-                        <div class="form-group" style="float: left;">
-                            <label>Start Date</label>
-                            <input datetime-picker date-format="yyyy-MM-dd" ng-model="dates.startdate" date-only/>
-                        </div>
 
-                        <div class="form-group" style="float: left; clear: right;">
-                            <label>End Date</label>
-                            <input datetime-picker date-format="yyyy-MM-dd" ng-model="dates.enddate" date-only/>
-                        </div>
-                        <input ng-click="extractDates()" class="button" type="submit" value="Submit">
-                    </form>
-  </div>
-</div>
 
 <div id="easterSunday"  class="easterEgg" ng-controller="safetyScoreCtrl" >
 
-    <h5 class="text-center">Demo</h5>
-    <hr>
+    <h5 class="text-center">Date Filter</h5>
     <div class="profile text-center">
-        <button ng-click="demoProfile()"
-                ng-class="{'active' : toggleDemo}" type="button"
-                class="btn3d btn btn-white btn-lg">
-            <a href="#"><img src="../app/Content/Images/easterEgg.png"/></a>
-        </button>
+        <div class="form-group" style="position: relative; float:right; padding: 4px;">
+            <label>Start: </label>
+            <input datetime-picker placeholder="2017-01-01" date-format="yyyy-MM-dd" ng-model="dates.startdate" date-only/>
+        </div>
+        <div class="form-group" style="position: relative;  float:right; padding: 4px;">
+            <label>End:</label>
+            <input datetime-picker placeholder="2018-01-01" date-format="yyyy-MM-dd" ng-model="dates.enddate" date-only/>
+        </div>
+    <input ng-click="extractDates()" class="button" type="submit" value="Submit">
     </div>
 
+        <hr>
+        <h5 class="text-center">Demo</h5>
+        <div class="profile text-center">
+            <button ng-click="demoProfile()"
+                    ng-class="{'active' : toggleDemo}" type="button"
+                    class="btn3d btn btn-white btn-lg">
+                <a href="#"><img src="../app/Content/Images/easterEgg.png"/></a>
+            </button>
+        </div>
 </div>
 
 
